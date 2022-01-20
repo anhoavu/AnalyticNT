@@ -1,0 +1,564 @@
+\documentclass{article}
+\usepackage{amsmath,amsthm}
+
+\title{Chapter 2}
+\author{An Hoa Vu}
+
+\newcommand{\fnz}{\text{fnz}}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Problem 2.1}: Find all integers $n > 1$ such that $\prod_{d | n} d = n^2$.
+
+\begin{proof}
+We observe first that such $n$ cannot have more than 3 prime divisors. Otherwise, suppose that $P, Q, R$ are distinct maximal prime powers dividing $n$. Then the left hand side is divisible by $P Q R (PQ) (QR) (RP) (PQR) = P^3 Q^3 R^3$ whereas the maximal prime power for those primes is $P^2 Q^2 R^2$ on the right hand side. Now
+
+\begin{itemize}
+\item If $n$ has only 1 prime divisor i.e. $n = p^k$ is a prime power with $k > 0$ then the left hand side is $1 (p) (p^2) ... (p^k) = p^{k(k+1)/2}$ and
+\begin{align*}
+& p^{k(k+1)/2} = n^2\\
+\iff & \frac{k(k+1)}{2} = 2k\\
+\iff & k(k+1) = 4k\\
+\iff & k(k - 3) = 0\\
+\iff & k = 0 \text{ or } k = 3
+\end{align*}
+so $n = p^3$.
+
+\item For the remaining case where $n = p^k q^r$ has 2 distinct prime divisor ($r, k > 0$), we find similarly that the left hand side is
+\begin{align*}
+\prod_{i = 0}^{k} \prod_{j = 0}^{r} p^i q^j
+&= \prod_{i = 0}^{k} p^{i (r+1)} \prod_{j = 0}^{r}  q^j\\
+&= \prod_{i = 0}^{k} p^{i (r+1)} q^{r(r+1)/2}\\
+&= q^{(k+1) r(r+1)/2} \prod_{i = 0}^{k} p^{i (r+1)}\\
+&= q^{kr(r+1)/2} p^{k(k+1)(r+1)/2}
+\end{align*}
+and that is equal to $n^2$ if and only if $\frac{(k+1)r(r+1)}{2} = 2r$ and $\frac{k(k+1)(r+1)}{2} = 2k$ or simply $(r + 1)(k + 1) = 4$ which only happens when $r = k = 1$.
+\end{itemize}
+
+So we conclude that all such $n$ are either of the form $p^3$ or $pq$.
+\end{proof}
+
+\textbf{Problem 2.2}: Find expressions for $(f*g)(n)$ when $n = p^k$, $n = pp'$ or $n = p p' p''$.
+
+\begin{proof}
+$$(f*g)(p^k) = \prod_{i=1}^{k} f(p^i) g(p^{k - i})$$
+
+$$(f*g)(p p') = f(1) g(n) + f(p) g(p') + f(p') g(p) + f(n) g(1)$$
+
+\begin{align*}
+(f*g)(p p' p'') = f(1) g(n) &+ f(p) g(p' p'') + f(p') g(p p'') + f(p'') g(p p')\\
+&+  f(p' p'') g(p)  + f(p p'') g(p')  +  f(p p') g(p'') + f(n) g(1)
+\end{align*}
+\end{proof}
+
+\textbf{Problem 2.3}: Show that $\fnz(f * g) = \fnz(f) \fnz(g)$.
+
+\begin{proof}
+
+The case when $f = 0$ or $g = 0$ is obvious. So let assume $f \not= 0$ and $g \not= 0$ so $m = \fnz(f)$ and $n = \fnz(g)$ are positive integers. We want to show that
+\begin{itemize}
+\item $(f * g)(mn) \not= 0$.
+
+One has
+$$(f * g)(mn) = \sum_{ij = mn} f(i) g(j) = f(m) g(n)$$
+for other term where $i \not= m$ vanishes: obviously if $i < m$ and when $i > m$, $j < n$ so $g(j) = 0$ instead.
+
+\item $(f * g)(x) = 0$ for all $x < mn$.
+
+Again, from
+$$(f * g)(x) = \sum_{ij = x} f(i) g(j)$$
+we see that if $x < mn$ then $ij < mn$ implies either $i < m$ or $j < n$.
+
+\end{itemize}
+\end{proof}
+
+\textbf{Problem 2.4}: Find all solutions to the convolution equations $f * f = e$ and $f * f = f$.
+
+\begin{proof}
+For the first equation
+$$(f * f)(1) = f(1) f(1) = e(1) = 1$$
+so we must have $f(1) = \pm 1$. It follows by induction that $f(n) = 0$ for all $n > 1$:
+\begin{itemize}
+\item If $n$ is prime then
+$$(f * f)(n) = 2 f(1) f(n)$$
+and
+$$e(n) = 0$$
+so $f(n) = 0$. In particular, the base case $n = 2$ is true.
+\item For induction, suppose $f(x) = 0$ for all $1 < x < n$. One has
+$$(f * f)(n) = 2 f(1) f(n) + \sum_{n = i j, 1 < i, j < n} f(i) f(j) = 2 f(1) f(n)$$
+since the sum is zero by induction hypothesis. Therefore, $f(n) = 0$.
+\end{itemize}
+So the only solutions to the equation $f * f = e$ is $\pm e$.
+
+For the second equation, we again have
+$$(f * f)(1) = f(1) f(1)$$
+so $f(1) = 0$ or $f(1) = 1$.
+
+\begin{itemize}
+\item If $f(1) = 0$ then we again find $f(n) = 0$ for all $n$ primes and $f(n) = 0$ for all $n$ by induction.
+
+\item If $f(1) = 1$ then we have $f = e$ by a similar argument. For example, if $n$ is prime then $2 f(1) f(n) = f(n)$ implies $f(n) = 0$.
+\end{itemize}
+
+So the only solutions to the equation $f * f = f$ is $f = 0$ or $f = e$.
+\end{proof}
+
+\textbf{Problem 2.6}: Express $\omega$ and $\Omega$ as $1 * f$ and $1 * F$ for suitable functions $f$ and $F$.
+
+\begin{proof}
+Recall
+$$\omega(n) = \sum_{p | n} 1$$
+counts the number of prime divisors of $n$ and
+$$(1 * f)(n) = \sum_{d | n} f(d)$$
+so one choice for $f$ would be
+$$f(d) = \begin{cases}
+1 &\text{if } d \text{ is prime},\\
+0 &\text{otherwise}.
+\end{cases}$$
+In other words, $f$ is the prime characteristic function.
+
+On the other hands, $\Omega(n)$ counts the number of prime divisors of $n$ with multiplicities and could be expressed as
+$$\Omega(n) = \sum_{p^k | n, k > 0} 1$$
+and a choice for $F$ would be
+$$F(d) = \begin{cases}
+1 &\text{if } d \text{ is a prime power},\\
+0 &\text{otherwise}.
+\end{cases}$$
+\end{proof}
+
+\textbf{Problem 2.8}: Let $f, g \in A$, $f, g \not= 0$ and $(Lf) * g = f * (Lg)$. Show that $f = cg$ for some constant $c$.
+
+\begin{proof}
+It suffices to show that $\fnz(f) = \fnz(g)$ under the given assumption. For then,
+\begin{itemize}
+\item We deduce the contrapositive that if $F$ and $G$ be such that $(LF) * G = F * (LG)$ but $\fnz(F) \not= \fnz(G)$ then either $F = 0$ or $G = 0$.
+\item Assuming we proved that $\fnz(f) = \fnz(g) = n$. To establish the conclusion of the problem, let $c = \frac{f(n)}{g(n)}$ then we find that $F = f - cg$ and $G = g$ satisfies the property
+$$(L F) * G = F * (L G)$$
+but $\fnz(F) \not= \fnz(G)$ so we must have $F = 0$ (by assumption $G \not= 0$) and so $f = cg$.
+\end{itemize}
+
+To show that $\fnz(f) = \fnz(g)$, let $m = \fnz(f)$ and $n = \fnz(g)$. We evaluate both sides of
+$$(Lf) * g = f * (Lg)$$
+at $mn$:
+\begin{align*}
+((Lf) * g) (mn) = \sum_{ij = mn} Lf(i) g(j) = Lf(m) g(n)\\
+(f * (Lg)) (mn) = \sum_{ij = mn} f(i) Lg(j) = f(m) Lg(n)
+\end{align*}
+so we expect
+$$\log m \; f(m) \; g(n) = f(m) \; \log n \; g(n)$$
+whence $\log m = \log n$ given $f(m), g(n) \not= 0$ by assumption. This shows $m = n$, as desired.
+
+As a remark, we recall that $Lf$ is like taking the derivative of $f$ so the equivalent problem in calculus would be if $f' g = f g'$ then $f = cg$. To solve it, we notice $f' g - f g' = 0$ is the numerator of $(f/g)'$ and so we have $(f/g)' = 0$ which implies $f/g$ is a constant. This problem could be solved the same way if $g$ is invertible with respect to convolution i.e. there exists $h$ such that $g * h = e$ and thus we can consider $L(f * h) = 0$.
+\end{proof}
+
+\textbf{Problem 2.12}: Let $\{f_i\}$ be a sequence of arithmetic functions, none of which is identically zero. Assume $f_1 * f_2 * ...$ converges to $f$. Then $f \not= 0$.
+
+\begin{proof}
+By our assumption that $f_1 * f_2 * ...$ converges, there can only be finitely many $i$ such that $f_i(1) = 0$. Let $I$ be the set of all such $i$ and
+$$n = \prod_{i \in I} \fnz(f_i).$$
+
+Observe that if $\nu > \max I$ then we have
+$$n = \prod_{i = 1}^{\nu} \fnz(f_i).$$
+for $\fnz(f_i) = 1$ if $i \not\in I$.
+
+We claim that $f(n) \not= 0$. To do that, recall from the solution of earlier problem that
+$$(F * G)\left(\fnz(F) \cdot \fnz(G)) = F(\fnz(F)\right) \cdot G(\fnz(G))$$
+so by induction
+\begin{align*}
+(f_1 * f_2 * ... * f_\nu)(n) &= \prod_{i=1}^{\nu} f_i(\fnz(f_i))\\
+&= \prod_{i \in I} f_i(\fnz(f_i)) \prod_{i=1; i \not\in I}^{\nu} f_i(1)
+\end{align*}
+
+It is now clear that: as $\nu \rightarrow \infty$, $\prod_{i \in I} f_i(\fnz(f_i)) \not= 0$ is fixed constant and whereas $\prod_{i=1; i \not\in I}^{\nu} f_i(1)$ are the partial products of $\prod_{\nu=1}^{\infty} f_\nu(1)$ which converges to a non-zero number by convergence assumption. Hence, $f(n) = \lim_{\nu \rightarrow \infty} (f_1 * f_2 * ... * f_\nu)(n) \not= 0$.
+\end{proof}
+
+\textbf{Problem 2.13}: Let $f \in A_1$ satisfy $f * f = 1$. Show that $f$ is given by $\exp(\kappa/2)$.
+
+\begin{proof}
+Since $f \in A_1$, we have $f = \exp \lambda$ for the unique $\lambda \in A_0$ by Theorem 2.20. Then
+$f * f = \exp(2 \lambda)$ and so $\exp(2 \lambda) = \exp(\kappa)$ due to uniqueness in Theorem 2.20 whence $\kappa = 2 \lambda$. Thus $f = \exp(\kappa/2)$.
+\end{proof}
+
+\textbf{Problem 2.14}: Let $f$ be as in preceeding problem. Then
+$$f = (e + (1 - e))^{*1/2} = \sum_{j = 0}^{\infty} \binom{1/2}{j} (1 - e)^{*j}.$$
+
+\begin{proof}
+Let $g$ denotes the function on the right hand side. It is clear that $g \in A_1$. We want to show that $g * g = 1$. To do that, we go back to the real analysis version of the problem i.e. when the arithmetic function $1$ is replaced by the function $x$ and $e$ is replaced by 1:
+$$\sqrt{x} = (1 + (x - 1))^{1/2} = \sum_{j = 0}^{\infty} \binom{1/2}{j} (x - 1)^j$$
+This can also be easily checked by explicitly finding the higher derivatives of $\sqrt{x}$:
+$$\left. \frac{d^n}{dx^j} \sqrt{x} \right|_{x = 1} = \frac{1}{2} \left(-\frac{1}{2}\right) ... = j! \binom{1/2}{j}.$$
+
+As a result, squaring both sides
+$$x = 1 + (x - 1) = \sum_{n = 0}^{\infty} \sum_{i + j = n} \binom{1/2}{i} \binom{1/2}{j} (x - 1)^n$$
+and we get the combinatorial identity
+$$\sum_{i + j = n} \binom{1/2}{i} \binom{1/2}{j} = \begin{cases}1 &\text{if } n \leq 1, \\ 0 &\text{if } n > 1.\end{cases}$$
+
+Now we can go back to the problem. One has
+\begin{align*}
+g * g &= \sum_{n = 0}^{\infty} \left[\sum_{i + j = n} \binom{1/2}{i} \binom{1/2}{j} \right] (1 - e)^{*n}\\
+&= e + (1 - e) &\text{ thank to the identity}\\
+&= 1
+\end{align*}
+\end{proof}
+
+\textbf{Problem 2.15}: Show that an arithmetic function has at most two convolution square roots.
+
+\begin{proof}
+Suppose that $g$ and $h$ are convolution square roots of $f$. Then
+$$(g - h) * (g + h) = g * g + g * h - h * g - h * h = 0$$
+and since $A$ has no zero divisor, we must either have $g - h = 0$ or $g + h = 0$ i.e. either $h = g$ or $h = -g$. So there are at most two convolution square roots.
+\end{proof}
+
+\textbf{Problem 2.16}: Let $f \in M$. Show that
+$$f(n) f(m) = f((m, n)) f([m, n]).$$
+Conversely, if $f \in A_1$ and the above holds then $f \in M$.
+
+\begin{proof}
+Recall that values of $f$ is determined on prime powers:
+$$f\left(\prod p^v\right) = \prod f(p^v).$$
+
+So let $m = \prod p^{k_p}$ and $n = \prod p^{r_p}$ be prime factorizations of $m$ and $n$. We then have prime factorization
+\begin{align*}
+(m, n) &= \prod p^{\min(k_p, r_p)}\\
+[m, n] &= \prod p^{\max(k_p, r_p)}
+\end{align*}
+and so
+\begin{align*}
+LHS &= \prod f(p^{k_p}) f(p^{r_p}) \\
+RHS &= \prod f(p^{\min(k_p, r_p)}) f(p^{\max(k_p, r_p)})
+\end{align*}
+and it is clear that
+$$f(p^{k_p}) f(p^{r_p}) = f(p^{\min(k_p, r_p)}) f(p^{\max(k_p, r_p)})$$
+for if $\min(k_p, r_p) = k_p$ then $\max(k_p, r_p) = r_p$ and vice versa; in other words,
+$$\{\min(k_p, r_p), \max(k_p, r_p)\} = \{k_p, r_p\}$$
+as multi-sets of two elements.
+
+The converse is clear: In the special case $(m, n) = 1$, the right hand side of the equation reads
+$$f((m, n)) f([m, n]) = f(1) f(mn) = f(mn)$$
+so the equation says that $f(mn) = f(m) f(n)$.
+\end{proof}
+
+\textbf{Problem 2.17}: Let $f = \exp \lambda$ be multiplicative. Compute $\lambda(p)$ and $\lambda(p^2)$ in terms of values of $f$.
+
+\begin{proof}
+First, $\lambda(1) = 0$ and an argument similar to Lemma 2.11 shows that if $n > m$ then
+$$(\lambda^{* n})(p^m) = 0.$$
+By definition,
+$$(\lambda^{* n})(p^m) = \sum_{m_1 + ... + m_n = m} \lambda(p^{m_1}) \cdots \lambda(p^{m_n})$$
+and since $m < n$, at least one of the $m_i < 1$ so $m_i = 0$ and the factor $\lambda(p^{m_i}) = \lambda(1) = 0$. Note that this argument does not depends on further assumptions on $\lambda$ such as having support in prime powers.
+
+So
+\begin{align*}
+(\exp \lambda) \, (p) &= (e + \lambda)(p)\\
+&= \lambda(p)\\
+(\exp \lambda) \, (p^2) &= \left( e + \lambda + \frac{\lambda * \lambda}{2!} \right) (p^2)\\
+&= \lambda(p^2) + \frac{1}{2} \lambda(p)^2
+\end{align*}
+
+And we have
+\begin{align*}
+\lambda(p) &= f(p)\\
+\lambda(p^2) &= f(p^2) - \frac{1}{2} f(p)^2
+\end{align*}
+
+As an alternative, we have
+$$\lambda = \log f = \sum_{j=1}^{\infty} (-1)^{j-1} \frac{(f - e)^{*j}}{j}$$
+and observe that $(f - e)(1) = 0$ so when evaluating $(f - e)^{*j}$ will vanish on prime powers less than $p^j$ by our earlier argument. Thus,
+\begin{align*}
+\lambda(p) &= \frac{(f - e)}{1} (p)\\
+&= f(p) - e(p)\\
+&= f(p)\\
+\lambda(p^2) &= \left( \frac{(f - e)}{1} - \frac{(f - e)^{*2}}{2} \right) (p^2)\\
+&= f(p^2) - \frac{1}{2} [(f - e)(p)]^2\\
+&= f(p^2) - \frac{1}{2} f(p)^2
+\end{align*}
+\end{proof}
+
+\textbf{Problem 2.18}: Show directly from the definition of $*$ that convolution of two multiplicative functions is multiplicative.
+
+\begin{proof}
+Let $f$ and $g$ be multiplicative and $m, n$ be an arbitrary pair of relatively prime positive integers. Let $h = f * g$. We want to show that
+$$h(mn) = h(m) h(n)$$
+which by definition is the same as showing
+$$\sum_{d | mn} f(d) g(mn/d) = \left( \sum_{d_1 | m} f(d_1) \, g(m/d_1) \right) \left( \sum_{d_2 | n} f(d_2) \, g(n/d_2) \right).$$
+
+One has
+\begin{align*}
+RHS &= \sum_{d_1 | m} \sum_{d_2 | n} f(d_1) \, g(m/d_1) \, f(d_2) \, g(n/d_2)\\
+&= \sum_{d_1 | m} \sum_{d_2 | n} f(d_1) \, f(d_2) \, g(m/d_1) \, g(n/d_2)\\
+&= \sum_{d_1 | m} \sum_{d_2 | n} f(d_1 d_2) \, g(mn/(d_1d_2))
+\end{align*}
+by multiplicativity of $f$ and $g$ and the fact that since $(m, n) = 1$ then $(d_1, d_2) = (m/d_1, n/d_2) = 1$. The last sum matches term-by-term with the one on the LHS where each $d | mn$ corresponds to $d_1 = (d,m)$ and $d_2 = (d,n)$; and conversely each pair $d_1 | m, d_2 | n$ yields $d = d_1 d_2 | mn$.
+\end{proof}
+
+
+\textbf{Problem 2.20}: Let $f \in A_1$, $f * f = 1$. Show that $f$ is multiplicative.
+
+\begin{proof}
+From previous problem, $f = \exp(\kappa/2)$ and this follows immediately from Theorem 2.27.
+\end{proof}
+
+\textbf{Problem 2.22}: Show that a multiplicative function $f = \exp \lambda$ is completely multiplicative if and only if $\lambda(p^\alpha) = \lambda(p)^\alpha / \alpha$ for all $p$.
+
+\begin{proof}
+Recall that a multiplicative function $f$ is completely multiplicative if we further have
+$$f(p^v) = f(p)^v$$
+for all prime $p$ and all $v \geq 1$.
+
+Let $g = f^{*-1}$ be convolution inverse of $f$. We have $g(1) = 1$ and recursively for every $v \geq 1$,
+$$g(p^v) = -\sum_{i = 1}^{v} f(p^i) g(p^{v-i})$$
+by Theorem 2.7 (or straight from equation $f * g = e$). Checking the first couple of $v$:
+\begin{itemize}
+\item $v = 1$:
+$$g(p) = -f(p)$$
+
+\item $v = 2$:
+\begin{align*}
+g(p^2) &= -f(p)g(p) - f(p^2) g(1)\\
+&= f(p)^2 - f(p^2)\\
+&= 0
+\end{align*}
+from the assumption that $f$ is completely multiplicative.
+
+\item $v = 3$:
+\begin{align*}
+g(p^3) &= -f(p) \underbrace{g(p^2)}_{0} - f(p^2) g(p) - f(p^3) g(1)\\
+&= f(p^2) f(p) - f(p^3)\\
+&= 0
+\end{align*}
+again from the assumption that $f$ is completely multiplicative.
+\end{itemize}
+And this suggests that $g(p^v) = 0$ for all $v \geq 2$. Such a statement can be verified by induction: Suppose that it is true for all prime power $\leq p^v$.
+\begin{align*}
+g(p^{v+1}) &= -\sum_{i = 1}^{v+1} f(p^i) g(p^{v+1-i})\\
+&= - f(p^v) g(p) - f(p^{v+1}) g(1)\\
+&= 0
+\end{align*}
+
+Now back to the problem, theorem 2.20 shows that $f = \exp \lambda$ if and only if
+$$L \lambda = L f * g.$$
+Evaluating both sides at $p^v$:
+\begin{align*}
+LHS &= \log(p^v) \lambda(p^v)\\
+&= v \log(p) \lambda(p^v)\\
+RHS &= (L f * g) (p^v)\\
+&= \sum_{i = 0}^{v} Lf(p^i) \; g(p^{v - i})\\
+&= Lf(p^v) \; g(1) + Lf(p^{v-1}) \; g(p) &\text{as we showed } g(p^k) = 0 \text{ if } k \geq 2\\
+&= \log(p^v) f(p^v) + \log(p^{v-1}) f(p^{v-1}) (-f(p)) &\text{ as showed } g(1) = 1, g(p) = -f(p)\\
+&= v \; \log p \; f(p)^v - (v-1) \log p \; f(p^{v-1}) \; f(p)\\
+&= \log p \; f(p)^v &\text{from $f$ completely multiplicative}
+\end{align*}
+
+We recall $\lambda(p) = f(p)$ from problem 2.17 and thus we find
+$$v \log(p) \lambda(p^v) = \log(p) \lambda(p)^v$$
+whence the conclusion follows.
+
+
+For the converse, assuming $v \lambda(p^v) = \lambda(p)^v$ for all $v$. We want to reverse the above argument to show first that $g(p^v) = 0$ for all $v \geq 2$ and so $f(p^v) = f(p)^v$ by induction: Note that we still have $g(1) = 1$ and $g(p) = -f(p)$ as this does not even depend on multiplicativity of $f$.
+\begin{itemize}
+\item Base case $v = 2$: Evaluating $L\lambda = Lf * g$ at $p^2$, we get
+\begin{align*}
+2 \log(p) \lambda(p^2) &= Lf(p) g(p) + Lf(p^2) g(1)\\
+\log p \; \lambda(p)^2 &= - \log p f(p) f(p) + 2 \log p f(p^2) &\text{by assumption on }\lambda\\
+f(p)^2 &= - f(p)^2 + 2 f(p^2) &\text{ as }\lambda(p) = f(p)
+\end{align*}
+hence $f(p^2) = f(p)^2$.
+
+\item Induction: Suppose $g(p^k) = 0$ and $f(p^k) = f(p)^k$ for all $2 \leq k  < v$. Evaluating $L\lambda = Lf * g$ at $p^v$ yields
+\begin{align*}
+v \log p \; \lambda(p^v) &= Lf(p^v) g(1) + Lf(p^{v-1}) g(p) + \underbrace{Lf(1)}_{0} g(p^v)\\
+\log p \; \lambda(p)^v &= v \; \log p \; f(p^v) -  (v-1) \log p \; f(p^{v-1}) f(p) &\text{by assumption on }\lambda\\
+\log p \; \lambda(p)^v &= v \; \log p \; f(p^v) - (v-1) \log p \; f(p)^v &\text{by induction hypothesis}
+\end{align*}
+and so we find $f(p^v) = f(p)^v$. It then follows that $g(p^v) = 0$.
+\end{itemize}
+\end{proof}
+
+\textbf{Problem 2.23}: Let $f$ be any completely multiplicative function except $e$. Show that $f * f$ and $f^{*-1}$ are not completely multiplicative.
+
+\begin{proof}
+Since $f$ is multiplicative, we write $f = \exp \lambda$ so
+\begin{align*}
+f * f &= \exp (2 \lambda)\\
+f^{*-1} &= \exp (-\lambda)
+\end{align*}
+and by problem 2.22
+\begin{equation}
+\lambda(p^v) = \frac{\lambda(p)^v}{v}
+\label{eq:lambda}
+\end{equation}
+for all prime $p$ and all $v$.
+
+\begin{itemize}
+\item By problem 2.22, $f * f$ is completely multiplicative then
+$$2\lambda(p^v) = \frac{[2\lambda(p)]^v}{v}$$
+for all $v$. Combine this equation and \eqref{eq:lambda} in the special case $v = 2$, we get
+$$2\frac{\lambda(p)^2}{2} = \frac{4\lambda(p)^2}{2}$$
+whence $\lambda(p) = 0$ and \eqref{eq:lambda} then forces $\lambda(p^v) = 0$ for all $v$. And this works for all primes $p$ so $\lambda = 0$ and $f = e$; a contradiction.
+
+\item Again, if $f^{*-1}$ is completely multiplicative then
+$$-\lambda(p^v) = \frac{[-\lambda(p)]^v}{v}$$
+for all $v$.
+In particular, when $v = 2$, we see that $\lambda(p^2) = 0$ and so $\lambda(p) = 0$ as well whence $\lambda(p^v) = 0$ for all $v$. We reach the contradiction just like before.
+\end{itemize}
+
+As an alternative for $f^{*-1}$, from the proof of problem 2.22, we have
+$$f^{*-1}(p) = -f(p)$$
+and
+$$f^{*-1}(p^v) = 0$$
+for all $v \geq 2$. So clearly, $f^{*-1}$ cannot be completely multiplicative unless $f(p) = 0$ for all $p$. But then $f = e$, contradicting the assumption.
+\end{proof}
+
+\textbf{Problem 2.24}: Let $f \in A_1$. Show that $f$ is completely multiplicative if and only if $f * f = f \cdot \tau$.
+
+\begin{proof}
+The forward implication: If $f$ is completely multiplicative then
+$$f(\prod p^v) = \prod f(p)^v.$$
+Thus, for any $n$, factorize $n = \prod p^{v_p}$ and one has
+\begin{align*}
+(f * f)(n) &= \sum_{d | n} f(d) f(n/d)\\
+&= \sum_{d | n} f(n) &\text{complete multiplicativity of } f\\
+&= \tau(n) f(n)
+\end{align*}
+since $\tau(n) = \sum_{d | n} 1 = $ number of divisors of $n$.
+
+For the converse implication: Assume $f * f = f \cdot \tau$. Recall $\Omega(n)$ counts the number of prime divisors (with multiplicities) of $n$ i.e. if $n = \prod p^{v_p(n)}$ then $\Omega(n) = \sum v_p(n)$. (We shall use the notation $v_p(n)$ for $p$-adic valuation of $n$.)
+
+We perform induction on the quantity $k = \Omega(m) + \Omega(n)$ that $f(mn) = f(m) f(n)$.
+
+\begin{itemize}
+\item Base case $k = 0$: Then $m = n = 1$ and it is clear from $f(1) = 1$.
+
+\item Induction: Let $k \geq 1$ and suppose that $f(m n) = f(m) f(n)$ for every $m, n$ such that $\Omega(m) + \Omega(n) < k$. Note that this implies
+$$f(x) = \prod f(p)^{v_p(x)}$$
+for all $x$ such that $\Omega(x) < k$.
+
+We show that this is true for all $m, n$ satisfying $\Omega(mn) = \Omega(m) + \Omega(n) = k$ as well. Let $m, n$ be such an arbitrary pair. The statement is obvious if $m = 1$ or $n = 1$ so let us assume that both $m, n > 1$ and we have $\Omega(m), \Omega(n) < k$ as well.
+
+Evaluating both sides of $f * f = f \cdot \tau$ at $mn$, we get
+\begin{align*}
+(f * f)(mn) &= 2 f(mn) f(1) + \sum_{d | mn; 1 < d < mn} f(d) f(mn/d)\\
+&= 2 f(mn) + \sum_{d | mn; 1 < d < mn} \prod f(p)^{v_p(d) + v_p(mn/d)}
+\end{align*}
+due to induction hypothesis for if $1 < d < mn$ then $\Omega(x) < k$ for $x = d$ and $x = mn/d$. We continue
+\begin{align*}
+(f * f)(mn) &= 2 f(mn) + \sum_{d | mn; 1 < d < mn} \prod f(p)^{v_p(m) + v_p(n)}\\
+&= 2 f(mn) + (\tau(mn) - 2) \prod f(p)^{v_p(m) + v_p(n)}
+\end{align*}
+which equals $\tau(mn) f(mn)$ so we must have
+$$f(mn) = \prod f(p)^{v_p(m) + v_p(n)}$$
+unless $\tau(mn) = 2$ which could not happen because $\tau(x) = 2$ if and only if $x$ is a prime number and $mn$ is clearly not by assumption. This shows $f(mn) = f(m) f(n)$ by induction hypothesis given $\Omega(m), \Omega(n) < k$.
+\end{itemize}
+\end{proof}
+
+\textbf{Problem 2.25}: Let $f \in A_1$. Show that $f$ is completely multiplicative if and only if for each $g, h \in A$, we have $f \cdot (g * h) = (f \cdot g) * (f \cdot h)$.
+
+\begin{proof}
+Forward implication: Assume $f$ is completely multiplicative and let $n$ be arbitrary. One has
+\begin{align*}
+RHS(n) &= \sum_{de = n} f(d) \; g(e) \; f(e) \; h(d)\\
+&= \sum_{de = n} \underbrace{f(d) f(e)}_{f(n)} g(e) h(d) &\text{by complete multiplicativity}\\
+&= f(n) \underbrace{\sum_{de = n} g(e) h(d)}_{(g * h)(n)}\\
+&= LHS(n).
+\end{align*}
+
+For the converse: Assume the equation holds for all $g, h$. Then in particular for $g = h = 1$, one finds
+$$f \cdot (1 * 1) = f * f$$
+and then recall that $1 * 1 = \tau$ so we have $f * f = f \cdot \tau$ so $f$ is completely multiplicative by problem 2.24.
+\end{proof}
+
+\textbf{Problem 2.26}: Show that $|\mu|$ is multiplicative but not completely multiplicative. Express $|\mu|$ as $f_1 * f_2 * ...$ as in Lemma 2.26. Describe $f_i$ and find $\log |\mu|$.
+
+\begin{proof}
+Recall that $\mu = \mu_2 * \mu_3 * ...$ so $\mu$ is multiplicative by Lemma 2.26. Thus, $|\mu|$ is multiplicative because absolute value is multiplicative $|x| \cdot |y| = |x \cdot y|$. From lemma 2.26, we know that
+\begin{align*}
+f_i(m) &= \begin{cases}
+|\mu|(m) &\text{if } m = p_i^k,\\
+0 &\text{otherwise}.
+\end{cases}\\
+&= \begin{cases}
+1 &\text{if } m = 1,\\
+-1 &\text{if } m = p_i,\\
+0 &\text{otherwise}.
+\end{cases}\\
+&= e + e_{p_i}
+\end{align*}
+where $p_i$ is the $i$-th prime number. Now,
+\begin{align*}
+\log f_i &= \sum_{j=1}^{\infty} \frac{(-1)^{j-1}}{j} (f_i - e)^{*j} &\text{ by Theorem 2.20}\\
+&= \sum_{j=1}^{\infty} \frac{(-1)^{j-1}}{j} e_{p_i}^{*j}\\
+&= \sum_{j=1}^{\infty} \frac{(-1)^{j-1}}{j} e_{p_i^j} &\text{ since } e_x * e_y = e_{xy}
+\end{align*}
+and so
+$$\log |\mu| = \sum_{i=1}^{\infty} \log f_i = \sum_p \sum_{j=1}^{\infty} \frac{(-1)^{j-1}}{j} e_{p^j}.$$
+\end{proof}
+
+\textbf{Problem 2.27}: Liouville's $\lambda$ function is defined by $\lambda(n) = (-1)^{\Omega(n)}$. Show that $\lambda$ is completely multiplicative, find $\log \lambda$. What is the relationship between $\lambda$ and $|\mu|$?
+
+\begin{proof}
+It follows from obvious fact that $\Omega(mn) = \Omega(m) + \Omega(n)$ that $\lambda$ is completely multiplicative.
+
+Let $\alpha = \log \lambda$ then we know that $\alpha$ has support in prime powers, $\alpha(p) = \lambda(p) = -1$ and that
+$$\alpha(p^j) = \frac{\alpha(p)^j}{j} = \frac{(-1)^j}{j}$$
+for all $j \geq 2$ by problem 2.22. So
+$$\alpha = \sum_p \sum_{j = 1}^{\infty} \frac{(-1)^j}{j} e_{p^j}.$$
+
+We can now recognize that $|\mu| = \exp(-\alpha)$ so $\lambda$ and $|\mu|$ are convolution inverse of each other i.e. $\lambda * |\mu| = e$.
+\end{proof}
+
+\textbf{Problem 2.28}: For $b$ positive integer, $f_b(n) = (n, b)$ is multiplicative.
+
+\begin{proof}
+Straightforward from property of gcd: One has $(m, b) (n, b) = (mn, b)$ if $(m, n) = 1$.
+\end{proof}
+
+\textbf{Problem 2.29}: Let $f = \exp \lambda$ where $\lambda \in A_0$ and let $g$ be completely multiplicative. Show that $f \cdot g = \exp(\lambda \cdot g)$.
+
+\begin{proof}
+By problem 2.25 and induction, we notice that $(\lambda \cdot g)^{*j} = (g \cdot \lambda) * ... * (g \cdot \lambda) = g \cdot (\lambda * ... * \lambda) = g \cdot \lambda^{*j}$. So
+\begin{align*}
+RHS &= \sum_{j=0}^{\infty} \frac{(\lambda g)^{*j}}{j!}\\
+&= \sum_{j=0}^{\infty} \frac{g \cdot \lambda^{*j}}{j!}\\
+&= g \cdot \sum_{j=0}^{\infty} \frac{\lambda^{*j}}{j!}\\
+&= g \cdot \exp \lambda\\
+&= g \cdot f.
+\end{align*}
+\end{proof}
+
+\textbf{Problem 2.30}: Define $g_b(n) = 1$ if $(n, b) = 1$ and $g_b(n) = 0$ if $(n, b) > 1$. Show that $g_b$ is completely multiplicative.
+
+\begin{proof}
+Clearly, if $g_b(mn) = 1$ then $(mn, b) = 1$ so $(m, b) = (n, b) = 1$. If $g_b(mn) = 0$ then $(mn, b) > 1$ so either $(m, b) > 1$ or $(n, b) > 1$.
+\end{proof}
+
+\textbf{Problem 2.31}: Let $S$ be the set of squares. Show that $\tau^2 = 1^{*4} * 1_S^{*-1}$.
+
+\begin{proof}
+Notice that
+$$1_S\left(\prod p^{v_p}\right) = \prod 1_S(p^{v_p})$$
+so $1_S$ is multiplicative. That is due to Unique Factorization Theorem: Comparing factorizations of $n = x^2$, we see that $n$ is a square if and only if $v_p(n)$ are all even; equivalently $1_S(p^{v_p}) = 1$ for all $p$.
+
+Thus, we could factorize $1_S = f_2 * f_3 * ...$ where
+$$f_p = e + e_{p^2} + e_{p^4} + ...$$
+according to Lemma 2.26. Now,
+$$f_p^{*-1} = e - e_{p^2} = (e - e_p)(e + e_p)$$
+and so we see that
+$$1_S^{*-1} = \prod_p^* f_p^{*-1} = \underbrace{\prod_p^* (e - e_p)}_{\mu} * \underbrace{\prod_p^{*} (e + e_p)}_{|\mu|}$$
+where $\prod^*$ is to highlight that this is an infinite convolution product.
+
+Thus, showing $\tau^2 = 1^{*4} * 1_S^{*-1}$ is equivalent to showing
+$$\tau^2 = 1^{*4} * \mu * |\mu| = 1^{*3} * |\mu|$$
+because $1 * \mu = e$. As both sides are multiplicative functions, it suffices to check that they agree on the prime powers:
+$$\tau^2(p^\alpha) = (\alpha + 1)^2$$
+and as $|\mu|(p^x) = 0 \quad \forall x \geq 2$,
+\begin{align*}
+(1^{*3} * |\mu|)(p^\alpha) &= 1^{*3}(p^\alpha) \cdot |\mu|(1) + 1^*(p^{\alpha-1}) \cdot |\mu|(p) \\
+&= 1^{*3}(p^\alpha) + 1^{*3}(p^{\alpha-1})\\
+&= \frac{(\alpha + 1)(\alpha + 2)}{2} + \frac{\alpha(\alpha + 1)}{2}\\
+&= (\alpha + 1)^2.
+\end{align*}
+\end{proof}
+
+\end{document}
