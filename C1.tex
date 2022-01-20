@@ -1,0 +1,278 @@
+\documentclass{article}
+\usepackage{amsmath,amsthm}
+
+\title{Chapter 1}
+\author{An Hoa Vu}
+
+\DeclareMathOperator*{\Res}{Res}
+
+\begin{document}
+
+\maketitle
+
+\section{Fourier expansion of periodic function $x^2$}
+
+Let $f(x) = x^2$ on $[-\pi, \pi]$ and extends to a periodic function of period $P = 2\pi$. Recall $f(x)$ has Fourier expansion
+$$f(x) = \frac{a_0}{2} + \sum_{n = 1}^{\infty} a_n \, \cos nx + b_n \, \sin nx$$
+where
+\begin{align*}
+a_n &= \frac{2}{P} \int_{-\pi}^{\pi} f(x) \; \cos nx \; dx\\
+b_n &= \frac{2}{P} \int_{-\pi}^{\pi} f(x) \; \sin nx \; dx.
+\end{align*}
+
+In this case, we expect $b_n = 0$ for all $n$ since $f(x)$ is an even function. As for the $a_n$, we have
+$$a_0 = \frac{1}{\pi} \int_{-\pi}^{\pi} x^2 dx = \frac{1}{2\pi} \left. \frac{x^3}{3} \right]_{-\pi}^{\pi} = \frac{1}{\pi} \frac{2\pi^3}{3} = \frac{2\pi^2}{3}$$
+and for $n \geq 1$,
+\begin{align*}
+a_n &= \frac{1}{\pi} \int_{-\pi}^{\pi} x^2 \; \cos nx \; dx\\
+&= \frac{1}{\pi} \left( \underbrace{\left. x^2 \frac{\sin nx}{n} \right]_{-\pi}^{\pi}}_{0} - \int_{-\pi}^{\pi} 2x  \frac{\sin nx}{n} \;  \; dx \right) \qquad \text{(int by parts)}\\
+&= -\frac{2}{n \pi} \int_{-\pi}^{\pi} x  \sin nx \; dx\\
+&=  -\frac{2}{n \pi} \left( \left. x \frac{-\cos nx}{n} \right]_{-\pi}^{\pi} - \underbrace{\int_{-\pi}^{\pi} \frac{-\cos nx}{n} \;  \; dx}_{0} \right) \qquad \text{(int by parts)}\\
+&= -\frac{2}{n \pi} \left( \frac{- 2 \pi \cos n\pi}{n} \right)\\
+&= \frac{4 (-1)^n}{n^2}.
+\end{align*}
+So
+$$f(x) = \frac{\pi^2}{3} + 4 \sum_{n = 1}^{\infty} (-1)^n n^{-2} \, \cos nx.$$
+
+\section{Generalization of Theorem 1.8}
+
+While solving problem 3.7, it appears that we can generalize the theorem as follow: Let $f$ be any arithmetic function and $F(x) = \sum_{n \leq x} f(n)$ be its summatory function. Assume that the limit
+$$\alpha = \lim_{x \rightarrow \infty} \frac{F(x)}{x}$$
+exists. Then
+$$\lim_{s \rightarrow 1^+} (s - 1) \sum_{n = 1}^{\infty} \frac{f(n)}{n^s} = \alpha.$$
+
+\section{Set without density}
+
+For every subset $X$ of $Z = \{1, 2, ...\}$, the set of all positive integers, we define the function
+$$\zeta_X(s) = \sum_{n \in X} n^{-s} \qquad \text{ for all } s > 1.$$
+
+Let
+$$A = \bigcup_{j = 0}^{\infty} \{n : 4^j \leq n < 2 \cdot 4^j\}$$
+then we show that
+$$\lim_{s \rightarrow 1+} (s - 1) \zeta_A(s) = \frac{1}{2}.$$
+
+(Note that this union is disjoint for if $[4^j, 2\cdot 4^j) \cap [4^k, 2 \cdot 4^k) \not= \emptyset$ for some $j < k$ then $4^j < 4^k < 2 \cdot 4^j$ but that means $j < k < j + \log_4 2 = j + 1/2$ which is impossible as $j, k$ are integers.)
+
+If $X$ is a subset of the complex numbers and $f$ is a function, recall that $f(X)$ denotes the image of $X$.
+Thus, the notation $mX + b$ where $m, b$ are integers has obvious meanings, namely
+$$m X + b = \{mn + b \;:\; n \in X\}.$$
+Examples: $2Z$ and $2Z - 1$ are the subsets of positive even (odd, respectively) integers.
+
+The idea is to try squeezing the expression $(s - 1) \zeta_A(s)$ between two expressions that have the same limit given.
+To do that, observe disjoint unions
+\begin{align*}
+Z &= \bigcup_{j = 0}^{\infty} \{n : 4^j \leq n < 4^{j+1}\}\\
+2A &= \bigcup_{j = 0}^{\infty} \{n : 2 \cdot 4^j \leq n < 4^{j+1}, n \text{ even}\}\\
+2A + 1 &= \bigcup_{j = 0}^{\infty} \{n : 2 \cdot 4^j \leq n < 4^{j+1}, n \text{ odd}\}
+\end{align*}
+and so we have a partition
+$$Z = A \cup (2A) \cup (2A + 1).$$
+
+\begin{itemize}
+\item \emph{Lower bound}: It follows from the partition that
+$$\zeta(s) = \zeta_Z(s) = \zeta_A(s) + \zeta_{2A}(s) + \zeta_{2A+1}(s).$$
+By definition,
+$$\zeta_{2A}(s) = 2^{-s} \zeta_A(s)$$
+and
+$$\zeta_{2A+1}(s) < \zeta_{2A}(s).$$
+We thus get the inequality
+\begin{align*}
+\zeta(s) &< \zeta_A(s) + 2 \zeta_{2A}(s)\\
+&< \zeta_A(s) + 2 (2^{-s} \zeta_A(s))\\
+&< (1 + 2^{1-s}) \zeta_A(s)
+\end{align*}
+or
+$$\frac{\zeta(s)}{1 + 2^{1-s}} < \zeta_A(s).$$
+
+\item \emph{Upper bound}: On the other hand, we have
+$$Z - 1 = (A - 1) \cup (2A - 1) \cup (2A).$$
+Note that $Z - 1 = Z \cup \{0\}$ so we cannot take $\zeta_{Z - 1}$ straight away.
+Discarding 0 from both sides, we get
+\begin{align*}
+Z &= [(A - 1) \backslash \{0\}] \cup (2A - 1) \cup (2A)\\
+&= [(A \backslash \{1\}) - 1] \cup (2A - 1) \cup (2A)
+\end{align*}
+since $1 \in A$. Now
+$$\zeta(s) = \zeta_{(A \backslash \{1\}) - 1}(s) + \zeta_{2A - 1}(s) + \zeta_{2A}(s)$$
+and a similar argument applied: The inequalities
+$$\zeta_{2A - 1}(s) > \zeta_{2A}(s)$$
+and
+$$\zeta_{(A \backslash \{1\}) - 1}(s) > \zeta_{A \backslash \{1\}}(s) = \zeta_A(s) - 1$$
+lead to
+\begin{align*}
+\zeta(s) &> \zeta_A(s) - 1 + 2 \zeta_{2A}(s)\\
+&> (1 + 2^{1-s}) \zeta_A(s) - 1
+\end{align*}
+or
+$$\zeta_A(s) < \frac{\zeta(s) + 1}{1 + 2^{1-s}}.$$
+\end{itemize}
+
+Combining the two inequalities obtained
+$$\frac{\zeta(s)}{1 + 2^{1-s}} < \zeta_A(s) < \frac{\zeta(s) + 1}{1 + 2^{1-s}}$$
+and multiplying by $s - 1$, we get the desired squeeze
+$$\frac{(s - 1) \zeta(s)}{1 + 2^{1-s}} < (s - 1) \zeta_A(s) < (s - 1) \frac{\zeta(s) + 1}{1 + 2^{1-s}}.$$
+Using the fact that $\lim_{s \rightarrow 1+} (s - 1) \zeta(s) = 1$ and $\lim_{s \rightarrow 1+} (1 + 2^{1-s}) = 2$, we can see that the bounds both tends to $\frac{1}{2}$.
+
+\section{Problems}
+
+\textbf{Problem 1.1}: Show that
+$$\sum_{p \text{ prime}} p^{-2} < \frac{1}{2}.$$
+
+\begin{proof}
+Let $p_n$ denotes the $n$-th prime number where $n \geq 1$ and
+$$S_r = \sum_{n = 1}^{r} p_n^{-2}$$
+where $r$ is either a positive integer or $r = \infty$.
+
+We have an inequality
+$$\frac{1}{p_n^2} < \frac{1}{p_{n-1}} - \frac{1}{p_n}$$
+for all $n \geq 2$. That is because the right hand side equals
+$$\frac{p_n - p_{n-1}}{p_n p_{n-1}}$$
+and obviously $p_n - p_{n-1} \geq 1$ while $p_n^2 < p_n p_{n-1}$.
+
+Thus, for every $r \geq 1$, we have
+\begin{align*}
+S_\infty &< \sum_{n=1}^{r} \frac{1}{p_n^2} + \sum_{n = r+1}^{\infty} \frac{1}{p_{n-1}} - \frac{1}{p_n} \\
+&< S_r + \frac{1}{p_r}
+\end{align*}
+as the second series telescopes.
+
+Observe that
+$$\lim_{r \rightarrow \infty} S_r + \frac{1}{p_r} = S_\infty$$
+because $\frac{1}{p_r} \rightarrow 0$.
+So if $S_\infty < \frac{1}{2}$ then we must have $S_r + \frac{1}{p_r} < \frac{1}{2}$ for some $r$.
+Experimenting with a calculator and we find that for $r = 7$,
+\begin{align*}
+S_7 + \frac{1}{p_7} &= \frac{1}{2^2} + \frac{1}{3^2} + \frac{1}{5^2} + \frac{1}{7^2} + \frac{1}{11^2} + \frac{1}{13^2} + \frac{1}{17^2} + \frac{1}{17}\\
+&= 0.4979...
+\end{align*}
+
+\textbf{Remark}: Our argument showed that the sequence $S_r + p_r^{-1}$ is a decreasing sequence while $S_r$ is an increasing one. As a result of the bounds
+$$S_r < S_\infty < S_r + \frac{1}{p_r},$$
+we can get the limit as precise as we want (within $\epsilon$) via computing $S_r$ for $\frac{1}{p_r} < \epsilon$.
+
+\textbf{Conjecture}: Observe that
+$$\frac{1}{2} = \sum_{n=2}^{\infty} 2^{-n}$$
+so I am led to conjecture if we actually have
+$$p_n^{-2} \leq 2^{-(n+1)} \qquad \text{ or equivalently, } \qquad p_n \geq 2^{(n+1)/2}$$
+for all $n$?
+
+A heuristic is to try the Prime Number Theorem i.e. $\pi(x) \approx \frac{x}{\log x}$ where for any real number $x \geq 1$, $\pi(x)$ counts the number of primes in $[1, x]$. Putting it another way, $p_n$ is the smallest value of $x$ such that $\pi(x) = n$. By the PNT, we are interested in the least $x \geq n$ such that
+$$\frac{x}{\log x} \geq n \qquad \text{ or equivalently, } \qquad x \geq n \log x.$$
+
+The function $f(x) = x - n \log x$ has $f'(x) = 1 - \frac{n}{x} \geq 0$ whenever $x \geq n$ so $f(x)$ is an increasing function on $[n, +\infty]$. Observe that
+\begin{align*}
+f(2^{(n+1)/2}) &= 2^{(n+1)/2} - n \log(2^{(n+1)/2})\\
+&= 2^{(n+1)/2} - n \frac{n + 1}{2} \log(2)\\
+&\rightarrow +\infty
+\end{align*}
+so the conjecture is most likely false.
+
+It is nevertheless an interesting question: What is an effective lower bound for primes? (There is an obvious bound of course: $p_n \geq 2n - 1$.)
+\end{proof}
+
+\textbf{Problem 1.2}: Show that
+$$\prod_{j = n + 1}^{\infty} (1 - j^{-2}) = 1 - \frac{1}{n+1}$$
+then give an upper bound for $\epsilon$ such that
+$$\prod_p (1 - p^{-2}) = (1 - \epsilon) \prod_{p < 100} (1 - p^{-2}).$$
+
+\begin{proof}
+One has
+\begin{align*}
+\prod_{j = n + 1}^{\infty} (1 - j^{-2}) &= \prod_{j = n + 1}^{\infty} \frac{j^2 - 1}{j^2}\\
+&= \prod_{j = n + 1}^{\infty} \frac{(j - 1)(j + 1)}{j^2}\\
+&= \prod_{j = n + 1}^{\infty} \frac{j - 1}{j} \frac{j + 1}{j}
+\end{align*}
+which is a telescoping product since the next term in the product is
+$$\frac{j}{j + 1} \frac{j+2}{j+1}$$
+whose first factor cancels with the second factor of the previous term. As a result, only the first factor of the first term i.e.
+$$\frac{n}{n + 1}$$
+remains.
+
+For the second part, observe
+$$\prod_{p \geq 100} (1 - p^{-2}) = 1 - \epsilon$$
+so we want to find lower bound for the left hand side. Evidently,
+$$\prod_{p \geq 100} (1 - p^{-2}) \geq \prod_{j = p_0}^{\infty} (1 - j^{-2}) = 1 - \frac{1}{p_0}$$
+where $p_0$ is the first prime $\geq 100$ because the RHS is a product of more numbers all of which are less than 1. So $\epsilon \leq \frac{1}{p_0}$.
+\end{proof}
+
+\textbf{Problem 1.3}: Prove $\zeta(2) = \pi^2/6$ by integrating the function $z^{-2} \cot \pi z$ along the perimeter of a rectangle with vertices $\pm (N + 1/2) \pm N i$, where $N$ is an integer allowed to tend toward $\infty$.
+
+\begin{proof}
+Let $R_N$ denotes the perimeter of the rectangle.
+
+Recall residue theorem
+$$\int_{R_N} f(z) dz = 2 \pi i \sum_{\text{poles } a} I(R_N, a) \cdot \Res_{z = a} f(z)$$
+where $I(R_N, a)$ is the index (winding number) of $R_N$ around $a$ and $\Res_{z = a} f(z)$ is the residue of $f$ at $z = a$ i.e. the coefficient of $(z-a)^{-1}$ in the Laurent series for $f(z)$ at $z = a$. % (Follow from homology.)
+
+The function $\sin \pi z$ has simple zeros at all integers since
+$$\sin'(\pi k) = \pi \cos(\pi k) = (-1)^k \pi \not= 0.$$
+So the function
+$$f(z) = z^{-2} \cot \pi z = \frac{\cos \pi z}{z^2 \sin \pi z}$$
+has simple poles at the non-zero integers and has a pole of order 3 at $z = 0$.
+
+Therefore, for all integers $k \not= 0$, one finds
+\begin{align*}
+\Res_{z = k} \frac{\cos \pi z}{z^2 \sin \pi z} &= \lim_{z \rightarrow k} \; (z - k) \frac{\cos \pi z}{z^2 \sin \pi z}\\
+&= \frac{\cos \pi k}{k^2} \cdot \lim_{z \rightarrow k} \; \frac{z - k}{\sin \pi z} & k \not= 0\\
+&= \frac{(-1)^k}{k^2} \cdot \lim_{z \rightarrow k} \; \frac{z - k}{(-1)^k \sin \pi (z - k)} & \text{as } \sin(t \pm \pi) = - \sin t\\
+&= \frac{1}{\pi k^2} &\text{from } \lim_{t \rightarrow 0} \frac{\sin t}{t} = 1
+\end{align*}
+
+It remains to assess
+$$\Res_{z = 0} \frac{\cos \pi z}{z^2 \sin \pi z} = \Res_{z = 0} \frac{1}{\pi z^3} \left(\frac{\pi z \cos \pi z}{\sin \pi z}\right)$$
+where we need to find the coefficient of $z^2$ of the holomorphic function $\frac{\pi z \cos \pi z}{\sin \pi z}$.
+
+Recall
+\begin{align*}
+\cos z &= \sum_{n = 0}^{\infty} \frac{(-1)^n}{(2n)!} z^{2n} = 1 - \frac{z^2}{2!} + O(z^4)\\
+\frac{\sin z}{z} &= \sum_{n = 0}^{\infty} \frac{(-1)^n}{(2n + 1)!} z^{2n} = 1 - \frac{z^2}{3!} + O(z^4)
+\end{align*}
+and so we find
+$$\frac{z}{\sin z} = 1 + \frac{z^2}{3!} + O(z^4)$$
+and
+\begin{align*}
+\frac{z \cos z}{\sin z} &= \left( 1 - \frac{z^2}{2!} + O(z^4) \right) \left( 1 + \frac{z^2}{3!} + O(z^4) \right)\\
+&= 1 - \frac{z^2}{2} + \frac{z^2}{6} + O(z^4)\\
+&= 1 - \frac{z^2}{3} + O(z^4)
+\end{align*}
+so
+$$\frac{\pi z \cos \pi z}{\sin \pi z} = 1 - \frac{\pi^2 z^2}{3} + O(z^4)$$
+and we conclude
+$$\Res_{z = 0} \frac{\cos \pi z}{z^2 \sin \pi z} = \frac{-\pi^2/3}{\pi} = - \frac{\pi}{3}.$$
+
+Going back to the residue theorem, we obtain
+\begin{align*}
+\int_{R_N} f(z) dz &= 2 \pi i \left(\Res_{z = 0} f(z) + \sum_{k = 1}^{N} (\Res_{z = k} f(z) + \Res_{z = -k} f(z)) \right)\\
+&= 2 \pi i \left(-\frac{\pi}{3} + \sum_{k = 1}^{N} \frac{2}{\pi k^2} \right)
+\end{align*}
+and letting $N \rightarrow \infty$,
+$$0 = 2 \pi i \left(-\frac{\pi}{3} + \sum_{k = 1}^{\infty} \frac{2}{\pi k^2} \right)$$
+whence $\zeta(2) = \pi^2/6$ follows.
+\end{proof}
+
+\textbf{Problem 1.6}: Show that if $A$ is a set of positive integers for which $\sum_{n \in A} \frac{1}{n}$ converges then $A$ has density 0.
+
+\begin{proof}
+We follow the first few lines of computation in the proof of Theorem 8.1 (Dirichlet-Dedekind) that is valid for $s = 1$ as well:
+\begin{align*}
+\sum_{n \in A \cap [1, N]} \frac{1}{n} &= \sum_{n = 1}^{N} \frac{A(n) - A(n-1)}{n}\\
+&= \sum_{n = 1}^{N - 1} A(n) \left(\frac{1}{n} - \frac{1}{n+1}\right) + \frac{A(N)}{N}\\
+&= \sum_{n = 1}^{N - 1} \frac{A(n)}{n(n+1)} + \frac{A(N)}{N}
+\end{align*}
+
+By assumption, the LHS converges as $N \rightarrow \infty$ so to prove that $\frac{A(N)}{N}$ converges, we only have to show that
+$$\sum_{n = 1}^{N - 1} \frac{A(n)}{n(n+1)}$$
+does which is evident because it is an increasing sequence (each term in the sum is non-negative) and is bounded above by the limit of the LHS:
+\begin{align*}
+\sum_{n = 1}^{N - 1} \frac{A(n)}{n(n+1)} &\leq \sum_{n \in A \cap [1, N]} \frac{1}{n} &\text{since } \frac{A(N)}{N} \geq 0\\
+&\leq \sum_{n \in A} \frac{1}{n}
+\end{align*}
+
+So we established convergence of $\frac{A(x)}{x}$ i.e. that $A$ has a density. The density can then be determined to be zero from Theorem 8.1. In particular, the density is given by
+$$\lim_{s \rightarrow 1+} (s-1) \sum_{n \in A} n^{-s}$$
+and notice that for all $s > 1$, we can squeeze
+$$0 \leq (s-1) \sum_{n \in A} n^{-s} \leq (s - 1) \sum_{n \in A} n^{-1}$$
+and observe that $\lim_{s \rightarrow 1+} (s - 1) \sum_{n \in A} n^{-1} = 0$ follows the given convergence.
+\end{proof}
+
+\end{document}
