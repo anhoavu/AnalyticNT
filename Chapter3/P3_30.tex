@@ -1,0 +1,87 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm}
+\renewcommand{\O}[1]{O\left( #1 \right)}
+\begin{document}
+\fi
+
+\textbf{Problem 3.30}: Show that if
+$$M(x) := \sum_{n \leq x} \mu(n) = \O{ x^{1/2 + \epsilon} }$$
+holds for all $\epsilon > 0$ then
+$$Q(x) - 6x/\pi^2 = \O{ x^{2/5+\epsilon} }$$
+for every $\epsilon > 0$.
+
+\begin{proof}
+\newcommand{\Mhat}{\widehat{M}}
+In the proof of Theorem 3.5, by writing $|\mu| = 1 * (\mu * |\mu|)$, we find that
+$$Q(x) = \int_{1^-}^x d\Mhat * dN$$
+where $\Mhat(t)$ is the summatory function of $\mu * |\mu|$. By Lemma 3.4,
+$$\mu * |\mu| \; (n) = \begin{cases}
+\mu(m) &\text{if } n = m^2,\\
+0 &\text{if } n \text{ is not a square}
+\end{cases}$$
+so we have
+$$\Mhat(t) = \sum_{m^2 \leq t} \mu(m) = M(\sqrt{t}) = \O{ t^{1/4 + \epsilon} }.$$
+
+Break the last integral as $I + J - K$ by Dirichlet hyperbola method where $\Mhat(y) N(z) = \O{ y^{1/4 + \epsilon} z }$,
+\begin{align*}
+I &= \int_{1^-}^z \Mhat(x/t) \, dN(t) \\
+&= \int_{1^-}^z \Mhat(x/t) \, dN(t) \\
+&= \O{ \int_{1^-}^z (x/t)^{1/4 + \epsilon} \, dN(t) } &\text{since } N_v = N \\
+&= \O{ x^{1/4 + \epsilon} \int_{1^-}^z t^{-(1/4 + \epsilon)} \, dN(t) } \\
+&= \O{ x^{1/4 + \epsilon} z^{1-(1/4 + \epsilon)} } \\
+&= \O{ y^{1/4 + \epsilon} z }
+\end{align*}
+and
+\begin{align*}
+J &= \int_{1^-}^y N(x/s) \; d M(\sqrt{s})\\
+&= \int_{1^-}^{\sqrt y} N(x/t^2) \; d M(t) &\text{change of variable } t = \sqrt{s}\\
+&= \int_{1^-}^{\sqrt y} (x/t^2 + \O{ 1 }) \; d M(t)\\
+&= \int_{1^-}^{\sqrt y} x t^{-2} \; dM(t) + \O{ \sqrt y } &\text{as }M_v(t) = Q(t) = \O{ t }\\
+&= x \left\{\frac{6}{\pi^2} - \int_{\sqrt y}^{\infty} t^{-2} \; dM(t)\right\} + \O{ \sqrt y }.
+\end{align*}
+
+It remains to assess the tail integral
+$$R = \int_{\sqrt y}^{\infty} t^{-2} \; dM(t) = \sum_{n > \sqrt y} \frac{\mu(n)}{n^2}$$
+better than we did in Theorem 3.5. We do so using the trick of Theorem 1.8, namely writing $\mu(n) = M(n) - M(n - 1)$:
+\begin{align*}
+R &= \sum_{n > \sqrt y} \frac{M(n) - M(n - 1)}{n^2}\\
+&= \sum_{n > \sqrt y} \frac{M(n)}{n^2} -  \sum_{n > \sqrt y - 1} \frac{M(n)}{(n+1)^2}\\
+&= \sum_{n > \sqrt y} M(n) \underbrace{\left(\frac{1}{n^2} - \frac{1}{(n+1)^2}\right)}_{= \frac{2n + 1}{n^2 (n+1)^2} = \O{ n^{-3} }} - \underbrace{\frac{M([\sqrt y])}{([\sqrt y] + 1)^2}}_{\O{ y^{1/4 + \epsilon - 1} }}\\
+&= \O{ \sum_{n > \sqrt y} n^{1/2 + \epsilon - 3} } + \O{ y^{-3/4 + \epsilon} }\\
+&= \O{ \int_{\sqrt y}^{\infty} t^{-5/2 + \epsilon} } + \O{ y^{-3/4 + \epsilon} } &\text{same idea as in Theorem 3.5}\\
+&= \O{ (\sqrt y)^{-3/2 + \epsilon} } + \O{ y^{-3/4 + \epsilon} }\\
+&= \O{ y^{-3/4 + \epsilon} }.
+\end{align*}
+So $x R = \O{ yz y^{-3/4 + \epsilon} } = \O{ y^{1/4 + \epsilon} z }$ as well. Combining all these computations,
+$$Q(x) = I + J - K = 6x/\pi^2 + \O{ y^{1/4 + \epsilon} z } + \O{ \sqrt y }$$
+and the optimal choice is to make $y^{1/4} z = y^{1/2}$ or $y = x^{4/5}$ and $z = x^{1/5}$, in which case we find $\O{ y^{1/4 + \epsilon} z } + \O{ \sqrt y } = \O{ x^{2/5 + \epsilon} }$.
+
+\textbf{Epiphany}: I now realize that the method of writing $\mu(n) = M(n) - M(n-1)$, in essence, is trying to turn the integral
+$$\int t^{-2} dM$$
+with a hard-to-control integrator $dM$ (for one, it is not monotone and its total variation $M_v(t) = Q(t)$ is of a magnitude higher than $M$) into the integral
+$$\int M(t) t^{-3} dt$$
+in which not only the familiar integrator $dt$ is increasing but we can make use of the given better estimate for $M(t)$ without incuring the penalty of going into its total variation $M_v(t)$.
+
+Now $t^{-3} dt$ is pretty much $d(t^{-2})$ and so what we did by writing $\mu(n) = M(n) - M(n-1)$ is nothing transforming $t^{-2} \; dM$ into $M(t) \; d(t^{-2})$ a.k.a. performing an \textbf{integration by parts} in disguise. With this understanding, we can redo the entire computation in an easier manner:
+\begin{align*}
+R &= \int_{\sqrt y}^\infty t^{-2} \; dM(t)\\
+&= \left. \frac{M(t)}{t^2} \right|_{\sqrt y}^{\infty} - 2 \int_{\sqrt y}^\infty M(t) \; d(t^{-2})\\
+&= \frac{M(\sqrt y)}{y} + 2 \int_{\sqrt y}^\infty M(t) t^{-3} \; dt\\
+&= \O{ (\sqrt y)^{1/2 + \epsilon} y^{-1} } + \O{ \int_{\sqrt y}^\infty t^{1/2 + \epsilon - 3} \; dt }\\
+&= \O{ y^{-3/4 + \epsilon} }.
+\end{align*}
+
+It appears that in these various applications of the hyperbola method, the way we deal with the two smaller integrals
+$$\int_{1^-}^z F(x/t) dG(t) \quad \text{ and } \quad \int_{1^-}^z G(x/s) dF(s)$$
+involves 3 steps:
+\begin{itemize}
+\item Use the known estimate for $F(x/t)$ and $G(x/s)$ by smooth functions of $t$ and $s$.
+\item Perform integration by parts to switch the harder integrator $dG$ and $dF$ into $ds$ and $dt$.
+\item Use the estimate again and resolve the final classical integrals; or make use of Lemma 3.13 and others.
+\end{itemize}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

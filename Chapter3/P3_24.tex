@@ -1,0 +1,92 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\newcommand{\Abs}[1]{\left| #1 \right|}
+
+\begin{document}
+\fi
+
+\textbf{Problem 3.24}: Let $M$ be a given non-empty set of integers, each exceeding 1. Let $S$ be the set of positive integer such that if $n = \prod p_i^{m_i}$ is the factorization of $n$ then none of the $m_i$ is in $M$. Let $S(x) := \#\{n \leq x : n \in S\}$. Prove that
+$$S(x) = \alpha x + O(x^{1/2})$$
+where
+$$\alpha = \prod_p \underbrace{\left\{1 - \sum_{m \in M} (p^{-m} - p^{-m-1})\right\}}_{\alpha_p}.$$
+
+\begin{proof}
+Write
+$$1_S = 1 * (1_S * \mu)$$
+and we have
+$$S(x) = \int_{1^-}^x dN * dG$$
+where $G$ is the summatory function of $1_S * \mu$.
+
+We are going to show that $G_v(x) = O(x^{1/2})$ and so together with $N(x) = x + O(1)$ we get by the stability theorem that
+$$S(x) = \int_{1^-}^x dN * dG = c x + O(x^{1/2})$$
+where
+\begin{align*}
+c = \int_{1^-}^\infty t^{-1} dG(t) &= \sum_{n = 1}^{\infty} \frac{(1_S * \mu)(n)}{n}\\
+&= \prod_p \sum_{k = 0}^{\infty} \frac{(1_S * \mu)(p^k)}{p^k} &\text{ by multiplicativity}\\
+&= \prod_p \left(1 + \sum_{k = 2}^{\infty} \frac{1_S(p^k) - 1_S(p^{k-1})}{p^k}\right)\\
+&= \prod_p \left(1 - \sum_{k = 2}^{\infty} \frac{1 - 1_S(p^k)}{p^k} + \sum_{k = 1}^{\infty} \frac{1 - 1_S(p^k)}{p^{k+1}}\right)\\
+&= \prod_p \left(1 - \sum_{k \in M} \frac{1}{p^k} + \sum_{k \in M} \frac{1}{p^{k+1}}\right)\\
+&= \alpha.
+\end{align*}
+
+To show that $G_v(x) = O(x^{1/2})$, using the fact that $1_S * \mu$ is multiplicative, we can write
+$$(1_S * \mu)(n) =  \prod_{p^k || n} (1_S(p^k) - 1_S(p^{k-1}))$$
+so
+$$\Abs{(1_S * \mu)(n)} = \begin{cases}
+0 &\text{ if for some }p:  k, k - 1 \in M \text{ or } k, k - 1 \not\in M,\\
+1 &\text{ if for all }p: \text{ exactly one of } k, k - 1 \in M.
+\end{cases}$$
+In particular, if $n$ has a prime divisor whose exponent in $n$ is 1 i.e. $p | n$ but $p^2 \nmid n$ then $\Abs{(1_S * \mu)(n)} = 0$. Therefore, we can bound
+\begin{align*}
+G_v(x) &= \sum_{n \leq x} \Abs{(1_S * \mu)(n)}\\
+&\leq \#\{n \leq x : p^2 | n \text{ for all } p | n\}.
+\end{align*}
+Note that equality could happen, for example when $M$ is the set of all positive even numbers.
+
+It remains to estimate $T(x)$ where
+$$T := \{n \in Z^+ : p^2 | n \text{ for all } p | n\}.$$
+Expressing $1_T$ as an infinite convolution over the primes component by Lemma 2.26, we find
+$$1_T = 1_{SQ} * f$$
+where $1_{SQ}$ is the indicator function for the set of squares
+$$1_{SQ}(n) = \begin{cases}
+1 &\text{if } n = m^2,\\
+0 &\text{otherwise}
+\end{cases}$$
+whose summatory function is $[\sqrt{x}]$ and
+$$f(n) = \begin{cases}
+1 &\text{if } n = m^3 \text{ and } m \text{ is square-free},\\
+0 &\text{otherwise}.
+\end{cases}$$
+We could check the equation directly by doing it on prime powers as both sides are multiplicative. If $k < 3$, $1_{SQ} * f(p^k) = 1_{SQ}(p^k)$ takes value 1 only when $k = 0$ or $k = 2$ and this matches $1_T(p^k)$. If $k \geq 3$, $1_{SQ} * f(p^k) = 1_{SQ}(p^k) + 1_{SQ}(p^{k-3})$ is always $1 = 1_T(p^k)$ because exactly one of $p^k$ or $p^{k-3}$ is a square due to $k, k - 3$ of different parities.
+
+Finally, we could estimate
+\begin{align*}
+T(x) &= \sum_{n \leq x} 1_T(n)\\
+&= \sum_{m \leq x} \left[\sqrt{\frac{x}{m}}\right] f(m) &\text{by Lemma 3.1}\\
+&= \sum_{m \leq \sqrt[3]{x} \text{ square free}} \left[\sqrt{\frac{x}{m^3}}\right]\\
+&\leq \sqrt{x} \sum_{m \leq \sqrt[3]{x}} m^{-3/2}\\
+&= \sqrt{x} \left( \frac{(\sqrt[3]{x})^{1 - 3/2}}{1 - 3/2} + \zeta(3/2) + O((\sqrt[3]{x})^{-3/2}) \right) &\text{by Lemma 3.13}\\
+&= O(\sqrt{x}).
+\end{align*}
+So $G_v(x) = O(\sqrt{x})$.
+
+\textbf{Note}: My first idea was to express $1_S$ as the infinite convolution product
+$$1_S = f_1 * f_2 * f_3 * \cdots$$
+where
+$$f_j = \sum_{m \not\in M} e_{p_j^m}$$
+and $p_j$ is the $j$-th prime and then to apply the stability theorem repeatedly to approximate
+$$S_\ell(x) = \sum_{n \leq x} (f_1 * f_2 * ... * f_\ell) (n)$$
+and $S(x) = \lim_{\ell \rightarrow \infty} S_\ell(x)$.
+
+Let $F_\ell$ be the summatory function of $f_\ell$. Then we have a recursive relation
+$$S_{\ell+1}(x) = \int_{1^-}^x dS_\ell * dF_{\ell + 1}.$$ %$F_{\ell, v} = F_\ell$.
+Since $F_\ell(x)$ counts the number of prime powers $p^k \leq x$ with $k \not\in M$ which is the same as counting the number of exponents $\leq \log_{p_\ell} x$ that is not in $M$ and so we can also express
+$$F_\ell(x) = 1 + M^*(\log_{p_\ell} x) = 1 + M^*\left(\frac{\log x}{\log p_\ell}\right) = O(\log x)$$
+where $M^*$ is the summatory function of the characteristic function of the complement $Z^+ - M$ of $M$. Unfortunately, that means we are in the situation where $s = \tau = 0$ and so cannot apply stability theorem! On the top of that, we cannot apply the stability infinitely as the constant in the error term $O(...)$ could blow up. The way we solve it is basically starting with $S_0 = N$ which is of the correct order (linear in $x$) instead of $S_1 = F_1$ and then each step, convolution with $dF^*_\ell$ where $F^*_\ell$ is the summatory function of $f_\ell * \mu_\ell$ to account for the initial $N = \sum 1$. We also do it in a finite number of applications (exactly one) instead of an infinite application of stability theorem.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

@@ -1,0 +1,182 @@
+\unless\ifdefined\IsMainDocument
+\documentclass{article}
+\usepackage{amsmath,amsthm,amssymb,hyperref}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+
+\begin{document}
+\fi
+
+\textbf{Problem 3.14}: For each $k \in Z^+$ show that
+$$\gamma_k := \lim_{N \rightarrow \infty} \left\{ \sum_{n=1}^{N} \frac{\log^k n}{n} -  \frac{\log^{k+1} N}{k+1} \right\}$$
+exists and that $\gamma_k = O(k!)$. Assuming the fact (c.f. Theorem 8.1) that $\zeta(s) - 1/(s-1)$ is entire, show that $\gamma_k = O_R(R^{-k} k!)$ holds for any $R > 0$.
+
+\begin{proof}
+Let us denote
+$$b_{k,N} = \sum_{n=1}^{N} \frac{\log^k n}{n} -  \frac{\log^{k+1} N}{k+1}.$$
+Let $f(t) = \frac{\log^k t}{t}$ so we have by Euler summation formula where $c = 0$ (note that the term for $n = 1$ in the sum is zero so we can use the integral from 1):
+\begin{align*}
+\sum_{n=1}^{N} \frac{\log^k n}{n} &= \left. \int_1^N f(t) \, dt - (t - [t]) f(t) \right|_1^N + \int_1^N (t - [t]) \, df\\
+&= \frac{\log^{k+1} N}{k+1} + \int_1^N (t - [t]) \, \frac{(k \log^{k-1} t) \cdot \frac 1t \cdot t - \log^k t}{t^2} \, dt
+\end{align*}
+and so
+$$b_{k,N} = \int_1^N \frac{(t - [t]) (k - \log t) \log^{k-1} t}{t^2} \, dt.$$
+
+To show the limit exists, we can show that the sequence is Cauchy. Let $\epsilon > 0$ be arbitrary and we want to construct $N$ such that for any $N_2 > N_1 > N$, we have
+$$\Abs{b_{k,N_2} - b_{k,N_1}} = \Abs{ \int_{N_1}^{N_2} \frac{(t - [t]) (k - \log t) \log^{k-1} t}{t^2} \, dt } < \epsilon.$$
+
+One has
+\begin{align*}
+LHS \leq&\int_{N_1}^{N_2} \Abs{ \frac{(t - [t]) (k - \log t) \log^{k-1} t}{t^2} } \, dt\\
+=& \int_{N_1}^{N_2} \frac{(t - [t]) (\log t - k) \log^{k-1} t}{t^2} \, dt &\text{assuming } N_1, N_2 > e^k \Rightarrow \log t > k\\
+\leq& \int_{N_1}^{N_2} \frac{(\log t - k) \log^{k-1} t}{t^2} \, dt & \text{for } 0 \leq t - [t] < 1\\
+=& \int_{N_1}^{N_2} - f'(t) dt = f(N_1) - f(N_2)\\
+\leq& f(N)
+\end{align*}
+assuming $N > e^k$ for then $f$ is decreasing and nonnegative on $[e^k, +\infty)$ so to bound it by $\epsilon$, we have to choose $N > e^k$ such that $f(N) < \epsilon$. That is clearly possible since $\log^k t$ grows slower than $t$ i.e. $f(t) \rightarrow 0$ as $t \rightarrow +\infty$ (by L'Hospital rule).
+
+So we showed that the limit exists and that it could be given by the integral
+$$\gamma_k = \int_1^\infty \frac{(t - [t]) (k - \log t) \log^{k-1} t}{t^2} \, dt.$$
+
+To prove that $\gamma_k = O(k!)$, let us compute the closed form for the functions on $(0, \infty)$:
+$$a_k(x) := \frac{1}{k!} \int_x^\infty \frac{\log^k t}{t^2} \, dt$$
+for any $k \geq 0$:
+\begin{align*}
+a_k(x) &= \frac{1}{k!} \int_x^\infty \frac{1}{t} \log^k t \, d(\log t)\\
+&= \frac{1}{k!} \int_x^\infty \frac{1}{t} \, d \left( \frac{ \log^{k+1} t }{k+1} \right)\\
+&= \frac{1}{k!} \left. \frac{1}{t} \frac{ \log^{k+1} t }{k+1} \right|_x^{\infty} - \frac{1}{k!} \int_x^\infty \frac{ \log^{k+1} t }{k+1} d \left( \frac{1}{t} \right) &\text{integration by parts}\\
+&= -\frac{\log^{k+1} x}{(k+1)! x} + \frac{1}{(k+1)!} \int_x^\infty \frac{ \log^{k+1} t }{t^2} \, dt &\text{as } d \left( \frac{1}{t} \right) = -\frac{1}{t^2} dt
+\end{align*}
+so the sequence of functions $a_k(x)$ satisfies the recursive relation
+$$a_{k+1}(x) = a_k(x) + \frac{ \log^{k+1} x }{(k+1)! x}$$
+with the initial condition
+$$a_0(x) = \int_x^\infty \frac{1}{t^2} \, dt = \left. -\frac{1}{t} \right|_x^{\infty} = \frac{1}{x}$$
+Therefore,
+$$a_k(x) = \frac{1}{x} \sum_{j = 0}^k \frac{\log^j x}{j!} = \frac{P_k(\log x)}{x}.$$
+where
+$$P_n(X) := \sum_{j = 0}^{n} \frac{X^j}{j!}$$
+are the Taylor polynomials at $X = 0$ for the function $h(X) = e^X$. In particular, we have
+\begin{itemize}
+\item $a_k(1) = 1$ for all $k$
+\item If $x > 1$ then
+$$a_k(x) = \frac{P_k(\log x)}{x} < \frac{e^{\log x}}{x} = 1$$
+for then $\log x > 0$ and obviously $P_k(x) < e^x$ for all $x > 0$.
+\end{itemize}
+
+Now we estimate
+\begin{align*}
+\Abs{\gamma_k} =& \Abs{ \int_1^\infty \frac{(t - [t]) (k - \log t) \log^{k-1} t}{t^2} \, dt }\\
+%\leq &\int_1^\infty \frac{(t - [t]) k \log^{k-1} t}{t^2} \, dt + \int_1^\infty \frac{(t - [t])  \log^k t}{t^2} \, dt\\
+\leq &\underbrace{\int_1^\infty \frac{k \log^{k-1} t}{t^2} \, dt}_{k! a_{k-1}(1)} + \underbrace{\int_1^\infty \frac{\log^k t}{t^2} \, dt}_{k! a_k(1)}\\
+= & 2k!
+\end{align*}
+
+The final bound $\gamma_k = O(R^{-k} k!)$ is a reminiscence of Cauchy estimate: If $f$ is a holomorphic function on the region containing the disc $|z - z_0| \leq R$ then the Cauchy integral formula gives
+$$f^{(k)} (z) = \dfrac{k!}{2 \pi i} \int_C \dfrac{f(w)}{(w - z)^{k + 1}} dw$$
+where $C$ is the circle $|z - z_0| = R$ oriented counter clockwise so we get as a simple bound
+$$|f^{(k)}(z)| \leq \frac{k!}{2 \pi} 2 \pi R \frac{M}{R^{k+1}} = M R^{-k} k!$$
+where $M = \max\{|f(w)| : w \in \C\}$.
+
+So the problem is solved if we can show that $\gamma_k$ are higher derivatives\footnote{Not quite but close.} of some holomorphic function and one candidate for such a function should be none other than the one mentioned $\zeta(s) - 1 / (s - 1)$. We expect the Taylor expansion at $s = 1$ so for $s > 1$, we can write
+\begin{align*}
+\zeta(s) &= \sum_{n = 1}^{\infty} n^{-s}\\
+&= \sum_{n = 1}^{\infty} n^{-1} (n^{1-s})\\
+&= \sum_{n = 1}^{\infty} \frac{1}{n} \, \sum_{k = 0}^{\infty} \frac{((1 - s) \log n)^k}{k!} &\text{as } n^{1-s} = e^{(1-s)\log n}\\
+&= \sum_{n = 1}^{\infty} \sum_{k = 0}^{\infty} \frac{(\log n)^k}{n} \frac{(1 - s)^k}{k!}
+\end{align*}
+
+If we could swap the two infinite series then we get
+$$\zeta(s) = \sum_{k = 0}^{\infty} \left( \sum_{n = 1}^{\infty} \frac{\log^k n}{n} \right) \frac{(1 - s)^k}{k!}$$
+which looks like the power series centered at 1 and something like the $\gamma_k$ appears as the coefficients. But of course, this cannot be true since $\zeta(s)$ has a simple pole at 1 so we are expecting a term $(s-1)^{-1}$ here. On top of that, the inner series does not converge.
+
+To rectify the idea, we have to insert the comparison term to ensure convergence. Write the outer series as the limit to allow swapping
+\begin{align*}
+\zeta(s) &= \lim_{N \rightarrow \infty} \sum_{n = 1}^{N} \sum_{k = 0}^{\infty} \frac{(\log n)^k}{n} \frac{(1 - s)^k}{k!} \\
+&= \lim_{N \rightarrow \infty} \sum_{k = 0}^{\infty} \sum_{n = 1}^{N} \frac{(\log n)^k}{n} \frac{(1 - s)^k}{k!} \\
+&= \lim_{N \rightarrow \infty} \sum_{k = 0}^{\infty} b_{k,N} \frac{(1 - s)^k}{k!} + \frac{\log^{k+1} N}{k+1} \frac{(1 - s)^k}{k!}\\
+&= \lim_{N \rightarrow \infty} \sum_{k = 0}^{\infty} b_{k,N} \frac{(1 - s)^k}{k!} + \lim_{N \rightarrow \infty} \sum_{k = 0}^{\infty} \frac{\log^{k+1} N}{k+1} \frac{(1 - s)^k}{k!}
+\end{align*}
+
+The second limit is easily resolved:
+\begin{align*}
+\lim_{N \rightarrow \infty} \sum_{k = 0}^{\infty} \frac{\log^{k+1} N}{k+1} \frac{(1 - s)^k}{k!} &= \frac{1}{1 - s} \cdot \lim_{N \rightarrow \infty} \sum_{k = 0}^{\infty} \frac{((1 - s) \log N)^{k+1}}{(k+1)!}\\
+&= \frac{1}{1 - s} \cdot \lim_{N \rightarrow \infty} \sum_{k = 1}^{\infty} \frac{((1 - s) \log N)^{k}}{k!}\\
+&= \frac{1}{1 - s} \cdot \lim_{N \rightarrow \infty} (e^{(1 - s) \log N} - 1)\\
+&= \frac{1}{s - 1}
+\end{align*}
+since under the assumption that $s > 1$, $(1 - s) \log N \rightarrow -\infty$ as $N \rightarrow \infty$ so $(e^{(1 - s) \log N} - 1) \rightarrow -1$. That takes care of the pole at $s = 1$.
+
+It remains to show that the limit $\lim_{N \rightarrow \infty}$ can be swapped with the series $\sum_{k=0}^{\infty}$ in the first term so that we get
+$$\lim_{N \rightarrow \infty} \sum_{k = 0}^{\infty} b_{k,N} \frac{(1 - s)^k}{k!} = \sum_{k = 0}^{\infty} \gamma_k \frac{(1 - s)^k}{k!}$$
+and so we acquires the Taylor series for $Z(s) = \zeta(s) - \frac{1}{s-1}$ that works for all $s > 1$. (I would not managed for all $s > 1$ but for all $1 < s < 2$ but that is good enough.) But then the knowledge that $Z(s)$ is entire allows us to conclude that
+$$Z(s) = \sum_{k = 0}^{\infty} (-1)^k \gamma_k (s - 1)^k$$
+holds for all $s \in \C$ and not just $s > 1$ due to uniqueness of power series expansion. As a result,
+$$\gamma_k = (-1)^k Z^{(k)}(1)$$
+and we solved the problem. So now we have to show that for every $\epsilon > 0$, we can choose $N_0$ so that for all $N > N_0$,
+$$\Abs{\sum_{k=0}^{\infty} \left( b_{k,N} - \gamma_k \right) \frac{(1 - s)^k}{k!} } < \epsilon.$$
+Note that given  $b_{k,0} \rightarrow \gamma_0$, it suffices to do so for the tail series
+$$\Abs{\sum_{k=1}^{\infty} \left( b_{k,N} - \gamma_k \right) \frac{(1 - s)^k}{k!} } < \epsilon.$$
+
+Recall that for all $k \geq 1$:
+$$\frac{b_{k,N} - \gamma_k}{k!} = \int_N^\infty \varphi_k \, dt$$
+where
+$$\varphi_k(t) = \frac{t - [t]}{t^2} \left( \frac{\log^k t}{k!} - \frac{\log^{k-1} t}{(k-1)!} \right).$$
+
+So using a similar trick of writing series as limit in order to swap the integral outside, we have for any fixed $s > 1$:
+\begin{align*}
+&\sum_{k=1}^{\infty} \left( b_{k,N} - \gamma_k \right) \frac{(1 - s)^k}{k!}\\
+=& \lim_{K \rightarrow \infty} \sum_{k=1}^{K} (1 - s)^k  \int_N^\infty \varphi_k \, dt\\
+=& \lim_{K \rightarrow \infty} \int_N^\infty \sum_{k=1}^{K} (1 - s)^k  \varphi_k \, dt\\
+=& \lim_{K \rightarrow \infty} \int_N^\infty \sum_{k=1}^{K} (1 - s)^k  \frac{t - [t]}{t^2} \left( \frac{\log^k t}{k!} - \frac{\log^{k-1} t}{(k-1)!} \right) \, dt\\
+=& \lim_{K \rightarrow \infty} \int_N^\infty \frac{t - [t]}{t^2} \left(\sum_{k=1}^{K} \frac{(1 - s)^k \log^k t}{k!} - (1 - s) \sum_{k=1}^{K} \frac{(1 - s)^{k-1} \log^{k-1} t}{(k-1)!} \right) \, dt\\
+=& \lim_{K \rightarrow \infty} \int_N^\infty \frac{t - [t]}{t^2} \left( \underbrace{\sum_{k=1}^{K} \frac{(1 - s)^k \log^k t}{k!}}_{P_K((1-s)\log t) - 1} - (1 - s) \underbrace{\sum_{k=0}^{K-1} \frac{(1 - s)^{k} \log^k t}{k!}}_{P_{K-1}((1-s)\log t)} \right) \, dt.
+\end{align*}
+
+Now the intuition\footnote{Not actually true.} from the computation of the other limit applies: As $N \rightarrow \infty$, $\log t$ becomes very large and so $(1 - s) \log t \rightarrow -\infty$. So $P_K((1-s)\log t) \approx e^{(1-s) \log t} \rightarrow 0$ and the integral inside the limit is approximately
+$$\int_N^\infty \frac{t - [t]}{t^2} (-1) dt$$
+which can be made arbitrarily close to 0 as $N \rightarrow \infty$ because $\int_1^\infty \frac{t - [t]}{t^2} dt$ exists. To do it formally, we use the exact statement of Taylor's theorem which generalizes the Mean Value Theorem. It says that for every $X \in R$, there exists $\xi$ between 0 and $X$ such that
+$$h(X) - P_n(X) = \frac{1}{(n+1)!} \; h^{(n+1)}(\xi) \; (X - 0)^{n+1} = \frac{e^{\xi} \; X^{n+1}}{(n+1)!}.$$
+In particular, if $X < 0$ then $\xi < 0$ so $e^\xi < 1$ and we have a bound
+$$|P_n(X)| \leq e^X + \frac{|X|^{n+1}}{(n+1)!}$$
+for all $n$. The fact that it works for all $n$ is important.
+
+In particular, apply the result to $X = (1 - s) \log t < 0$, we find
+\begin{align*}
+&\Abs{P_K((1-s)\log t) - 1 + (s - 1) P_{K-1}((1-s)\log t)}\\
+\leq& \Abs{P_K((1-s)\log t)} + 1 + (s - 1) \Abs{P_{K-1}((1-s)\log t)}\\
+\leq& \left\{ e^{(1-s) \log t} + \frac{((s-1)\log t)^{K+1}}{(K+1)!} \right\} + 1 + (s-1) \left\{ e^{(1-s) \log t} + \frac{((s-1)\log t)^{K}}{(K)!} \right\}\\
+=& s \cdot e^{(1-s) \log t} + 1 + (s - 1)^{K+1} \left\{\frac{\log^{K+1} t}{(K+1)!} + \frac{\log^K t}{(K)!} \right\}\\
+\leq& 2 + (s - 1)^{K+1} \left\{\frac{\log^{K+1} t}{(K+1)!} + \frac{\log^K t}{(K)!} \right\}
+\end{align*}
+\underline{if we choose $N$ large enough so that $e^{(1 - s) \log t} < \frac{1}{s}$}. Now for every $K$, we can bound
+\begin{align*}
+&\Abs{\int_N^\infty \frac{t - [t]}{t^2} \left\{ P_K((1-s)\log t) - 1 + (s - 1) P_{K-1}((1-s)\log t) \right\} \, dt}\\
+\leq& \int_N^{\infty} \frac{t - [t]}{t^2} \left(2 + (s - 1)^{K+1} \left\{\frac{\log^{K+1} t}{(K+1)!} + \frac{\log^K t}{(K)!} \right\} \right) dt\\
+= &2 \int_N^{\infty} \frac{t - [t]}{t^2} dt + (s - 1)^{K+1} \int_N^{\infty} \frac{1}{t^2} \left\{\frac{\log^{K+1} t}{(K+1)!} + \frac{\log^K t}{(K)!} \right\} dt\\
+= &2 \int_N^{\infty} \frac{t - [t]}{t^2} dt + (s - 1)^{K+1} (\underbrace{a_{K+1}(N) + a_K(N)}_{\leq 2})\\
+\leq & 2 \int_N^{\infty} \frac{t - [t]}{t^2} dt + 2 (s - 1)^{K + 1}
+\end{align*}
+So if we assume further that $s - 1 < 1$ then taking the limit $K \rightarrow \infty$ yields
+$$\lim_{K \rightarrow \infty} \Abs{\int_N^\infty \frac{t - [t]}{t^2} \left\{ P_K((1-s)\log t) - 1 + (s - 1) P_{K-1}((1-s)\log t) \right\} \, dt} \leq 2 \int_N^{\infty} \frac{t - [t]}{t^2} dt$$
+and \underline{the later can be made arbitrarily small by choosing $N$ large enough}.
+
+To sum up, we showed that for every fixed $s$ such that $1 < s < 2$ then for any $\epsilon > 0$, if we choose $N$ large enough such that
+\begin{itemize}
+\item $e^{(1-s) \log t} < \frac{1}{s}$ for all $t > N$
+\item the integral
+$$\int_N^{\infty} (t - [t]) t^{-2} dt < \frac{\epsilon}{2}$$
+\end{itemize}
+then
+$$\Abs{\sum_{k = 1}^{\infty} (b_{k,N} - \gamma_k) \frac{(1 - s)^k}{k!}} < \epsilon.$$
+
+So the equation
+$$Z(s) = \sum_{k=0}^{\infty} (-1)^k \gamma_k (s - 1)^k$$
+holds for all $1 < s < 2$. Then since $Z(s)$ is known to be entire, this series works for all $s \in \C$.
+
+\textbf{Note}: The numbers $\gamma_k$ are known in the literature as \href{https://en.wikipedia.org/wiki/Stieltjes\_constants}{Stieltjes' Constants}.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

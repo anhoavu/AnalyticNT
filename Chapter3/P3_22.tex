@@ -1,0 +1,45 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+
+\begin{document}
+\fi
+
+\textbf{Problem 3.22}: Let $F(x) \sim ax^b$ where $a, b \in \C$, $a \not= 0$, $\Re b > 0$. Show that
+$$\int_1^x dF * \frac{dt}{t} \sim \frac{a}{b} x^b.$$
+
+\begin{proof}
+Recall $dF * \frac{dt}{t} = F(t) t^{-1} dt$. We have to show that for every $\epsilon > 0$, there exists $x_0$ sufficiently large such that for all $x > x_0$,
+$$\Abs{ \frac{\int_1^x F(t) t^{-1} dt}{\frac{a}{b} x^b} - 1 } < \epsilon$$
+or equivalently
+$$\Abs{ \int_1^x (F(t) t^{-1} - a t^{b-1}) dt} < \epsilon \Abs{ \int_1^x a t^{b-1} dt }.$$
+
+By assumption, we can choose $t_1$ so that $\Abs{ F(t) t^{-1} - a t^{b-1} } < \delta_1 \Abs{ a t^{b-1} }$  as long as $t > t_1$ to take care of $\int_{t_1}^x$. To make our bound work, we need to ensure that the remaining integral $\int_1^{t_1}$, which is a constant since $t_1$ is fixed now, can be bounded by $\delta_2 \Abs{\frac{a}{b} x^b}$ but that is easy under the assumption that $\Re b > 0$. Taking $\delta_1 = \delta_2 = \epsilon /2$ (as long as $\delta_1 + \delta_2 = \epsilon$) should work in our case.
+
+So, we find $x_0$ by
+\begin{enumerate}
+\item First find $t_1$ such that
+$$\Abs{ F(t) - a t^b } < \frac\epsilon{2} \Abs{ a t^b }$$
+for all $t \geq t_1$ using the assumption $F(x) \sim ax^b$.
+\item Then we find $x_0 > t_1$ such that
+$$\Abs{ \int_1^{t_1} (F(t) t^{-1} - a t^{b-1}) dt } < \frac\epsilon2 \Abs{\frac{a}{b} x^b}$$
+for all $x > x_0$ using the assumption $\Re b > 0$.
+\end{enumerate}
+
+Then for all $x > x_0 > t_1$ we have
+\begin{align*}
+&\Abs{ \int_1^x (F(t) t^{-1} - a t^{b-1}) dt}\\
+\leq &\Abs{ \int_1^{t_1} (F(t) t^{-1} - a t^{b-1}) dt} + \Abs{ \int_{t_1}^x (F(t) t^{-1} - a t^{b-1}) dt}\\
+\leq & \frac\epsilon2 \Abs{ \frac{a}{b} x^b } + \int_{t_1}^x \Abs{F(t) t^{-1} - a t^{b-1}} dt &\text{by our choices}\\
+\leq & \frac\epsilon2 \Abs{ \frac{a}{b} x^b } + \int_{t_1}^x \frac\epsilon{2} |a| \cdot |t|^{b-1} dt\\
+=& \epsilon \Abs{ \frac{a}{b} x^b }
+\end{align*}
+as required.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

@@ -1,0 +1,125 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\begin{document}
+\fi
+
+\textbf{Problem 3.25}: Suppose that $a$ is a fixed positive integer.
+\begin{enumerate}
+\item Show that for $\Re s > 1$
+$$\sum_{(n, a) = 1} \frac{n \mu^2(n)}{\varphi(n) n^s} = \sum_{\ell = 1}^\infty \frac{1}{\ell^s} \sum_{m = 1}^\infty \frac{c_m}{m^s}$$
+where
+$$\sum_{m = 1}^\infty \frac{c_m}{m^s} = \prod_{p | a} (1 - p^{-s}) \prod_{p \nmid a} \left( 1 + \frac{1}{(p-1)p^s} - \frac{p}{(p-1)p^{2s}}\right)$$
+and the series $\sum c_m m^{-s}$ converges absolutely for $\Re s > 1/2$.
+
+\item Show that
+$$\sum_{n \leq x, \; (n, a) = 1} \frac{n \mu^2(n)}{\phi(n)} = \frac{\varphi(a)}{a} x + O(x^{1/2 + \epsilon}).$$
+
+\item Show that
+$$\sum_{n \leq x, \; (n, a) = 1} \frac{\mu^2(n)}{\varphi(n)} = \frac{\varphi(a)}{a} \log x + K(a) + O(x^{-1/2 + \epsilon}).$$
+where $K(a)$ is a number depending on $a$.
+\end{enumerate}
+
+\begin{proof}
+For an arithmetic function $h$, we will write $h^\Sigma$ its summatory function and $dh$ for $dh^\Sigma$.
+Define the multiplicative functions
+$$f(n) := \begin{cases}
+\frac{n \mu^2(n)}{\varphi(n) n^s} &\text{if } (n, a) = 1,\\
+0 &\text{if }(n, a) > 1
+\end{cases}$$
+and $g = f * \mu$ so $f = 1 * g$ and
+$$g(p^k) = f(p^k) - f(p^{k-1}) = \begin{cases}
+0 &\text{if } p | a, k > 1 \text{ or } p \nmid a, k > 2,\\
+-1 &\text{if } p | a, k = 1,\\
+\frac{1}{p-1} &\text{if } p \nmid a, k = 1,\\
+-\frac{p}{p-1} &\text{if } p \nmid a, k = 2.
+\end{cases}$$
+Let $K$ be the support of $g$. It can be identified with the set of triples of positive integers $(d, \ell, m)$ such that
+\begin{itemize}
+\item $d, \ell, m$ square-free and pairwise relatively prime,
+\item $d | a$,
+\item $(\ell, a) = (m, a) = 1$.
+\end{itemize}
+under the identification $(d, \ell, m) \leftrightarrow d \ell m^2$.
+
+\begin{enumerate}
+\item Let $H_s(x) = x^s$ and we realize the product of $x^s$ with the LHS as
+$$\sum_{n = 1}^{\infty} \left(\frac{x}{n}\right)^s f(n) = \int_{1^-}^x dH_s * df = \int_{1^-}^x dH_s * dN * dg = \int_{1^-}^x d \widehat{H}_s * dg$$
+where
+\begin{align*}
+\widehat{H}_s^*(x) &= \int_{1^-}^x dH_s * dN = \int_{1^-}^x H_s(x/t) dN(t)\\
+&= \sum_{n \leq x} (x/t)^s\\
+&= x^s\left( \frac{x^{1-s}}{1-s} + \zeta(s) + O(x^{-s})\right)\\
+&= \zeta(s) \; x^s + \underbrace{\frac{x}{1 - s} + O(1)}_{O(x)}.
+\end{align*}
+
+We have
+\begin{align*}
+g^\Sigma_v(x) &= |g|^\Sigma(x)\\
+&= \sum_{(d, \ell, m) \in K_{\leq x}} |g(d) g(\ell) g(m^2)|\\
+&= \sum_{(d, \ell, m) \in K_{\leq x}} \frac{1}{\varphi(\ell)} \frac{m}{\varphi(m)}\\
+&= \sum_{d | a, d \in Q_1} \sum_{m \leq \sqrt{x/d}, m \in Q_a} \left(\sum_{\ell \leq x/dm^2, \ell \in Q_{am}} \frac{1}{\varphi(\ell)} \right) \frac{m}{\varphi(m)}
+\end{align*}
+where to simplify our notation, let
+$$Q_a = \{m \text{ square free} : (m, a) = 1\}.$$
+
+The sum over $d | a$ is a finite sum consisting of $2^{\omega(a)}$ terms with the maximal term is the one for $d = 1$. Therefore,
+$$g^\Sigma_v(x) \leq 2^{\omega(a)} \sum_{m \leq \sqrt{x}, m \in Q_a} \left(\sum_{\ell \leq x/m^2, \ell \in Q_{am}} \frac{1}{\varphi(\ell)} \right) \frac{m}{\varphi(m)}$$
+Using a simple inequality that
+$$\varphi(m) \geq \sqrt{\frac m 2}$$
+if $m$ is square-free (from $p - 1 \geq \sqrt{p}$ for all prime $p \geq 3$), we can bound
+$$\sum_{\ell \leq x/m^2, \ell \in Q_{am}} \frac{1}{\varphi(\ell)} \leq \sqrt{2} \sum_{\ell \leq x/m^2} \ell^{-1/2} = O((x/m^2)^{1/2}) = O(x^{1/2} / m)$$
+by Lemma 3.13 whence for some constant $C$ in the last $O$ notation,
+$$g^\Sigma_v(x) \leq 2^{\omega(a)} \sum_{m \leq \sqrt{x}} C \frac{x^{1/2}}{m} \sqrt{2} m^{1/2} = x^{1/2} O(x^{1/4}) = O(x^{3/4})$$
+by Lemma 3.13 again. Since $3/4 < 1$, we can now apply the stability theorem to get
+$$x^s \cdot LHS = x^s \zeta(s) \left(\int_{1^-}^{\infty} t^{-s} dg\right) + O(x)$$
+whence dividing both sides by $x^s$ and taking $x \rightarrow \infty$, we find the desired identity as
+$$\int_{1^-}^{\infty} t^{-s} dg = \sum_{m = 1}^{\infty} \frac{c_m}{m^s} = \prod_{p | a} (...) \prod_{p \nmid a} (...)$$
+using the computation for $g(p^k)$ at the beginning.
+
+To show that $\sum c_m m^{-s}$ converges absolutely for $\Re s > 1/2$, we observe from the proof of the stability theorem (in particular, equation (3.19) in the book) that if $g^\Sigma_v(x) = O(x^\tau)$ then 
+$$\sum_{m > x}^{\infty} \frac{|c_m|}{|m^s|} = \int_{x}^{\infty} |t^{-s}| \cdot d g^\Sigma_v = O(x^{\tau - \Re s})$$
+converges to 0 as long as $\tau - \Re s < 0$ or equivalently, $\Re s > \tau$. To put it another way, suppose that $s$ is fixed with $\Re s = \frac12 + \epsilon$ for $\epsilon > 0$ and to show that $\sum c_m m^{-s}$ converges absolutely, we just have to show that $g^\Sigma_v(x) = O(x^\tau)$ for some $\tau < \frac12 + \epsilon$. This is tantamount to proving that
+$$g^\Sigma_v(x) = O(x^{\frac12 + \epsilon})$$
+for any $\epsilon > 0$.
+
+To do this, recognize that the simple inequality $\varphi(m) \geq \sqrt{\frac m 2}$, which comes from $p - 1 \geq \sqrt{p}$ for all prime $p \geq 3$, can be improved rather easily: From
+$$p - 1 = O(p^{1-\epsilon})$$
+for any $0 < \epsilon < 1$, we have for all square-free $m$,
+$$\varphi(m) \geq C_\epsilon^{-1} m^{1 - \epsilon}$$
+for some constant $C_\epsilon$ depending on $\epsilon$ (to take care of the initial primes where $p - 1 < p^{1-\epsilon}$ since $p - 1 > p^{1-\epsilon}$ eventually). Just like we did previously, we then find
+$$\sum_{\ell \leq x/m^2, \ell \in Q_{am}} \frac{1}{\varphi(\ell)} \leq C_\epsilon \sum_{\ell \leq x/m^2} \ell^{1 - \epsilon} = O((x/m^2)^{\epsilon}) = O(x^\epsilon/m^{2\epsilon})$$
+by Lemma 3.13 whence if $C$ be the constant in the last $O$-notation,
+$$g^\Sigma_v(x) \leq 2^{\omega(a)} \sum_{m \leq \sqrt{x}} C \frac{x^\epsilon}{m^{2\epsilon}} C_\epsilon m^\epsilon = O\left(x^{\epsilon} \sum_{m \leq \sqrt{x}} m^{-\epsilon}\right) = O(x^\epsilon (\sqrt x)^{1-\epsilon}) = O(x^{\frac 1 2 + \frac \epsilon 2}).$$
+And we are done.
+
+\item For this part, first note that
+$$LHS = \int_{1^-}^{x} dN * dg$$
+and we can apply the stability theorem right away with $N = x + O(1)$ and $g^\Sigma_v(x) = O(x^{\frac 12 + \epsilon})$ just proved to get
+$$LHS = x \int_{1^-}^{\infty} t^{-1} dg + O(x^{\frac 12 + \epsilon}).$$
+
+It remains to see that
+$$\int_{1^-}^{\infty} t^{-1} dg = \frac{\varphi(a)}{a}.$$
+Knowing that the series $\sum c_m m^{-s}$ converges absolutely for $\Re s > 1/2$, hence for $s = 1$, allows us to comnpute the integral using the Euler product:
+$$\prod_{p|a}(1 - p^{-1}) \prod_{p \nmid a} \underbrace{\left( 1 + \frac{1}{(p-1)p} - \frac{p}{(p-1)p^2} \right)}_{1} = \prod_{p|a}(1 - p^{-1}) = \frac{\varphi(a)}{a}.$$
+
+\item Observe that the LHS is exactly the LHS from part 1 if $s = 1$. So the same approach should work with appropriate modification to the estimation of $\widehat{H}_1$ that relies on $\Re s > 1$. Now $d H_1(t) = \delta_1 + dt$ and
+\begin{align*}
+\widehat{H}_1(x) &= \int_{1^-}^x (x/t) dN\\
+&= \sum_{n \leq x} \frac{x}{t}\\
+&= x( \log x + \gamma + O(x^{-1}))\\
+&= x (\log x + \gamma) + O(1)
+\end{align*}
+by Lemma 3.13. So the stability theorem yields
+$$x \cdot LHS = x (c_1 + c_0(\log x + \gamma)) + O(x^{1/2 + \epsilon})$$
+where
+$$c_\ell = \int_{1^-}^\infty (-\log t)^{-\ell} t^{-1} dg$$
+In particular, $c_0 = \varphi(a)/a$ from the computation in part 2 and so
+$$LHS = \frac{\varphi(a)}{a} \log x + \left\{ \frac{\varphi(a)}{a} \gamma + c_1 \right\} + O(x^{-1/2 + \epsilon}).$$
+\end{enumerate}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

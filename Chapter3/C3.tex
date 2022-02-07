@@ -1,0 +1,316 @@
+\unless\ifdefined\IsMainDocument
+\documentclass{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\title{Chapter 3}
+\author{An Hoa Vu}
+
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\V}{\mathcal{V}}
+
+\begin{document}
+
+\maketitle
+\fi
+
+\section{Midpoint approximation of convex function}
+
+We prove a generalization of the inequality used in the proof of Theorem 3.5 with the justification being just ``by midpoint approximation of convex function'':
+$$m^{-2} < \int_{m - \frac 12}^{m + \frac 12} t^{-2} dt.$$
+
+Suppose that $f$ is Riemann integrable and that $f$ is convex i.e. $f''(x) \geq 0$ on $(a, b)$. Then
+$$(b - a) \cdot f\left(\frac{a+b}{2}\right) \leq \int_a^b f(t) dt.$$
+
+\begin{proof}
+The right hand side can be computed as the limit
+$$R_{f,a,b}(N) = \Delta_N \sum_{i=0}^{N-1} f\left(a + i \Delta_N + \frac{\Delta_N}{2} \right) $$
+as $N \rightarrow \infty$ where $\Delta_N = \frac{b - a}{N}$. Basically, we divide the interval $[a, b]$ into $N$ subinterval
+$$[a + i \Delta_N, a + (i+1) \Delta_N]$$
+of length $\Delta_N$ and take their midpoints to approximate the integral.
+
+Since $f$ is convex on $(a, b)$, we have Jensen's inequality
+$$\sum_{i = 1}^{n} f(x_i) \geq n f\left(\frac{\sum_{i=1}^{n} x_i}{n}\right)$$
+for all $x_1, ..., x_n \in (a, b)$. Applying it to the case of $n = N$ and the $x_i = a + \frac{2i - 1}{2} \Delta_N$ which are clearly in $(a, b)$, we find
+\begin{align*}
+R_{f,a,b}(N) &\geq (b - a) \cdot f \left( \frac{\sum_{i=0}^{N-1} a + i \Delta_N + \frac{\Delta_N}{2} }{N} \right)\\
+&= (b - a) \cdot f \left( \frac{N (a + \frac{\Delta_N}{2}) + \sum_{i=0}^{N-1} i \Delta_N }{N} \right)\\
+&= (b - a) \cdot f \left( a + \frac{N \frac{\Delta_N}{2} + \frac{(N-1)N}{2} \Delta_N }{N} \right)\\
+&= (b - a) \cdot f \left( a + N \frac{\Delta_N }{2} \right)\\
+&= (b - a) \cdot f \left( \frac{a + b}{2} \right)
+\end{align*}
+so taking the limit yields the desired inequality.
+\end{proof}
+
+Note that we can reduce the assumption to a weaker condition
+$$f(x) + f(y) \geq 2 f\left( \frac{x + y}{2} \right)$$
+for all $x, y \in [a, b]$ instead of the stronger condition $f'' > 0$ which requires $f$ to have second derivative. Then in the proof, we can pair off the terms of $R_{f,a,b}(N)$ instead: for every $i$, one has
+$$f\left(a + i \Delta_N + \frac{\Delta_N}{2} \right) + f\left(a + (N-1-i) \Delta_N + \frac{\Delta_N}{2} \right) \geq 2 \cdot f \left( \frac{a + b}{2} \right).$$
+
+As an application, if $\alpha > 0$ then $f(t) = t^{-\alpha}$ is convex on $(0, \infty)$ because $f'(t) = -\alpha t^{-\alpha-1}$ and $f''(t) = \alpha(\alpha+1) t^{-\alpha-2} > 0$ for all $t > 0$. So in particular for all integer $m \geq 1$, we have
+$$m^{-3} < \int_{m - \frac 12}^{m + \frac 12} t^{-3} dt$$
+and
+$$m^{-\frac 12} < \int_{m - \frac 12}^{m + \frac 12} t^{-\frac 12} dt.$$
+
+\section{Variation of a function}
+
+The book didn't give the definition for the variation of a function on $[a, b]$ but thank to
+\begin{itemize}
+\item its hints on the ``familiar'' properties of total variation function $F_v(x) = $ variation of $F$ on $[0, x]$ and
+\item the fact that function of bounded variations $F$ are used as differential/integrator $dF$ to integrate other functions as in
+$$\int_a^b \; g \cdot dF$$
+similar to Riemann sum,
+\end{itemize}
+we can go back to the classical situation where $F(x) = x$ and Riemann's definition
+$$\int_a^b \; f \; dx = \lim_{\Pi \in P[a,b]} \; \sum f(t_i) \underbrace{\Abs{x_{i+1} - x_i}}_{\text{length of }[x_i, x_{i+1}]}$$
+where $P[a, b]$ is the set of all partitions of the interval $[a, b]$. (A partition is essentially a finite subset of $[a, b]$ given by the points $a = x_0 < ... < x_n = b$. Here, the limit is taken via a \emph{directed system} where the partitions are ordered by \emph{refinement relation}) so that we could derive the definition: (Verified in Apostol Chapter 6.)
+The variation of a function $F$ on $[a, b]$ should serve the same purpose as producing some kind of \emph{measurement} (e.g. the \emph{length} $|b - a|$ when $F(x) = x$) for the interval $[a, b]$ and so it should be given by\footnote{Why sup? Because refinement increases the sum due to triangle inequality.}
+$$\sup_{\Pi \in P[a, b]} \left\{ \sum \Abs{F(x_{i + 1}) - F(x_i)} \right\}.$$
+
+Let us denote
+$$V_F(\Pi) = \sum_{i=0}^{|\Pi| - 1} \Abs{ F(x_{i + 1}) - F(x_i) }$$
+and
+$$V_F(a, b) = \sup_{\Pi \in P[a, b]} V_F(\Pi)$$
+where where $|\Pi|$ denotes the number of points in $\Pi$.
+
+\section{Some properties of variation}
+
+It is easy to check that
+\begin{enumerate}
+\item $V_{c F}(a, b) = \Abs{c} V_F(a, b)$
+
+\item $V_F(a, b) \geq 0$
+
+\item If $a \leq b \leq c$ then
+$$V_F(a, b) + V_F(b, c) = V_F(a, c).$$
+(Proof: Insert $b$ to any partition of $[a, c]$ to make a refinement.)
+
+In particular,
+$$V_F(a, b) \leq V_F(a, c).$$
+
+So our intuition of $V_F(a, b)$ as measuring the length of $[a, b]$ makes sense.
+
+\item The book was wrong about $F$ increasing then $F_v = F$. This only works if $F(0) = 0$. The correct formula is that if $F$ is increasing then
+$$F_v = F - F(0).$$
+Or more generally,
+$$V_F(a, b) = F(b) - F(a).$$
+
+By the same token, if $F$ is decreasing then
+$$V_F(a, b) = F(a) - F(b).$$
+
+\item One has
+\begin{align*}
+\lim_{x \rightarrow a^+} V_F(a, x) &= \lim_{x \rightarrow a^+} \Abs{ F(x) - F(a) }\\
+\lim_{x \rightarrow b^-} V_F(x, b) &= \lim_{x \rightarrow b^-} \Abs{ F(b) - F(x) }
+\end{align*}
+assuming the limits that appeared exists.
+
+\begin{proof}
+By replacing $F$ with $F_1(x) = F(x - a)$ and $F_2(x) = F(b - x)$, the problem reduces to showing the first formula for $a = 0$. Since $F$ is fixed, we shall subsequently drop the subscript in $V_F$. Let
+\begin{align*}
+\alpha &= \lim_{x \rightarrow 0^+} V(0, x) = \inf \left\{V(0, x) \;|\; x > 0 \right\}\\
+\beta &= \lim_{x \rightarrow 0^+} \Abs{ F(x) - F(0) }
+\end{align*}
+
+Evidently, $V(0, x) \geq \Abs{ F(x) - F(0) }$ for all $x > 0$ considering the trivial partition $\{0, x\}$ of $[0, x]$. So $\alpha \geq \beta$.
+
+Assume $\alpha > \beta$. Then by definition of limit, there exists $\epsilon_0 > 0$ such that for all $\delta > 0$, there is some positive $x_\delta < \delta$ such that $$V(0, x_\delta) > \beta + \epsilon_0.$$
+In particular, taking $\delta = \frac{1}{n}$ for all positive integer $n$ and we can find a decreasing sequence $x_n$ such that $x_n < \frac 1n$ and that
+$$V(0, x_n) > \beta + \epsilon_0$$
+for all $n$.
+
+We shall show that $V(0, x_n)$ cannot be a Cauchy sequence, in particular for $\epsilon = \frac{\epsilon_0}{2}$, thus violating the assumption on the convergence of $V(0, x)$. That means we have to show that for any $N$, there is always an $m > N$ such that
+$$V(0, x_N) - V(0, x_m) > \frac{\epsilon_0}{2}.$$
+Notice that by our construction, $x_m < x_N$ and so the left hand side of the above inequality is $V(x_m, x_N)$.
+
+Let $N$ be arbitrary. We make use of the fact that $V(0, x_N) > \beta + \epsilon_0$ to obtain a partition $\pi = (0, t_1, ..., t_k = x_N)$ of $[0, x_N]$ satisfying
+$$V(\pi) > \beta + \epsilon_0$$
+by definition of the supremum. Now take $m$ sufficiently large such that $x_m < t_1$, possible as $x_n \rightarrow 0$ and that
+$$\beta - \frac{\epsilon_0}{2} < \Abs{ F(x_m) - F(0) } < \beta + \frac{\epsilon_0}{2}$$
+from the limit definition of $\beta$. Then consider the refinement partition $\pi \cup \{x_m\} = (0, x_m, t_1, ..., x_N)$ of $[0, x_N]$ and the partition $\pi' = \pi \cup \{x_m\} - \{0\} = (x_m, t_1, ..., x_N)$ of $[x_m, x_N]$ by dropping the zero. We have
+$$V(\pi \cup \{x_m\}) \geq V(\pi) > \beta + \epsilon_0$$
+so
+\begin{align*}
+V(x_m, x_N) \geq V(\pi') &= V(\pi \cup \{x_m\}) - \Abs{ F(x_m) - F(0) }\\
+&\geq \beta + \epsilon_0 - \left( \beta + \frac{\epsilon_0}{2} \right)\\
+&\geq \frac{\epsilon_0}{2}.
+\end{align*}
+\end{proof}
+
+\end{enumerate}
+
+\section{Total variation function of $[x] - x + 1$}
+
+Let
+$$F(x) = \begin{cases}
+[x] - x + 1 &\text{for } x \geq 1,\\
+0 &\text{for }x < 1.
+\end{cases}$$
+
+Assuming that $F$ is of bounded variation; need to use the definition otherwise. We prove that $F_v(x) = [x] + x - 1$ for $x \geq 1$.
+
+For any integer $n \geq 1$, observe that if $x \in [n, n+1)$ then $[x] = n$ and $F(x) = n - x + 1$ is a decreasing function so $-F$ is an increasing function and so
+\begin{align*}
+V_F(n, x) &= F(n) - F(x)\\
+&= 1 - (n - x + 1)\\
+&= x - n.
+\end{align*}
+
+To prove the formula for general $x > 1$, let $n = [x]$. By the additivity property of variation,
+\begin{align*}
+V_F(0, x) &= \sum_{i = 0}^{n - 1} V_F(i, i+1) + V_F(n, x)\\
+&= 1 + \sum_{i = 1}^{n - 1} 2 + (x - n)\\
+&= 1 + 2(n - 1) + x - n\\
+&= x + n - 1\\
+&= x + [x] - 1
+\end{align*}
+Here, we make use of the obvious fact that
+$$V_F(0, 1) = F(1) - F(0) = 1$$
+because $F$ is increasing on $[0, 1]$ while
+\begin{align*}
+V_F(i, i + 1) &= \lim_{x \rightarrow (i+1)^-} V_F(i, x) + V_F(x, i+1)\\
+&= 2
+\end{align*}
+for all $i \geq 1$.
+
+\section{Pollard's definition of integral}
+
+The existence on right hand side of
+$$\int_a^b g dF = \lim_{\Pi \in P[a, b]} \sum g(t_i) (F(x_{i+1}) - F(x_i))$$
+means: There is a number $A$ such that for every $\epsilon > 0$, there exists a partition $\Pi_\epsilon$ such that for every $\Pi$ that refines $\Pi_\epsilon$ and any choice of $t_i \in [x_i, x_{i+1}]$ then
+$$\Abs{ \sum g(t_i) (F(x_{i+1}) - F(x_i)) - A } < \epsilon.$$
+
+\section{Properties of integral}
+
+\begin{itemize}
+\item Example 3.9: Straightforward from the definition: For any $\epsilon$, take the partition with $n - \delta, n + \delta$ around every integer in $[a, b]$.
+
+\item Example 3.10: Should apply to more than just Riemann integrable functions.
+
+\item The familiar inequality $\Abs{ \int_a^b f(t) dt } \leq \int_a^b \Abs{ f(t) } \, dt$ generalizes to
+$$\Abs{ \int_a^b g dF } \leq \int_a^b \Abs{ g } \, dF_v$$
+from the definition and triangle inequality. Back to the classical situation, we have $F(t) = t$ is increasing so $F_v = F$.
+\end{itemize}
+
+\section{Total variation of summatory functions}
+
+The equation
+$$F_v(t) = \int_1^x \Abs{ f(t) } dt$$
+on page 52 applies to summatory function of an arithmetic function with a small change to the lower limit $1^-$ instead of 1. In other words, if $f$ is an arithmetic function and $F$ its summatory function then
+$$F_v(t) = \sum_{n \leq t} \Abs{ f(n) }.$$
+That is to say $F_v$ is the summatory function of $\Abs{ f }$.
+
+\section{Integrator associated to convolution of arithmetic functions}
+
+On page 54: If $F, G$ are summatory functions of the arithmetic functions $f, g$ then the function
+$$H(x) = \int_{1^-}^x G(x/t) \, dF(t), \quad x \geq 1$$
+and $H(x) = 0$ for $x < 1$ is the summatory function of $f * g$ (so $dH$ is the integrator corresponding to $f * g$).
+
+\begin{proof}
+For fixed $x \geq 1$, the function $g_x(t) = G(x/t)$ is continuous from the left at all integer $(1-\delta, x]$ for small $\delta$ because $G$ is continuous from the right. So
+\begin{align*}
+\int_{1-\delta}^x G(x/t) \, dF(t) &= \int_{1-\delta}^x g_x(t) \, dF(t)\\
+&= \sum_{1 - \delta < n \leq x} g_x(n) f(n) &\text{by example 3.9}\\
+&= \sum_{1 \leq n \leq x} G(x/n) f(n)\\
+&= \sum_{1 \leq n \leq x} (f * g)(n) &\text{by Lemma 3.1}
+\end{align*}
+Thus $H(x)$ is the summatory function of $f * g$.
+\end{proof}
+
+\section{Integrator defined by $\varphi \, dG$}
+
+The book frequently used integrators of the form $\varphi(t) \, dt$ such as $t^{-1} \, dt$ and $\log t \, dt$ without explaining how they arise from a function $F \in \V$ as in Definition 3.15. It turns out that the function $F$ should be given by the formula
+$$F(x) = \int_{1^-}^x \varphi(t) \, dt$$
+for all $x \geq 1$ and $F(x) = 0$ if $x < 1$ following the explanation on page 52. In this case, we can drop the $1^-$ using Lemma 3.8 because the function associated to $dt$, despite its ambiguity, is continuous at 1.
+
+On second thought, we could have taken
+$$F(x) = \int_a^x \varphi(t) \, dt$$
+for any $a < 1$ as long as the function $\varphi$ is defined on $x \geq a$ and has all the nice properties in the lemma for
+$$d(F + c) = dF$$
+for any constant $c$ because they assign the same value to any half interval $(a, b]$. A change from $1^-$ to $a$ simply incurs adjusting by a constant $\int_a^{1^-} \varphi(t) \, dt$. The choice of $1^-$ simply makes it uniform regardless of the domain of $\varphi$ so we don't have to keep specifying the domain and automatically makes $F$ zero on $(-\infty, 1)$ so that $F \in \V$.
+
+More generally, the integrator $\varphi \, dG$ arises from the function
+$$F(x) = \int_{1^-}^x \varphi(t) \, dG$$
+However, unlike the previous situation, we indeed want to take the limit $1^-$ here because $dG$ is not guaranteed to be continuous at 1. Again, we could have taken
+$$F(x) = \int_{1 - \epsilon}^x \varphi(t) \, dG$$
+as long as $G$ and $\varphi$ play nice on $(1 - \epsilon, x]$. See the comment after Lemma 3.8 on page 46.
+
+In some situation, it is necessary to take the lower limit to be number $> 1$. For example: The integrator
+$$\frac{1}{\log t} dt$$
+is defined on $(1, \infty)$. The associated function should be
+$$\int_a^x \frac{1}{\log t} dt$$
+for any $a > 1$ appropriate to the problem. This is a function on $(1, \infty)$ only but of course we could extend by zero. Functions in $\V$ need not be defined on the entire $\R$, I believe.
+
+Also observe that the use of Lemma 3.8 here to ensure that the function
+$$F(x) = \int_a^x \varphi dG$$
+is continuous from the right so that it could be an element of $\V$. Its total variation should be given by
+$$F_v(x) = \int_a^x \Abs{ \varphi } \; dG_v,$$
+similar to the total variation of summatory functions mentioned above.
+
+\section{On example 3.22 about $dN * dt$}
+
+On page 57, the book gave
+$$H(x) = \int_{1^-}^x dN * dt = \int_{1^-}^x (\frac xt - 1) dN(t)$$
+which doesn't look to make sense at first if we think of $dt$ as $dG$ where $G(t) = t$ from experience or from the suggestion of the notation because $H(x)$ is supposed to be
+$$H(x) = \int_{1^-}^x G(x/t) dN(t).$$
+However, the notation $dF$ only applies to $F \in \V$ and such $F$ zeros out on $(-\infty, 1)$. Therefore, here $dt$ is actually $dF$ where
+$$F(x) = \begin{cases}
+0 &\text{if } x < 1,\\
+x - 1 &\text{if } x \geq 1,
+\end{cases}$$
+as given on page 52. And so the formula makes sense.
+
+So a WARNING: \textbf{The notation $dt$ could mean two different things}, depending on the context:
+\begin{itemize}
+\item The usual $dt$ in Riemann-Stieltjes integral i.e. $dF_1$ where $F_1(t) = t$. This version can only occurs inside the integral $\int_a^b ... dt$.
+\item The integrator $dF_2$ associated to the function $F_2(t) = \delta_1(t) \, (t - 1)$ per Definition 3.15. This one can stand alone and will usually cause confusion when used under the integral.
+\end{itemize}
+Both $F_1$ and $F_2$ are continuous so usually the second usage will give the same answer in the first: we obviously have $\int_a^b g \, dF_1 = \int_a^b g \, dF_2$ for all $b \geq a \geq 1$ and also $\int_{1^-}^x g \, dF_1 = \int_{1^-}^x g \, dF_2$ by Lemma 3.8.
+
+To check the derivative at $x \not\in Z$, we compute
+\begin{align*}
+\lim_{\delta \rightarrow 0^+} \frac{H(x + \delta) - H(x)}{\delta} &= \lim \frac 1\delta \left( \int_{1^-}^{x+\delta} (\frac {x+\delta} t - 1) dN - \int_{1^-}^x (\frac xt - 1) dN \right)\\
+&= \lim \frac 1\delta \left( \int_{x}^{x+\delta} (\frac {x+\delta} t - 1) dN + \int_{1^-}^x \frac \delta t dN \right)\\
+&= \int_{1^-}^x \frac{dN}{t} + \lim \frac 1\delta \left( \int_{x}^{x+\delta} (\frac {x+\delta} t - 1) dN +  \right)
+\end{align*}
+As $\delta \rightarrow 0^+$,
+$$\int_{x}^{x+\delta} (\frac {x+\delta} t - 1) dN = \sum_{x < n \leq x + \delta} \left\{\frac{x + \delta}{n} - 1\right\} = 0$$
+by example 3.9 assuming $x \not\in Z$ if we recall $N$ is the summatory function of $1$. Therefore,
+$$\lim_{\delta \rightarrow 0^+} \frac{H(x + \delta) - H(x)}{\delta} = \int_{1^-}^x \frac{dN}{t}.$$
+The limit when $\delta \rightarrow 0^-$ is likewise computed.
+
+\section{Operators on integrators}
+
+First, let me mention a little fact that if the integrator $dK$ is defined via R-S integral
+$$dK(E) = \int_E \varphi \; dF$$
+then for any $\psi$, one has
+$$\int_E \psi \; dK = \int_E \; \psi \; \varphi \; dF.$$
+This is the more general version of Example 3.10 which is mostly used to convert $d f(t) = f'(t) dt$ in practice.
+
+To check an equality of integrators, we only have to check on basic intervals $(a, b]$. For equation (3.15):
+\begin{align*}
+T^\alpha(dF * dG) ((a, b]) &= \int_a^b t^\alpha (dF * dG)\\
+&= \int_{1^-}^b \int_{a/s}^{b/s} (st)^\alpha dG(t) dF(s) &\text{lemma 3.23 with } \varphi(t) = t^\alpha\\
+(T^\alpha dF * T^\alpha dG)((a, b]) &= \int_a^b (T^\alpha dF) * (T^\alpha dG)\\
+&= \int_{1^-}^b \int_{a/s}^{b/s} T^\alpha dG(t) \{T^\alpha dF(s)\} &\text{lemma 3.23 with } \varphi(t) = 1\\
+&= \int_{1^-}^b \int_{a/s}^{b/s} t^\alpha \; dG(t) \; s^\alpha dF(s)
+\end{align*}
+so we have identity. For equation (3.16):
+\begin{align*}
+L(dF * dG) ((a, b]) &= \int_a^b \log t \; (dF * dG)\\
+&= \int_{1^-}^b \int_{a/s}^{b/s} \log (st) \; dG(t) \; dF(s) &\text{lemma 3.23 with } \varphi(t) = \log t\\
+&= \int_{1^-}^b \int_{a/s}^{b/s} (\log s + \log t) \; dG(t) \; dF(s)\\
+L \, dF * dG ((a, b]) &= \int_a^b (L \, dF) * dG\\
+&= \int_{1^-}^b \int_{a/s}^{b/s} dG(t) \, \{L \, dF(s)\} &\text{lemma 3.23 with } \varphi(t) = 1\\
+&= \int_{1^-}^b \int_{a/s}^{b/s} dG(t) \; \log s \; dF(s)
+\end{align*}
+while
+\begin{align*}
+dF * L \, dG ((a, b]) &= \int_a^b dF * L \, dG\\
+&= \int_{1^-}^b \int_{a/s}^{b/s} L\, dG(t) \, dF(s) &\text{lemma 3.23 with } \varphi(t) = 1\\
+&= \int_{1^-}^b \int_{a/s}^{b/s} \log t \; dG(t) \; dF(s)
+\end{align*}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

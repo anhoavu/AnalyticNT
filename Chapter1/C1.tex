@@ -1,14 +1,17 @@
+\unless\ifdefined\IsMainDocument
 \documentclass{article}
-\usepackage{amsmath,amsthm}
+\usepackage{amsmath,amsthm,amssymb}
 
 \title{Chapter 1}
 \author{An Hoa Vu}
 
 \DeclareMathOperator*{\Res}{Res}
+\newcommand{\Z}{\mathbb{Z}}
 
 \begin{document}
 
 \maketitle
+\fi
 
 \section{Fourier expansion of periodic function $x^2$}
 
@@ -43,7 +46,7 @@ $$\lim_{s \rightarrow 1^+} (s - 1) \sum_{n = 1}^{\infty} \frac{f(n)}{n^s} = \alp
 
 \section{Set without density}
 
-For every subset $X$ of $Z = \{1, 2, ...\}$, the set of all positive integers, we define the function
+For every subset $X$ of $Z = \Z^+ = \{1, 2, ...\}$, the set of all positive integers, we define the function
 $$\zeta_X(s) = \sum_{n \in X} n^{-s} \qquad \text{ for all } s > 1.$$
 
 Let
@@ -275,4 +278,6 @@ $$0 \leq (s-1) \sum_{n \in A} n^{-s} \leq (s - 1) \sum_{n \in A} n^{-1}$$
 and observe that $\lim_{s \rightarrow 1+} (s - 1) \sum_{n \in A} n^{-1} = 0$ follows the given convergence.
 \end{proof}
 
+\unless\ifdefined\IsMainDocument
 \end{document}
+\fi

@@ -1,0 +1,54 @@
+\unless\ifdefined\IsMainDocument
+\documentclass{article}
+\usepackage{amsmath,amsthm}
+
+\begin{document}
+\fi
+
+\textbf{Problem 3.1}: Show that
+$$\sum_{n \leq x} \tau(n) = \sum_{m \leq x} [x/m]$$
+$$\sum_{n \leq x} \sigma(n) = \frac12 \sum_{\ell \leq x} [x/\ell] [x/\ell + 1] = \sum_{m \leq x} m [x/m]$$
+
+\begin{proof}
+Straight-forward from Lemma 3.1 and the fact that $\tau = 1 * 1$ whereas $\sigma = 1 * T1$. (Notice that $T1$ is the identity function $T1(n) = n$.)
+\end{proof}
+
+\textbf{Problem 3.2}: Suppose $f, g \in A$ and $f, g \geq 0$. Let $h = f * g$ and $F, G, H$ be the respective summatory functions. Show that $H(x) \leq F(x) G(x)$ for all $x \geq 1$. Find condition on $f$ and/or $g$ for which equality holds (a) for a particular $x \geq 2$, (b) for all $x \geq 2$.
+
+\begin{proof}
+One has
+\begin{align*}
+H(x) &= \sum_{m \leq x} F(x/m) g(m) &\text{by Lemma 3.1}\\
+&\leq \sum_{m \leq x} F(x) g(m) &\text{by assumption }f, g \geq 0: F(x/m) \leq F(x)\\
+&= F(x) \sum_{m \leq x} g(m)\\
+&= F(x) G(x)
+\end{align*}
+
+Equality can only occurs if the inequality on the second line is an equality; which can only happen if $F(x/m) g(m) = F(x) g(m)$, equivalently $[F(x) - F(x/m)] \cdot g(m) = 0$, for all $m \leq x$. In other words, for every $1 \leq m \leq x$, either $g(m) = 0$ or $f(n) = 0$ for all $\frac{x}{m} < n \leq x$. Combining the two we get a symmetric condition: For every $1 \leq n, m \leq x$ such that $n m > x$ then $f(n) g(m) = 0$.
+
+So if equality holds for all $x \geq 2$, assume that $f(n) > 0$ for some $n \geq 2$. Then we must have $g(m) = 0$ for all $m \geq 2$ because otherwise, taking $x = mn - 1 \geq 2 \cdot 2 - 1 = 3$ and we find that the inequality does not hold for $x$ using the above condition:
+$$x \geq 2n - 1 = n + n - 1 \geq n + 2 - 1 > n$$
+and similarly $x > m$ while $mn > x$. So either $f(n) = 0$ for all $n \geq 2$ or $g(m) = 0$ for all $m \geq 2$.
+\end{proof}
+
+\textbf{Problem 3.3}: Show that $1 = |\mu| * 1_S$ where $S$ is the set of squares. Show
+$$\sum_{n \leq x} \frac{1}{n} \leq \sum_{\ell = 1}^{\infty} \frac{1}{\ell^2} \sum_{m \leq x} \frac{|\mu(m)|}{m}$$
+for all $x$. Deduce $\sum_{m = 1}^{\infty} \frac{|\mu(m)|}{m} = \infty$.
+
+\begin{proof}
+In previous problem, we already show $\mu * |\mu| * 1_S = e$ so $1 = |\mu| * 1_S$ on account of $\mu * 1 = e$. This implies
+$$T^{-1} 1 = T^{-1} |\mu| * T^{-1} 1_S$$
+because the $T^{\alpha}$ are homomorphisms. Applying the inequality of problem 3.2, we get
+$$S_{T^{-1} 1}(x) \leq S_{T^{-1} 1_S}(x) \cdot S_{T^{-1} |\mu|}(x)$$
+where $S_f(x)$ denotes the summatory function of $f$. By definitions,
+\begin{align*}
+S_{T^{-1} 1}(x) &= \sum_{n \leq x} \frac{1}{n}\\
+S_{T^{-1} 1_S}(x) &= \sum_{n \leq x} \frac{1_S(n)}{n} \leq \sum_{\ell = 1}^{\infty} \frac{1}{\ell^2}\\
+S_{T^{-1} |\mu|}(x) &= \sum_{m \leq x} \frac{|\mu(m)|}{m}
+\end{align*}
+so we deduce the desired inequality. Taking the limit as $x \rightarrow \infty$ and recall $\sum 1/n = \infty$ while $\sum 1/n^2 = \zeta(2)$ is finite, we see that $\sum |\mu(m)|/m = \infty$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

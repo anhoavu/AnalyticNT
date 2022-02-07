@@ -1,0 +1,125 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm}
+
+\begin{document}
+\fi
+
+\textbf{Problem 3.23}: Apply the stability theorem to establish the following relations:
+\begin{enumerate}
+\item $\sum_{n \leq x} \varphi(n) = \sum_{n \leq x} (T1 * \mu)(n) = x^2 / (2 \zeta(2)) + O(x \log ex)$.
+\item Let $S = \{n^2 : n \in Z^+\}$. Then for some constant $c$
+$$\sum_{n \leq x} (L1 * 1_S)(n) = \zeta(2) x \log x + c x + O(x^{1/2} \log ex)$$
+\item Let $k \in Z^+$. Then $\sum_{n \leq x} (\log x/n)^k = k! x + O((\log ex)^k)$.
+\item Prove that $\sum_{n \leq x} \tau^2(n) \sim \pi^{-2} x \log^3 x$.
+\end{enumerate}
+
+\begin{proof}
+\begin{enumerate}
+\item We recognize
+$$\sum_{n \leq x} \varphi(n) = \sum_{n \leq x} (T1 * \mu)(n) = \int_{1^-}^x dF * dM$$
+where $F$ and $M$ are summatory functions of $T1$ and $\mu$. Now,
+$$F(x) = \sum_{n \leq x} n = \frac{[x]([x] + 1)}{2} = \frac{x^2}{2} + O(x)$$
+while the total variation function
+$$M_v(x) = \sum_{n \leq x} |\mu(n)| = O(x)$$
+by Theorem 3.5. Note that $P(u) = \frac{1}{2}$ here is of degree $m = 0$ and $\theta = \tau = 1$, $K = H = 0$. So stability theorem yields the estimate $x^2 P^*(u) + O(x \log ex)$ where
+$$P^*(u) = \frac12 \int_{1^-}^{\infty} t^{-2} dM = \sum_{m = 1}^{\infty} \frac{\mu(m)}{m^2} = \frac{1}{2\zeta(2)}.$$
+
+\item Similar to the previous part, we estimate the summatory function
+\begin{align*}
+\sum_{n \leq x} L1(n) =& \sum_{n \leq x} \log n\\
+=& \int_1^x \log t \, dt + O(\log x) &\text{by problem 3.13}\\
+=& x \log x - x + 1 + O(\log x)\\
+=& x (\log x - 1) + O(\log ex)
+\end{align*}
+and the total variation of the summatory function $G$ of $1_S$ is easily estimated as $O(x^{1/2})$. Thus we can apply the stability theorem in this case to $s = 1$, $P(u) = u - 1$, $\theta = 0 < \tau = \frac 12 < s = 1$, $K = 1$, $H = 0$ to get the estimate $x P^*(\log x) + O(x^{1/2} \log ex)$ for the given sum where
+\begin{align*}
+P^*(u) =& (u - 1)\int_{1-}^{\infty} t^{-1} dG + \int_{1^-}^\infty (-\log t) t^{-1} dG\\
+=& (u - 1) \sum_{m = 1}^{\infty} \frac{1_S(m)}{m} + c\\
+=& (u - 1) \zeta(2) + c
+\end{align*}
+
+\item With $N = [x]^+$ being the summatory function of $1$, we can recognize the sum as
+$$\int_{1^-}^x (\log x / t)^k dN = \int_{1^-}^x dN * dG$$
+since the first formula is the one used to define $dN * dG$ for $G(t) = \log^k t$ as in equation (3.10) for $F = N$.
+
+Evidently, $N(x) = x + O(1)$ while $G_v(x) = \log^k x = O(\log^k ex)$ because $G$ is increasing. So stability theorem yields the estimate
+$$x \underbrace{\int_{1^-}^\infty t^{-1} dG}_{k!} + O((\log ex)^k).$$
+Note here $\tau = 0 < s = 1$ so we can apply the stability theorem.
+
+\item We have $1 = |\mu| * 1_S$ in problem 3.1 so
+$$\tau^2 = 1^{*4} * 1_S^{*-1} = 1^{*3} * |\mu|.$$
+Thus,
+$$\sum_{n \leq x} \tau^2(n) = \int_{1^-}^x dN^{*3} * dM$$
+where $M$ is the summatory function of $|\mu|$.
+
+One direction is that we would like to apply the stability theorem starting with
+$$F_0(x) = M(x) = \frac{6x}{\pi^2} + O(x^{1/2})$$
+according to Theorem 3.5 to estimate
+$$F_1(x) = \int_{1^-}^x dF_0 * dN = \int_{1^-}^x dM * dN = \sum_{n \leq x} (|\mu| * 1)(n)$$
+and then using it to estimate
+$$F_2(x) = \int_{1^-}^x dF_1 * dN = \int_{1^-}^x dM * dN * dN$$
+and so on. The key problem to this approach is that we cannot apply the stability theorem to $dF * dN$ if $F = x P(\log x) + O(...)$ i.e. $s = 1$ because $N_v = N = O(x)$ so $\tau = 1$ due to $N$ monotone and we need $\tau < \Re s$ for the theorem to work! On top of that, the stability theorem does not increase the degree of the polynomial so we will not end up with $\log^3 x$. But we could see the $\log^3 x$ is sort of introduced with the three $dN$ convolutions.
+
+To make things precise, we claim that if
+$$F(x) = x P(\log x) + O(x^\theta \log^K x)$$
+where either $\theta < 1, K = 0$ or $\theta = 1, K < \deg P$ then
+$$\int_{1^-}^x dF * dN = x P^*(\log x) + O(x \log^{\deg P} x)$$
+where
+$$P^*(u) = \sum_{\ell = 0}^{\deg P} \frac{(-1)^\ell}{\ell!} P^{(\ell)}(u) \frac{u^{\ell + 1}}{\ell + 1}$$
+is a polynomial of 1 degree higher than $P$ (and so we maintain $\deg P < \deg P_1$ to continuously apply the result). To prove that, we basically follow the proof of the stability theorem and expand
+\begin{align*}
+\int_{1^-}^x dF * dN &= \int_{1^-}^x F\left(\frac x t\right) dN(t) \\
+&= \int_{1^-}^x \left\{ \frac{x}{t} P\left(\log \frac x t\right) + O\left( \left(\frac x t \right)^\theta \log^K \left( \frac x t \right) \right) \right\} dN \\
+&= x \underbrace{\int_{1^-}^x \frac{1}{t} P\left(\log \frac x t\right) dN}_{I} + \underbrace{\int_{1^-}^x O\left( \left(\frac x t \right)^\theta \log^K \left( \frac x t \right) \right) dN}_{J}
+\end{align*}
+To resolve the first integral, we used Taylor's theorem to get for any $a$
+$$P(u) = \sum_{\ell=0}^{\deg P} P^{(\ell)}(a) \frac{(u - a)^\ell}{\ell!}$$
+and in particular for $a = \log x$ to write
+\begin{align*}
+I &= \int_{1^-}^x \frac{1}{t} \sum_{\ell = 0}^{\deg P} P^{(\ell)}(\log x) \frac{(-\log t)^\ell}{\ell!} dN\\
+&= \sum_{\ell = 0}^{\deg P} \frac{(-1)^\ell}{\ell!} P^{(\ell)}(\log x) \int_{1^-}^x \frac{(\log t)^\ell}{t} dN
+\end{align*}
+In the proof of the stability theorem, we split $\int_{1^-}^x$ as $\int_{1^-}^\infty - \int_x^\infty$ under the assumption of $\tau < \Re s$ to ensure convergence. Here, we deviate and use the result of problem 3.14 that
+$$\int_{1^-}^x \frac{(\log t)^\ell}{t} dN = \sum_{m \leq x} \frac{\log^\ell m}{m} = \frac{\log^{\ell+1} x}{\ell + 1} + O(1)$$
+and so
+\begin{align*}
+x I &= x \left( \sum_{\ell = 0}^{\deg P} \frac{(-1)^\ell}{\ell!} P^{(\ell)}(\log x) \frac{\log^{\ell + 1} x}{\ell + 1} \right) + O\left(x \underbrace{\sum_{\ell = 0}^{\deg P} \frac{(-1)^\ell}{\ell!} P^{(\ell)}(\log x)}_{P(\log x - 1)}\right)\\
+&= x P^*(\log x) + O(x \log^{\deg P} x)\\
+&= O(x \log^{\deg P + 1} x)
+\end{align*}
+
+The second integral is:
+$$|J| = O\left( x^\theta \int_{1^-}^x t^{-\theta} \log^K(x/t) dN \right)$$
+\begin{itemize}
+\item If $\theta = 1$ then $|J|$ is $O(x \log^{K + 1} x)$ as the special case of $I$ where the polynomial $P(u) = u^K$. And so
+$$I + J = x P^*(\log u) + \underbrace{O(x \log^{\deg P} x) + O(x \log^{K+1} x)}_{O(x \log^{\deg P} x)}$$
+under the assumption that $K < \deg P$.
+
+\item If $\theta < 1$ and $K = 0$ then
+$$\int_{1^-}^x t^{-\theta} \log^K(x/t) dN = \int_{1^-}^x t^{-\theta} dN = \sum_{n \leq x} n^{-\theta}$$
+and we know from Lemma 3.13 that this is $\frac{x^{1-\theta}}{1 - \theta} + \zeta(\theta) + O(x^{-\theta})$. So $|J|$ is $O(x)$ and $I + J$ has the prescribed form.
+\end{itemize}
+Finally, we observe that
+\begin{align*}
+(P^*(u))' &= \sum_{\ell = 0}^{\deg P} \frac{(-1)^\ell}{\ell!} \left( P^{(\ell)}(u) \frac{u^{\ell + 1}}{\ell + 1} \right)' \\
+&= \sum_{\ell = 0}^{\deg P} \frac{(-1)^\ell}{\ell!} \left( P^{(\ell + 1)}(u) \frac{u^{\ell + 1}}{\ell + 1} + P^{(\ell)}(u) u^\ell \right)\\
+&= -\sum_{\ell = 0}^{\deg P} P^{(\ell + 1)}(u) \frac{(-u)^{\ell + 1}}{(\ell + 1)!} + \underbrace{\sum_{\ell = 0}^{\deg P} P^{(\ell)}(u) \frac{(-u)^\ell}{\ell!}}_{P(0)}\\
+&= - \underbrace{\sum_{\ell = 1}^{\deg P + 1} P^{(\ell)}(u) \frac{(-u)^{\ell}}{\ell!}}_{P(0) - P(u)} + P(0)\\
+&= P(u)
+\end{align*}
+and $P*(0) = 0$ so $P^*$ can be uniquely identified as $\int P(u) du$ where we take 0 for constant in the indefinite integral.
+
+Now we are ready to apply it: With $F_0(x) = \frac{6x}{\pi^2} + O(x^{1/2})$ and $P_0(u) = \frac{6}{\pi^2}$, we find
+$$F_1(x) = \int_{1^-}^x dF_0 * dN = x P_1(\log x) + O(x)$$
+where $P_1(u) = P_0^*(u) = \frac{6}{\pi^2} u$. This leads to
+$$F_2(x) = \int_{1^-}^x dF_1 * dN = x P_2(\log x) + O(x \log x)$$
+where $P_2(u) = P_1^*(u) = \frac{6}{\pi^2} \frac{u^2}{2} = \frac{3}{\pi^2} u^2$ and finally
+$$F_3(x) = \int_{1^-}^x dF_2 * dN = x P_3(\log x) + O(x \log^2 x)$$
+where $P_3(u) = P_2^*(u) = \frac{3}{\pi^2} \frac{u^3}{3} = \pi^2 u^3$. So $F_3(x) \sim \pi^{-2} x \log^3 x$.
+\end{enumerate}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

@@ -1,0 +1,30 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm}
+
+\begin{document}
+\fi
+
+\textbf{Problem 3.26}: Let $\tau_2 = 1 * 1$ and $\tau_k = \tau_{k-1} * 1$ for any $k > 2$. Prove that
+$$\sum_{n \leq x} \tau_k(n) = \frac{1}{(k-1)!} x \log^{k-1} x + O(x \log^{k-2} x).$$
+
+\begin{proof}
+Straight from my solution of 3.23 (4).
+\end{proof}
+
+\textbf{Problem 3.27}: Show that
+$$\lim_{x \rightarrow \infty} \frac{1}{x} \sum_{n \leq x} \left( \frac{x}{n} - \left[ \frac{x}{n} \right] \right) = 1 - \gamma$$
+
+\begin{proof}
+From Lemma 3.13,
+$$\frac{1}{x} \sum_{n \leq x} \frac{x}{n} = \log x + \gamma + O(x^{-1})$$
+and from Corollary 3.32,
+$$\frac{1}{x} \sum_{n \leq x} \left[\frac{x}{n}\right] = \frac{N_2(x)}{x} = \log x + (2\gamma - 1) + O(x^{-1/2})$$
+and so their difference clearly goes to
+$$\gamma - (2 \gamma - 1) = 1 - \gamma$$
+as $x \rightarrow \infty$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

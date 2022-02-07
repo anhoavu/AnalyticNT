@@ -1,0 +1,58 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm}
+
+\begin{document}
+\fi
+
+\textbf{Problem 3.28}: Show that there exists constants $\alpha, \beta \in R$ such that
+$$\sum_{n \leq x} (1 * 1 * 1)(n) = \frac{x \log^2 x}{2} + \alpha x \log x + \beta x + O(x^{2/3} \log ex).$$
+
+\begin{proof}
+By Theorem 3.31, we have
+$$\sum_{n \leq x} (1 * 1 * 1)(n) = \int_{1^-}^x dN_2 * dN = I + J - N_2(y) N(z)$$
+where $y, z \geq 1$ to be chosen with $yz = x$,
+\begin{align*}
+I &= \int_{1^-}^z N_2\left(\frac{x}{t} \right) dN(t) \\
+&= \int_{1^-}^z \left\{\frac{x}{t} \log \left(\frac{x}{t}\right) + (2 \gamma - 1)\frac{x}{t} + O\left(\sqrt{\frac{x}{t}}\right) \right\} dN(t) \\
+&= x \int_{1^-}^z \frac{(\log x + 2 \gamma - 1) - \log t}{t} dN(t) + O\left(\sqrt{x} \int_{1^-}^z t^{-1/2} dN(t)\right)\\
+&= x \left[ \left. \frac{(\log x + 2 \gamma - 1) - \log t}{t} N(t) \right|_{1^-}^{z} - \int_{1^-}^z N(t) \; d\left\{ \frac{(\log x + 2 \gamma - 1) - \log t}{t} \right\} \right] + O(\sqrt{xz})\\
+&= x \left[ \frac{(\log x + 2 \gamma - 1) - \log z}{z} N(z) - \int_{1^-}^z N(t) \; \left\{ \frac{\log t - \log x - 2 \gamma}{t^2} \right\} dt \right] + O(\sqrt{xz})\\
+&= y (\log y + 2 \gamma - 1) N(z) - x \int_{1^-}^z (t + O(1)) \; \left\{ \frac{\log t - \log x - 2 \gamma}{t^2} \right\} dt + O(\sqrt{xz})\\
+&= y (\log y + 2 \gamma - 1) N(z) - x \int_{1^-}^z \left\{ \frac{\log t - \log x - 2 \gamma}{t} \right\} dt + O\left(x \int_{1^-}^z \frac{2\gamma + \log x - \log t}{t^2} dt\right) + O(\sqrt{xz})\\
+&= y (\log y + 2 \gamma - 1) N(z) - x \left( \left. \frac{\log^2 t}{2} - (\log x + 2 \gamma)\log t \right|_{1^-}^z \right) + O\left(x \frac{1 - 2 \gamma - \log x + \log z}{z} \right) + O(\sqrt{xz})\\
+&= y (\log y + 2 \gamma - 1) N(z) - x \left(\frac{\log^2 z}{2} - (\log x + 2 \gamma)\log z  \right) + O\left(y \log y \right) + O(x y^{-1/2})\\
+&= x \left(\log y + 2 \gamma - 1 - \frac{\log^2 z}{2} + \log x \log z + 2 \gamma \log z  \right) + O\left(y \log y \right) + O(x y^{-1/2})
+\end{align*}
+and
+\begin{align*}
+J &= \int_{1^-}^y N\left(\frac{x}{s}\right) dN_2(s) \\
+&= \int_{1^-}^y \left( \frac{x}{s} + O(1) \right) dN_2(s) \\
+&= x \int_{1^-}^y \frac{1}{s} dN_2(s) + O(N_2(y)) \\
+&= x \left\{\left. \frac{N_2(s)}{s} \right|_{1^-}^{y} - \int_{1^-}^y N_2(s) d\left(\frac{1}{s}\right) \right\} + O(y \log y) \\
+&= x \left\{ \frac{N_2(y)}{y} + \int_{1^-}^y N_2(s) s^{-2} ds \right\} + O(y \log y) \\
+&= z N_2(y) + x \int_{1^-}^y \left\{ s^{-1} \log s + (2\gamma - 1)s^{-1} + O(s^{-3/2}) \right\} ds  + O(y \log y) \\
+&= z N_2(y) + x \left. \left\{ \frac{\log^2 s}{2} + (2\gamma - 1) \log s + O(s^{-1/2}) \right\} \right|_{1^-}^y  + O(y \log y) \\
+&= z N_2(y) + x \left\{ \frac{\log^2 y}{2} + (2\gamma - 1) \log y \right\} + O(x y^{-1/2}) + O(y \log y)
+\end{align*}
+(Note that when we write $s^{-2}$, we actually mean the function $s^{-2} \delta_1(s)$ i.e. $s^{-2}$ on $[1, \infty)$ and 0 on $(-\infty, 1)$. Likewise for $s^{-1}$.) 
+
+The strategy is as described in problem 3.30: For $I$, we use the approximation for $N_2(x/t)$. Then integration by parts to turn $dN(t)$ into $N(t) [...] dt$ and then use approximation for $N(t) = t + O(1)$ to make everything into smooth functions. Ditto for $J$.
+
+Combining these, one obtains
+\begin{align*}
+\sum_{n \leq x} (1 * 1 * 1)(n) &= x \left(\log y + 2 \gamma - 1 - \frac{\log^2 z}{2} + \log x \log z + 2 \gamma \log z  \right) + O\left(y \log y \right) + O(x y^{-1/2}) \\
+&\qquad + z N_2(y) + x \left\{ \frac{\log^2 y}{2} + (2\gamma - 1) \log y \right\} + O(x y^{-1/2}) + O(y \log y) - N_2(y) N(z)\\
+&= x \left(\log y + 2 \gamma - 1 - \frac{\log^2 z}{2} + \log x \log z + 2 \gamma \log z + \frac{\log^2 y}{2} + (2\gamma - 1) \log y \right) \\
+&\qquad + O\left(y \log y \right) + O(x y^{-1/2})\\
+&= x \left(2 \gamma - 1 \underbrace{- \frac{\log^2 z}{2} + \log^2 z + \log y \log z + \frac{\log^2 y}{2}}_{\frac 12 \log^2 x} + \underbrace{2 \gamma \log z + 2\gamma \log y}_{2\gamma \log x} \right) \\
+&\qquad + O\left(y \log y \right) + O(x y^{-1/2})\\
+&= \frac{x \log^2 x}{2} + 2 \gamma x \log x + (2 \gamma - 1) x + O(y \log y) + O(z y^{1/2})
+\end{align*}
+
+The optimal choice is when $z y^{1/2} = y$ in which case $z = y^{1/2}$ and so $y = x^{2/3}$ and $z = x^{1/3}$. With this choice, we have $O(y \log y) + O(z y^{1/2}) = O(x^{2/3} \log ex)$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

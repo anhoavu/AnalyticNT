@@ -1,0 +1,124 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm}
+
+\begin{document}
+\fi
+
+\textbf{Problem 3.17}: Verify that
+$$(dt)^{*n} = L^{n-1} dt / (n-1)!$$
+for any $n \in Z^+$. Hint: Show that
+$$T^{-1} (dt)^{*n} = (T^{-1} dt)^{*n} = T^{-1} L^{n-1} dt / (n-1)!$$
+
+\begin{proof}
+We follow the hint. The first equality is due to $T^{-1} dF * T^{-1} dG = T^{-1} (dF * dG)$ and a simple induction. We prove the identity
+$$(T^{-1} dt)^{*n} = T^{-1} L^{n-1} dt / (n-1)!$$
+also by induction on $n$.
+\begin{itemize}
+\item Base case $n = 1$: Then the LHS and RHS are both $t^{-1} \, dt$.
+\item Induction: Suppose that the identity is true for $n$. Then
+\begin{align*}
+(T^{-1} dt)^{*(n+1)} &= (T^{-1} dt)^{*n} * T^{-1} dt\\
+&= \frac{T^{-1} L^{n-1} dt}{(n-1)!} * t^{-1} dt\\
+&= \frac{\log^{n-1} t}{t (n-1)!} dt * t^{-1} dt\\
+&= d \left( \frac{\log^n t}{n!} \right) * t^{-1} dt\\
+&= \frac{\log^n t}{n!} \, t^{-1} \, dt\\
+&= T^{-1} L^n dt / n!
+\end{align*}
+where we recall from previous problem 3.15 that
+$$dA * \underbrace{t^{-1} \, dt}_{T^{-1} \, dt} = A(t) \, t^{-1} \, dt.$$
+\end{itemize}
+\end{proof}
+
+\textbf{Problem 3.18}: Show that the convolution inverse of $\delta_1 + dt$ can be obtained formally from the series $\delta_1 - dt + (dt * dt) - (dt * dt * dt) + \cdots$.
+
+\begin{proof}
+We use the previous problem to simplify
+\begin{align*}
+\sum_{j = 1}^{\infty} (-1)^j \, dt^{*j} &= \delta_1 + \sum_{j = 1}^{\infty} (-1)^j \, \frac{L^{j-1} dt}{(j-1)!}\\
+&= \delta_1 + \sum_{j = 1}^{\infty} (-1)^j \, \frac{\log^{j-1} t \, dt}{(j-1)!}\\
+&= \delta_1 - \left( \sum_{j = 0}^{\infty} \frac{(- \log t)^j}{j!} \right) dt\\
+&= \delta_1 - e^{- \log t} dt\\
+&= \delta_1 - t^{-1} dt
+\end{align*}
+and we recall from 3.15 that
+$$(\delta_1 + dt) * (\delta_1 - t^{-1} dt) = \delta_1.$$
+\end{proof}
+
+\textbf{Problem 3.19}: Find the convolution inverse of $\delta_1 + L \, dt$. Verify that the integrator you found is indeed the inverse.
+
+\begin{proof}
+We expect the inverse to be
+$$\sum_{j = 0}^{\infty} (-L\, dt)^{*j} = \delta_1 - L \, dt + (L\,dt * L\,dt) - (L\,dt * L\,dt * L\,dt) + \cdots$$
+
+The result of problem 3.17 for $n = 2$ yields
+$$L \, dt = dt * dt$$
+and so for all $j \geq 1$, we can simplify
+$$(-L\, dt)^{*j} = (-1)^j (dt * dt)^{j} = (-1)^j dt^{*2j} = (-1)^j \frac{L^{2j - 1} dt}{(2j - 1)!}$$
+by problem 3.17 again and we thus obtain
+$$\delta_1 + \sum_{j = 1}^{\infty} (-1)^j \frac{L^{2j - 1} dt}{(2j - 1)!} = \delta_1 + \underbrace{\left( \sum_{j = 1}^{\infty} (-1)^j \frac{\log ^{2j - 1} t}{(2j - 1)!} \right)}_{-\sin (\log t)} dt.$$
+
+Now let us check that
+$$(\delta_1 + L \, dt) * (\delta_1 - \sin(\log t) dt) = \delta_1.$$
+
+It suffices to check that they give the same answer for all half intervals $(1-\epsilon, x]$. The left hand side is
+$$\delta_1 - \sin(\log t) \, dt + L \, dt - L\,dt * \sin(\log t) \, dt$$
+so we first compute
+\begin{align*}
+\int_{1^-}^x L\,dt * \sin(\log t) \, dt &= \int_{1^-}^x \left\{ \int_{1/s}^{x/s} \log t \, dt \right\} \, \sin(\log s) \, ds\\
+&= \int_1^x \left\{ \int_{1/s}^{x/s} \log t \, dt \right\} \, \sin(\log s) \, ds\\
+&= \int_1^x \left\{ \frac{x}{s} \log \left(\frac{x}{s}\right) - \frac{x}{s} + 1 \right\} \, \sin(\log s) \, ds\\
+&= \int_1^x \sin(\log s) \, ds + \int_1^x \frac{x \log x - x \log s - x}{s} \, \sin(\log s) \, ds\\
+&= \int_1^x \sin(\log t) \, dt + \int_0^{\log x} (x \log x - x u - x) \, \sin u \, du
+\end{align*}
+by a change of variable $u = \log s$. On the second line, we used Lemma 3.8 noting that the function defining $ds$ is continuous at 1. To see the third line, recall $\log t \, dt = d H$ where $H(t) = 0$ if $t < 1$ and $H(t) = t \log t - t + 1$ if $t \geq 1$. So one has
+\begin{align*}
+\int_{1/s}^{x/s} \log t \, dt =& H\left(\frac{x}{s}\right) - H \left(\frac{1}{s}\right)\\
+=& \begin{cases}
+\frac{x}{s} \log \left(\frac{x}{s}\right) - \frac{x}{s} + 1 &\text{if } s > 1,\\
+\frac{x}{s} \log \left(\frac{x}{s}\right) - \frac{x}{s} - \frac{1}{s} \log \left(\frac{1}{s}\right) + \frac{1}{s} &\text{if } s \leq 1.
+\end{cases}
+\end{align*}
+
+We resolve
+\begin{itemize}
+\item the first integral by integration by parts:
+\begin{align*}
+\int_1^x \sin(\log t) \, dt &= t \sin(\log t)|_1^x - \int_1^x t \cos(\log t) t^{-1} \, dt\\
+&= t \sin(\log t)|_1^x - \int_1^x \cos(\log t) \, dt\\
+&= t \sin(\log t)|_1^x - \left\{t \cos(\log t)|_1^x + \int_1^x t \sin(\log t) t^{-1} \, dt \right\}
+\end{align*}
+so
+\begin{align*}
+2 \int_1^x \sin(\log t) \, dt &= t \sin(\log t)|_1^x - t \cos(\log t)|_1^x\\
+&= x \sin \log x - x \cos \log x + 1
+\end{align*}
+
+\item and the second integral similarly:
+\begin{align*}
+&\int_0^{\log x} (x \log x - x u - x) \, \sin u \, du\\
+=& (x \log x - x) \int_0^{\log x} \sin u \, du - x \int_0^{\log x} u \, \sin u \, du\\
+=& (x \log x - x) (1 - \cos \log x) - x (-\log x \cos \log x + \sin \log x)\\
+=& x \log x - x  - x \log x \cos \log x + x \cos \log x + x \log x \cos \log x - x \sin \log x\\
+=& x \log x - x  + x \cos \log x - x \sin \log x
+\end{align*}
+\end{itemize}
+
+So for $x \geq 1$, we see that
+\begin{align*}
+&\int_{1^-}^x \delta_1 - \sin(\log t) \, dt + L \, dt - L\,dt * \sin(\log t) \, dt\\
+=& 1 - \int_1^x \sin(\log t) \, dt + \int_1^x \log t \, dt - \int_1^x L\,dt * \sin(\log t) \, dt\\
+=& 1 - 2 \int_1^x \sin(\log t) \, dt + (x \log x - x + 1) \\
+& \qquad - (x \log x - x  + x \cos \log x - x \sin \log x)\\
+=& 1 - (x \sin \log x - x \cos \log x + 1) + (x \log x - x + 1) \\
+& \qquad - (x \log x - x  + x \cos \log x - x \sin \log x)\\
+=& 1 - x \sin \log x + x \cos \log x - 1 + x \log x - x + 1 \\
+& \qquad - x \log x + x - x \cos \log x + x \sin \log x\\
+=& 1
+\end{align*}
+which matches $\int_{1^-}^x \delta_1$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

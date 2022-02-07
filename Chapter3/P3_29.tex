@@ -1,0 +1,44 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm}
+
+\begin{document}
+\fi
+
+\textbf{Problem 3.29}: Let $b > a > 0$. Show that the number of lattice points lying in the region 
+$$R(a, b, x) := \{(s, t) : s, t > 0, s^a t^b \leq x\}$$
+is
+$$\zeta(a/b) x^{1/b} + \zeta(b/a) x^{1/a} + O(x^{1/(a+b)}).$$
+
+\begin{proof}
+Note that
+$$R(a, b, x) = R(1, b/a, x^{1/a})$$
+so it suffices to solve the problem when $a = 1$ and $b > 1$. The number of lattice point in $R(1, b, x) = \{s t^b \leq x\}$ is clearly given by
+$$\sum_{n \leq x} [\sqrt[b]{x/n}] = \int_{1^-}^x N(\sqrt[b]{x/s}) \, dN(s) = \int_{1^-}^x dF * dN$$
+where $F(t) = N(t^{1/b})$. Now we use Dirichlet hyperbola method to write the above as $I + J - K$ where
+$$K = F(y) N(z) = y^{1/b} z + O(y^{1/b}) + O(z) + O(1),$$
+\begin{align*}
+I &= \int_{1^-}^z F(x/t) dN(t)\\
+&= \int_{1^-}^z N(x^{1/b} / t^{1/b}) dN(t)\\
+&= \sum_{n \leq z} N(x^{1/b} / n^{1/b})\\
+&= \sum_{n \leq z} (x^{1/b} n^{-1/b} + O(1))\\
+&= x^{1/b} \left( \frac{z^{1-1/b}}{1 - 1/b} + \zeta(1/b) + O(z^{-1/b}) \right) + O(z)\\
+&= \zeta(1/b) x^{1/b} + \frac{b}{b - 1} y^{1/b} z + O(y^{1/b}) + O(z)
+\end{align*}
+and
+\begin{align*}
+J &= \int_{1^-}^y N(x/s) dF(s)\\
+&= \int_{1^-}^y N(x/s) \, dN(s^{1/b})\\
+&= \int_{1^-}^{y^{1/b}} N(x/u^b) \, dN(u) &\text{change of var } u = s^{1/b}\\
+&= \sum_{n \leq y^{1/b}} N(x/n^b)\\
+&= \sum_{n \leq y^{1/b}} (x/n^b + O(1))\\
+&= x \left( \frac{y^{1/b(1-b)}}{1 - b} + \zeta(b) + O(y^{1/b(-b)}) \right) + O(y^{1/b})\\
+&= \zeta(b) x - \frac{1}{1 - b} z y^{1/b} + O(z) + O(y^{1/b}).
+\end{align*}
+
+So we see that the number of lattice points in $R(1, b, x) = \{s t^b \leq x\}$ is $\zeta(b) x + \zeta(1/b) x^{1/b} + O(z) + O(y^{1/b}) + O(1)$: The terms with $z y^{1/b}$ in $I, J, K$ magically cancel each other. Choosing $z = x^{1/(b + 1)}$ and $y = x^{b/(b+1)}$ yields the result.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

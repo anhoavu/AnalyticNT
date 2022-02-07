@@ -1,0 +1,64 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm}
+\newcommand{\V}{\mathcal{V}}
+\begin{document}
+\fi
+
+\textbf{Problem 3.20}: If $F \in \V$ and $F(1) = 1$, then there exists a function $\varphi \in \V$ with $\varphi(1) = 0$ such that
+$$dF = \exp d\varphi := \delta_1 + d\varphi + (d\varphi * d\varphi)/2! + \cdots$$
+and $L \, dF = dF * L\, d\varphi$. Show that
+$$\delta_1 + dt = \exp \left\{ \frac{1 - t^{-1}}{\log t} dt\right\}.$$
+
+\begin{proof}
+Note that $dF = \exp d\varphi$ implies
+$$L \, dF = L \left( \delta_1 + d\varphi + \cdots \right) = L d\varphi + L(d\varphi * d\varphi / 2!) + \cdots = L d\varphi * dF.$$
+But then we can determined uniquely
+$$d\varphi = L^{-1} (L \, dF * (dF)^{*-1})$$
+and so $\varphi$ is determined up to a constant. Similar to Theorem 2.20, we expect the equivalence of the three equations:
+$$dF = \exp d\varphi \iff L \, dF = dF * L\, d\varphi \iff d\varphi = \log dF$$
+with the last one being useful to derive $d\varphi$ from $dF$. (The prior formula for $d\varphi$ requires finding $dF^{*-1}$ which is not exactly easy in general.)
+
+Thus, we only need to verify the equation $L \, dF = dF * L\, d\varphi$ holds for $dF = \delta_1 + dt$ and $d\varphi = \frac{1 - t^{-1}}{\log t} dt = L^{-1} (1 - t^{-1}) dt$:
+\begin{align*}
+L \, dF &= L (\delta_1 + dt)\\
+&= L \delta_1 + L \, dt\\
+&= L \, dt\\
+dF * L\, d\varphi &= (\delta_1 + dt) * (1 - t^{-1}) dt\\
+&= (\delta_1 + dt) * (dt - \delta_1 + \delta_1 - t^{-1} dt)\\
+&= (\delta_1 + dt) * (dt - \delta_1) + (\delta_1 + dt) * (\delta_1 - t^{-1} dt)\\
+&= dt * dt - \delta_1 * \delta_1 + \delta_1\\
+&= dt * dt\\
+&= L \, dt
+\end{align*}
+The fact that $L \delta_1 = 0$ comes from applying $L$ to both sides of $\delta_1 = \delta_1 * \delta_1$.
+
+For any $a > 1$, we have
+\begin{align*}
+\int_a^x L^{-1} dF &= \int_a^x \log^{-1} t \, dF\\
+&= \left. \frac{F}{\log t}\right|_a^x - \int_a^x F \, d(\log^{-1} t)\\
+&= \left. \frac{F}{\log t}\right|_a^x - \int_a^x F \cdot \left(\frac{-1}{\log^2 t} t^{-1} dt \right)\\
+&= \left. \frac{F}{\log t}\right|_a^x + \int_a^x \; \frac{F}{t \log^2 t} dt
+\end{align*}
+Unfortunately, we cannot simplify $L^{-1} dF$ to a nice formula.
+\end{proof}
+
+\textbf{Problem 3.21}: Show that if $F \in \V$ and $F(x) = \int_1^x dF * t^{-1} dt$ for all $x \geq 1$, then $F = 0$. 
+
+\begin{proof}
+First, we clearly have $F(1) = 0$ and so we find
+$$F(x) = F(x) - F(1) = \int_1^x \, dF$$
+which implies
+$$\int_1^x \, dF = \int_1^x dF * t^{-1} dt$$
+or equivalently
+$$\int_1^x dF * (\delta_1 - t^{-1} dt) = 0$$
+for all $x \geq 1$. But that means
+$$dF * (\delta_1 - t^{-1} dt) = 0$$
+and so
+$$dF = 0$$
+by convoluting both sides with the inverse $\delta_1 + dt$ of $\delta_1 - t^{-1} dt$. So $F$ is a constant for $x \geq 1$ and that constant has been determined by $F(1) = 0$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

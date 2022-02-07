@@ -1,0 +1,49 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm}
+\newcommand{\Abs}[1]{\left|#1\right|}
+\begin{document}
+\fi
+
+\textbf{Problem 3.12}: Let $a_n = -1$ if $n$ is not a square and $a_n = 2 \sqrt{n} - 1$ if $n$ is a square. Prove that $\sum_{n=1}^{\infty} a_n / n = \gamma$.
+
+\begin{proof}
+Observe that $a_n = b_n - 1$ where
+$$b_n = 2 \sqrt{n} \cdot 1_S(n) = \begin{cases}
+0 &\text{if }n \text{ is not a square},\\
+2\sqrt{n} &\text{if } n \text{ is a square}.
+\end{cases}$$
+So we can write
+\begin{align*}
+\sum_{n \leq x} \frac{a_n}{n} &= \sum_{n \leq x} \frac{b_n - 1}{n}\\
+&= \sum_{n \leq x} \frac{b_n}{n} - \sum_{n \leq x} \frac{1}{n}\\
+&= \sum_{m^2 \leq x} \frac{2 m}{m^2} - \sum_{n \leq x} \frac{1}{n}\\
+&= 2 \sum_{m \leq \sqrt{x}} \frac{1}{m} - \sum_{n \leq x} \frac{1}{n}\\
+&= 2 \left(\log \sqrt{x} + \gamma + \frac{\theta_{\sqrt{x}}}{\sqrt{x}} \right) - \left(\log x + \gamma + \frac{\theta_x}{\sqrt{x}} \right)
+\end{align*}
+by Lemma 3.13 where $\theta_{\sqrt{x}}$ and $\theta_x$ are some numbers with absolute values $\leq 1$. Simplifying, one has
+$$\sum_{n \leq x} \frac{a_n}{n} = \gamma + \frac{\theta_{\sqrt{x}}}{\sqrt{x}} - \frac{\theta_x}{\sqrt{x}}$$
+where the extra terms clearly tends to 0 as $x \rightarrow +\infty$.
+\end{proof}
+
+\textbf{Problem 3.13}: For each $k \in Z^+$ show that
+$$\sum_{n \leq x} \log^k n = \int_1^x \log^k t \, dt + O(\log^k x).$$
+The constant implied by the $O$-symbol is uniform with respect to $k$.
+
+\begin{proof}
+Note that the sum starts from $n = 2$. We use Euler summation formula for the function $f(t) = \log^k t$ and $c = 0$:
+\begin{align*}
+LHS &= \left. \int_1^x f(t) \, dt + (t - [t]) f(t) \, \right|_1^x + \int_1^x (t - [t]) \, f'(t) \, dt\\
+&= \int_1^x \log^k t \, dt + (x - [x]) \log^k x + \int_1^x (t - [t]) \, k \log^{k-1} t \, \frac{dt}{t}
+\end{align*}
+so
+\begin{align*}
+\Abs{ LHS - \int_1^x \log^k t \, dt } &\leq \Abs{ (x - [x]) \log^k x } + \int_1^x \Abs{ (t - [t]) \, k \frac{\log^{k-1} t}{t} } \, dt\\
+&\leq \log^k x + \int_1^x f'(t) dt &\text{ since } 0 \leq t - [t] < 1\\
+&\leq 2 \log^k x.
+\end{align*}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

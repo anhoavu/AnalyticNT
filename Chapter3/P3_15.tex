@@ -1,0 +1,138 @@
+\unless\ifdefined\IsMainDocument
+\documentclass{article}
+\usepackage{amsmath,amsthm}
+
+\begin{document}
+\fi
+
+\textbf{Problem 3.l5}: Let $S$ denote a finite union of intervals of the form $(a, b]$ and $dA$ any integrator. Establish the following useful convolution identities:
+\begin{enumerate}
+\item $\delta_1 * dA = dA$
+\item $dA * t^{-1} dt = A(t) t^{-1} dt$
+\item $(dN * dN)(S) = \sum_{n \in S} \tau(n) =: d N_2(S)$
+\item $(dN * dQ)(S) = \sum_{n \in S} 2^{\omega(n)}$
+\item $dt * dt = \log t \, dt$
+\item $dN * dM = \delta_1$
+\item $(\delta_1 + dt) * (\delta_1 - t^{-1} dt) = \delta_1$
+\item $\int_{1^-}^x (t^{-1}dN) * (t^{-1}dt) = \frac12 \log^2 x + \gamma \log x - \gamma_1 + O(x^{-1})$.
+\end{enumerate}
+
+Note: The problem did not define $Q$ and $M$ but they should be the summatory function of $|\mu|$ and $\mu$ respectively.
+
+\begin{proof}
+\begin{enumerate}
+\item Remember $\delta_1 = d E_1$ where $E_1$ is the summatory function of $e_1$. Therefore, $\delta * dA = dH$ where for $x \geq 1$:
+\begin{align*}
+H(x) &= \int_{1^-}^x E_1(x/t) dA(t)\\
+&= \int_{1^-}^x dA(t)\\
+&= A(x) - A(1^-)
+\end{align*}
+so $dH = dA$. The second line is because if $0 < 1 - \delta \leq t \leq x$ then $1 \leq x/t$ so we have $E(x/t) = 1$.
+
+\item Recalling our experience with example 3.22, we first need to understand what $t^{-1} dt$ is. Going back to page 52, we are led to $t^{-1} dt = d F$ where
+$$F(x) = \int_1^x f(t) dt$$
+where $f$ needs to be supported in $[1, \infty)$ so
+$$f(t) = \begin{cases}
+0 &\text{if } t < 1,\\
+t^{-1} &\text{if } t \geq 1.
+\end{cases}$$
+In other words, $f(t) = t^{-1} \delta_1 (t)$. We easily recognize then that
+$$F(x) = \begin{cases}
+0 &\text{if } x < 1,\\
+\log x &\text{if } x \geq 1.
+\end{cases}$$
+Note that $F$ is continuous. Now we have $dA * t^{-1} dt = d H$ where for $x \geq 1$:
+\begin{align*}
+H(x) &= \underbrace{F(1)}_{0} A(x) + \int_1^x A(x/t) \, dF &\text{by equation before (3.11)}\\
+&= \int_1^x A(x/t) \, t^{-1} \, dt\\
+&= \int_x^1 A(u) (x/u)^{-1} \, d (x/u) &\text{by substitution } u = x/t\\
+&= \int_x^1 A(u) \frac ux \, \left( \frac{-x}{u^2} \right) du\\
+&= \int_1^x A(u) u^{-1} du
+\end{align*}
+To identify $dH$ with $A(t) t^{-1} \, dt$, one goes back to page 52 again and observe that $A(t) t^{-1} \, dt$, by definition, is $dH$ with $H$ defined by the last equation.
+
+\item Recall that $N$ is summatory function of $1$. So $dN * dN$ is $dH$ where $H$ is the summatory function of $1 * 1 = \tau$.
+
+\item Similar to the previous part but $Q$ is summatory function of $|\mu|$ and $1 * 1 = 2^\omega$.
+
+\item Let $F(t) = t - 1$ if $t \geq 1$ and 0 otherwise so $dt = dF$. One has $dt * dt = dH$ where for $x \geq 1$: 
+\begin{align*}
+H(x) &= F(1) F(x) + \int_1^x F(x/t) dF(t) &\text{by equation before (3.11)}\\
+&= \int_1^x \left( \frac xt - 1 \right) dt\\
+&= \left. (x \log t - t) \right|_1^x\\
+&= x \log x - x - (x \log 1 - 1)\\
+&= x \log x - x + 1
+\end{align*}
+and (note that $H$ is continuous at 1 as well), for every $x \geq 1$:
+$$H'(x) = \log x + x x^{-1} - 1 = \log x$$
+while $H'(x) = 0$ for $x < 1$, $H'$ is continuous so $dt * dt = \log t \, dt$.
+
+\item Like 3 and 4, except now that $1 * \mu = e_1$.
+
+\item Clearly $dA + dB = d(A + B)$ from the definition as they agree on the intervals. So $\delta_1 + dt = dF$ and $\delta_1 - t^{-1} dt = dG$ where
+$$F(t) = 1 + (t - 1) = t$$
+and
+$$G(t) = 1 - \log t$$
+and $F(t) = G(t) = 0$ for $t < 1$. For $x \geq 1$, we compute
+\begin{align*}
+H(x) &= \int_{1^-}^x G(x/t) \, dF(t)\\
+&= F(1) G(x) + \int_1^x (1 - \log x + \log t) dt\\
+&= 1 - \log x + (x - 1) (1 - \log x) + \int_1^x \log t \, dt\\
+&= x (1 - \log x) + t (\log t)|_1^x - \int_1^x t \, t^{-1} dt &\text{integration by parts}\\
+&= x (1 - \log x) + x \log x - (x - 1)\\
+&= 1
+\end{align*}
+so $dH = \delta_1$.
+
+\item At this point, we know that $t^{-1} dN = dA$ where for $x \geq 1$:
+\begin{align*}
+A(x) = \int_{1^-}^x t^{-1} dN
+&= \sum_{1 \leq n \leq x} n^{-1}
+\end{align*}
+(While it would be more reasonable to take the integral from 1, we need to do $1^-$ here; otherwise, the RHS will be off by $\log x$. Unfortunately, the book does not tell what to do for $t^{-1} dN$ so we must take a guess here. Also, the notation $\int_a^b dK$ where $dK$ is an integrator has not been defined at this point. It seems on page 52, they should used $F(x) = \int_{1^-}^x f(t) dt$ which just happens to be the same as $\int_{1^-}^x f(t) dt$ due to the nature of $dt$.)
+
+We know from part 2 that
+$$t^{-1} dN * t^{-1} dt = A(t) \, t^{-1} dt$$
+so
+\begin{align*}
+LHS &= \int_{1^-}^x A(t) t^{-1} dt\\
+&= \int_{1^-}^x \left\{ \sum_{1 \leq n \leq t} n^{-1} \right\} t^{-1} dt\\
+&= \int_{1^-}^x \left\{ \sum_{1 \leq n \leq x} \delta_n(t) n^{-1} \right\} t^{-1} dt\\
+&= \sum_{1 \leq n \leq x} \int_{1^-}^x n^{-1} \delta_n(t) t^{-1} dt\\
+&= \sum_{1 \leq n \leq x} n^{-1} \int_n^x t^{-1} dt\\
+&= \sum_{1 \leq n \leq x} n^{-1} (\log x - \log n)\\
+&= \log x \sum_{1 \leq n \leq x} n^{-1} - \sum_{1 \leq n \leq x} \frac{\log n}{n}
+\end{align*}
+Recall the Euler summation formulas
+\begin{align*}
+\sum_{1 \leq n \leq x} n^{-1} &= \log x + \gamma - \frac{x - [x]}{x} + \int_x^\infty (t - [t]) t^{-2} dt\\
+\sum_{1 \leq n \leq x} \frac{\log n}{n} &= \frac{\log^2 x}{2} - (x - [x]) \frac{ \log x}{x} + \gamma_1 - \int_x^\infty (t - [t]) (1 - \log t) t^{-2} dt
+\end{align*}
+because
+$$\gamma_1 = \int_1^\infty (t - [t]) (1 - \log t) t^{-2} dt.$$
+
+So we continue:
+\begin{align*}
+LHS &= \log x \left\{ \log x + \gamma - \frac{x - [x]}{x} + \int_x^\infty (t - [t]) t^{-2} dt \right\} \\
+&\qquad \qquad - \left\{ \frac{\log^2 x}{2} - (x - [x]) \frac{ \log x}{x} + \gamma_1 - \int_x^\infty (t - [t]) (1 - \log t) t^{-2} dt \right\}\\
+&= \frac12 \log^2 x + \gamma \log x - \gamma_1 + \log x \int_x^\infty (t - [t]) t^{-2} dt \\
+&\qquad \qquad + \int_x^\infty (t - [t]) (1 - \log t) t^{-2} dt
+\end{align*}
+and so it remains to show that
+$$\int_x^\infty (t - [t]) (\log x + 1 - \log t) t^{-2} dt$$
+is $O(x^{-1})$. Evidently,
+$$0 \leq \int_x^\infty (t - [t]) t^{-2} dt \leq \int_x^\infty t^{-2} dt = \left.\frac{-1}{t} \right|_x^{\infty} = \frac{1}{x}$$
+whereas
+\begin{align*}
+0 &> \int_x^\infty (t - [t]) (\log x - \log t) t^{-2} dt\\
+&\geq - \int_x^\infty \log \left(\frac tx\right) t^{-2} dt\\
+&= -\int_1^\infty (\log u) \; (ux)^{-2} d(ux) &\text{by substitution } u = t / x\\
+&= -x^{-1} \underbrace{\int_1^\infty (\log u) \; u^{-2} du}_{\text{constant = 1}}.
+\end{align*}
+And we are done.
+\end{enumerate}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

@@ -1,0 +1,106 @@
+\unless\ifdefined\IsMainDocument
+\documentclass{article}
+\usepackage{amsmath,amsthm}
+
+\newcommand{\Abs}[1]{\left| #1 \right|}
+
+\begin{document}
+\fi
+
+\textbf{Problem 3.9}: Estimate $\sum_{n \leq x} |\mu(n)| \log n$ using Theorem 3.5 and an integration by parts of an appropriate RS integral.
+
+\begin{proof}
+By example 3.9, let $g(x) = \log x$ and $F(x) = \sum_{n \leq x} |\mu(n)| = Q(x)$ in Theorem 3.5 then we have
+$$\sum_{n \leq x} |\mu(n)| \log n = \int_1^x g \; dF.$$
+(Note that $|\mu(1)| \log 1 = 0$ so the sum on the left starts from 2.)
+
+Integration by parts gives
+\begin{align*}
+\int_1^x g \; dF &= \left. g(t) F(t) \right|_1^x - \int_1^x F \; dg\\
+&= g(x) F(x) - \int_1^x F(t) \; d \log t\\
+&= F(x) \log x - \int_1^x F(t) \; \frac{1}{t} dt &\text{ from Example 3.10}\\
+\end{align*}
+so using Theorem 3.5:
+\begin{align*}
+\Abs{ \int_1^x g \; dF - \frac{6x}{\pi} \log x - \underbrace{\int_1^x \frac{6t}{\pi} \frac{1}{t} dt}_{\frac{6}{\pi} (x - 1) } } &= \Abs{ \left(F(x) - \frac{6x}{\pi} \right)\log x - \int_1^x \left( F(t) - \frac{6t}{\pi} \right) \; \frac{1}{t} dt }\\
+&\leq \Abs{ \left(F(x) - \frac{6x}{\pi} \right)\log x } + \int_1^x \Abs { F(t) - \frac{6t}{\pi} } \frac{1}{t} dt\\
+&\leq 3 \sqrt{x} \log x + \int_1^x 3 \sqrt{t} \frac{1}{t} dt\\
+&\leq 3 \sqrt{x} \log x + \left. 6 \sqrt{t} \right|_1^x\\
+&\leq 3 \sqrt{x} \log x + 6 (\sqrt{x} - 1).
+\end{align*}
+
+Cleaning up:
+$$\Abs{ \sum_{n \leq x} |\mu(n)| \log n - \frac{6}{\pi} x (\log x + 1) } \leq 3 \sqrt{x} ( \log x + 2 ).$$ 
+\end{proof}
+
+\textbf{Problem 3.10}: Using the estimate $Q(x) > x/2$ for all $x \geq 1$, show that
+$$\sum_{n \leq x} |\mu(n)|/n > \frac 12 + \frac 12 \log x, \qquad x \geq 1.$$
+
+\begin{proof}
+We apply Lemma 3.11 for $g(x) = \frac{1}{x}$, $\varphi(x) = Q(x)$ and
+$$F(x) = \begin{cases}
+x/2 &\text{if } x \geq 1,\\
+0 &\text{if } x < 1.
+\end{cases}$$
+It is obvious that these satisfy the assumptions of the lemma. Thus, we get
+$$\int_{1^-}^x g \; dF \leq \int_{1^-}^x g \; d\varphi.$$
+
+By Example 3.9, the RHS is exactly
+$$\sum_{n \leq x} |\mu(n)|/n$$
+whereas the LHS can be evaluated as:
+\begin{align*}
+\int_{1^-}^x g \; dF &= \lim_{\delta \rightarrow 0^+} \int_{1 - \delta}^x g d F\\
+&= \lim_{\delta \rightarrow 0^+} \int_{1 - \delta}^1 g d F + \underbrace{\int_1^x \frac{1}{t} d \left(\frac{t}{2}\right)}_{\frac 12 \log x}
+\end{align*}
+
+To evaluate the remaining term, we use Lemma 3.8. Observe that $g$ and $F$ satisfies the assumptions of Theorem 3.7 with $a = \frac 12$ and $b = 2$ so let us set $\psi(x) = \int_{\frac 12}^x g dF$ then
+\begin{align*}
+\lim_{\delta \rightarrow 0^+} \int_{1 - \delta}^1 g d F &= \psi(1) - \psi(1-)\\
+&= g(1) (F(1) - F(1^-)) &\text{by Lemma 3.8}\\
+&= 1 \cdot \left(\frac12 - 0\right)\\
+&= \frac 12
+\end{align*}
+and so we get the desired inequality.
+\end{proof}
+
+\textbf{Problem 3.11}: By iterating the method of the preceeding lemma, show that the series
+$$1 - 2 \cdot 2^{-s} + 3^{-s} + 4^{-s} - 2 \cdot 5^{-s} + 6^{-s} + 7^{-s} - 2 \cdot 8^{-s} + 9^{-s} + ...$$
+converges and is nonnegative for any real positive $s$.
+
+\begin{proof}
+I am assuming that the series is
+$$\sum_{n=1}^{\infty} f(n) \cdot n^{-s}$$
+where
+$$f(n) = \begin{cases}
+1 &\text{if } n \equiv 0, 1 \mod 3,\\
+-2 &\text{if } n \equiv 2 \mod 3.
+\end{cases}.$$
+
+Our goal is to show that the series is Cauchy i.e. for every $\epsilon > 0$, there is an $N$ such that if $b > a > N$ then
+$$\Abs{ \sum_{n=a + 1}^{b} f(n) \cdot n^{-s} } < \epsilon.$$
+
+To do that, we go back to the integration by parts formula. Let $g(t) = t^{-s}$ and
+$$F(t) = \sum_{n \leq t} f(n) = \begin{cases}
+1 &\text{if } [t] \equiv 1 \mod 3,\\
+0 &\text{if } [t] \equiv 0 \mod 3,\\
+-1 &\text{if } [t] \equiv 2 \mod 3,
+\end{cases}$$
+then
+\begin{align*}
+\Abs{ \sum_{n=a + 1}^{b} f(n) \cdot n^{-s} } &= \Abs{ \int_a^b g \; dF }\\
+&= \Abs{ \left. g(t) F(t) \right|_a^b - \int_a^b F \; dg } &\text{integration by parts}\\
+&= \Abs{ \left. g(t) F(t) \right|_a^b - \int_a^b F \cdot (-s t^{-s-1}) \; dt } &\text{as } dg = g' dt\\
+&\leq \Abs{g(b) F(b)} + \Abs{g(a) F(a)} + \int_a^b s |F| t^{-s-1} dt\\
+&\leq b^{-s} + a^{-s} + \int_a^b s t^{-s-1} dt &\text{since } |F| \leq 1\\
+%&\leq b^{-s} + a^{-s} + a^{-s} - b^{-s}\\
+&= 2a^{-s} \leq 2N^{-s}
+\end{align*}
+so to bound the above by $\epsilon$, we can simply choose $N$ so that $2 N^{-s} < \epsilon$ which is possible as $N^{-s} \rightarrow 0$ as $N \rightarrow \infty$.
+
+Now, to show that the limit is nonnegative, we just have to note that the sum of every three consecutive term is nonnegative because $g(t)$ is convex:
+$$(3k+1)^{-s} + (3k+3)^{-s} \geq 2 \left( \frac{3k+1 + 3k+3}{2} \right)^{-s} = 2(3k+2)^{-s}.$$
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

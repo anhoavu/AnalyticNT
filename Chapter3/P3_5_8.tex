@@ -1,0 +1,144 @@
+\unless\ifdefined\IsMainDocument
+\documentclass{article}
+\usepackage{amsmath,amsthm}
+\newcommand{\IntPart}[1]{\left[ #1 \right]}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\newcommand{\O}[1]{O\left( #1 \right)}
+\begin{document}
+\fi
+
+\textbf{Problem 3.5}: Show that the number of cube free integers in $[1, x]$ is $x/\zeta(3) + \O{ x^{1/3} }$.
+
+\begin{proof}
+Let $C$ be the set of cube-free integers. We want to estimate the summatory function of $1_C$. Notice similar to $1_S$ (characteristic function of square-free integers), $1_C$ is multiplicative and can be written as infinite convolution
+$$1_C = \prod^* (e + e_p + e_{p^2})$$
+whence we recognize
+$$1_C * \mu = \prod^* (e - e_p^3)$$
+which could be recognize as the function $f$ where $f(n) = \mu(\sqrt[3]{n})$ if $n$ is a cube and 0 otherwise. So $1_C = 1 * f$ by Mobius inversion.
+
+We proceed as in Theorem 3.5:
+\begin{align*}
+\sum_{n \leq x} 1_C(n) &= \sum_{m \leq \sqrt[3]{x}} [x/m^3] \; \mu(m)\\
+&= \sum_{m \leq \sqrt[3]{x}} x/m^3 \; \mu(m) + \underbrace{\sum_{m \leq \sqrt[3]{x}} ([x/m^3] - x/m^3) \; \mu(m)}_{\O{ \sqrt[3]{x} }}\\
+&= x \underbrace{\sum_{m = 1}^{\infty} \mu(m)/m^3}_{1/\zeta(3)} - x \sum_{m > \sqrt[3]{x}} \mu(m) m^{-3} + \O{ \sqrt[3]{n} }
+\end{align*}
+Again, by midpoint approximation of a convex function
+$$m^{-3} < \int_{m-1/2}^{m+1/2} t^{-3} dt$$
+so
+\begin{align*}
+\left|x \sum_{m > \sqrt[3]{x}} \mu(m) m^{-3}\right| &\leq x \sum_{m > \sqrt[3]{x}} m^{-3}\\
+&\leq x \int_{\sqrt[3]{x} - 1/2}^{\infty} t^{-3} dt\\
+&= x \frac{(\sqrt[3]{x} - 1/2)^{-2}}{2}\\
+&= \O{ \sqrt[3]{x} }.
+\end{align*}
+\end{proof}
+
+\textbf{Problem 3.6}: Show that for $x \geq 1$,
+$$\sum_{n \leq x} \frac{\phi(n)}{n} = \sum_{n \leq x} \IntPart{\frac{x}{n}} \frac{\mu(n)}{n} = \frac{6}{\pi^2} x + \O{ \log ex }$$
+
+\begin{proof}
+Recall example 2.9 (page 19) that
+$$\phi = T1 * \mu$$
+so
+$$T^{-1} \phi = 1 * T^{-1} \mu.$$
+
+(For a direct proof, $\phi$ is multiplicative. So is $T^{-1}\phi$. Then it is easy to check that $T^{-1}\phi(p^n) = 1 - \frac{1}{p} = (1 * T^{-1}\mu)(p^n)$ for all $n$.)
+
+This establishes the first formula, by Lemma 3.1. For the second, we follow the proof of Theorem 3.5:
+$$\sum_{n \leq x} \IntPart{\frac{x}{n}} \frac{\mu(n)}{n} = \underbrace{\sum_{n \leq x} \frac{x}{n} \frac{\mu(n)}{n}}_{I} + \underbrace{\sum_{n \leq x} \left\{\IntPart{\frac{x}{n}} - \frac{x}{n} \right\} \frac{\mu(n)}{n}}_{J}.$$
+
+On the one hand, one has
+$$|J| \leq \sum_{2 \leq n \leq x} \frac{1}{n} \leq \int_1^x \frac{1}{t} dt = \log x$$
+due to the trivial estimate for $\int_1^x \frac{1}{t} dt$ using the right Riemann sum for the partition of $[1, x]$ given by points $2, 3, ..., n$ and the fact that $1/t$ is decreasing on $[1, \infty)$. Formally, by Mean Value Theorem:
+$$\frac{1}{n+1} < \int_n^{n+1} \frac{1}{t} dt < \frac{1}{n}.$$
+
+On the other hand, the argument in Theorem 3.5 yields
+$$\Abs{\sum_{n > x} \frac{\mu(n)}{n^2}} < \int_{x - \frac12}^{\infty} t^{-2} dt = \frac{1}{x - \frac12}$$
+and so
+$$I = \frac{x}{\zeta(2)} + O\left(\frac{x}{x - \frac12}\right) = \frac{x}{\zeta(2)} + \O{ 1 }.$$
+\end{proof}
+
+\textbf{Problem 3.7}: Show that if (i) $g \in A$, (ii) $\sum_{n=1}^{\infty} |g(n)|/n$ converges, and (iii) $f = 1 * g$, then
+$$\lim_{N \rightarrow \infty} \frac{1}{N} \sum_{n=1}^{N} f(n) = \sum_{n=1}^{\infty} \frac{g(n)}{n}.$$
+
+\begin{proof}
+Let $F(x)$ denote the summatory function of $F$ so the expression under limit is basically $\frac{F(N)}{N}$. We have
+\begin{align*}
+\frac{F(N)}{N} &= \frac1N \left(\sum_{m \leq N} \IntPart{\frac{N}{m}} g(m) \right)\\
+&= \frac1N \left(\sum_{m \leq N} \frac{N}{m} g(m) + \sum_{m \leq N} \left\{ \IntPart{\frac{N}{m}} - \frac{N}{m} \right\} g(m) \right)\\
+&= \sum_{m \leq N} \frac{g(m)}{m} + \underbrace{\frac1N \sum_{m \leq N} \left\{ \IntPart{\frac{N}{m}} - \frac{N}{m} \right\} g(m)}_{R(N)}.
+\end{align*}
+so it suffices to show that
+$$\lim_{N \rightarrow \infty} R(N) = 0.$$
+
+Bounding by absolute values, the above could be accomplished by showing that
+$$\lim_{N \rightarrow \infty} \frac1N \sum_{m=1}^{N} |g(m)| = 0.$$
+
+Let $G(x) = \sum_{1 \leq m \leq x} |g(m)|$ be the summatory function of $|g|$ so the above equation becomes 
+$$\lim_{N \rightarrow \infty} \frac{G(N)}{N} = 0.$$
+
+The left hand side is a reminiscent of \emph{the density of a set}: If $g = 1_A$ then $G(x) = A(x)$ and showing the above assuming (ii) is the content of Problem 1.6. So we duplicate the approach:
+\begin{align*}
+\sum_{n = 1}^N \frac{|g(n)|}{n} &= \sum_{n = 1}^{N} \frac{G(n) - G(n-1)}{n}\\
+&= \sum_{n = 1}^{N - 1} G(n) \left(\frac{1}{n} - \frac{1}{n+1}\right) + \frac{G(N)}{N}\\
+&= \sum_{n = 1}^{N - 1} \frac{G(n)}{n(n+1)} + \frac{G(N)}{N}
+\end{align*}
+
+By assumption (ii), the LHS converges as $N \rightarrow \infty$ so
+$$B_N = \sum_{n = 1}^{N - 1} \frac{G(n)}{n(n+1)}$$
+must converge as well because it is an increasing sequence and is bounded above by the limit of the LHS because $\frac{G(N)}{N} \geq 0$. This proves $\frac{G(N)}{N}$ converges\footnote{Note that it is easy to show that $\frac{G(N)}{N}$ is bounded, for example, by observing that $\frac{G(N)}{N} = \sum \frac{|g(m)|}{N} \leq \sum \frac{|g(m)|}{m}$ but we cannot say anything about its monotonicity.}, say to $\alpha \geq 0$.
+
+Note that this implies $\frac{G(x)}{x}$ converges to the same limit $\alpha$ because
+$$\frac{G(x)}{x} = \frac{G([x])}{[x]} \cdot \frac{[x]}{x}$$
+and clearly
+$$\frac{[x]}{x} \rightarrow 1$$
+from obvious squeeze
+$$\frac{x - 1}{x} \leq \frac{[x]}{x} \leq 1.$$
+A generalization to Dirichlet-Dedekind's Theorem 1.8 should solve the problem as well. But we shall give a direct argument here.
+
+Suppose $\alpha > 0$. Take $\epsilon = \frac{\alpha}{2} > 0$ in the definition of limit and we find that $\frac{G(N)}{N} >  \frac{\alpha}{2}$ for large $N > N_0$ whence the sequence $B_N$ diverges:
+$$\sum_{n = N_0}^{\infty} \frac{G(n)}{n(n+1)} > \sum_{n = N_0}^{\infty} \frac{\alpha}{2(n+1)} = \frac{\alpha}{2} \sum_{n = N_0 + 1}^{\infty} \frac{1}{n}.$$
+Therefore, $\alpha = 0$.
+\end{proof}
+
+\textbf{Problem 3.8}: Show that $\sum_{n \leq x} \lambda(n)/n = \O{ 1 }$ by using (a) $\lambda * 1 = 1_S$, $S$ the set of squares, (b) $\lambda * |\mu| = e$.
+
+\begin{proof}
+From (a), we have
+\begin{align*}
+S(x) &= \sum_{n \leq x} 1_S(n)\\
+&= \sum_{m \leq x} \lambda(m) \IntPart{\frac x m}\\
+&= \sum_{m \leq x} \lambda(m) \frac x m + \sum_{m \leq x} \lambda(m) \left\{\IntPart{\frac x m} - \frac x m \right\}
+\end{align*}
+so
+\begin{align*}
+\Abs{\sum_{m \leq x} \frac{\lambda(m)}{m}} &= \Abs{\frac{S(x) - \sum_{m \leq x} \lambda(m) \left\{\IntPart{\frac x m} - \frac x m \right\}}{x}}\\
+&\leq \frac{\Abs{S(x)} + \sum_{m \leq x} \Abs{\lambda(m)} \cdot \Abs{\IntPart{\frac x m} - \frac x m}}{x}\\
+&\leq \frac{S(x) + x}{x}
+\end{align*}
+is clearly bounded if one recalls the density of the set of squares is zero, that is $\frac{S(x)}{x} \rightarrow 0$ as $x \rightarrow \infty$.
+
+From (b), we get
+$$1 = \sum_{m \leq x} \lambda(m) Q\left(\frac{x}{m}\right)$$
+where we recall $Q(x) = \sum_{n \leq x} |\mu(n)|$ is the summatory function of $|\mu|$, which also counts the number of square-free numbers $\leq x$. Theorem 3.5 suggests us to rewrite the equation as
+\begin{align*}
+1 &= \sum_{m \leq x} \lambda(m) \frac{x}{m \zeta(2)} + \sum_{m \leq x} \lambda(m) \left\{Q\left(\frac{x}{m}\right) - \frac{x}{m \zeta(2)}\right\}\\
+&= \frac{x}{\zeta(2)} \sum_{m \leq x} \frac{\lambda(m)}{m} + \sum_{m \leq x} \lambda(m) \left\{Q\left(\frac{x}{m}\right) - \frac{x}{m \zeta(2)}\right\}
+\end{align*}
+A simple rearrangement yields
+$$\sum_{m \leq x} \frac{\lambda(m)}{m} = \frac{\zeta(2)}{x} \left( 1 - \sum_{m \leq x} \lambda(m) \left\{Q\left(\frac{x}{m}\right) - \frac{x}{m \zeta(2)}\right\} \right)$$
+and we are ready to take absolute value
+\begin{align*}
+\Abs{\sum_{m \leq x} \frac{\lambda(m)}{m}} &\leq \frac{\zeta(2)}{x} \left(1 + \sum_{m \leq x} \Abs{\lambda(m)} \cdot \Abs{Q\left(\frac{x}{m}\right) - \frac{x}{m \zeta(2)}} \right)\\
+&\leq \frac{\zeta(2)}{x} \left( 1 + \sum_{m \leq x} 3 \sqrt{\frac{x}{m}} \right) &\text{by Theorem 3.5}\\
+&\leq \frac{\zeta(2)}{x} + \frac{3\zeta(2)}{\sqrt{x}} \left(\sum_{m \leq x} m^{-1/2}\right)
+\end{align*}
+so if we can show that
+$$\sum_{m \leq x} m^{-1/2}$$
+is $\O { \sqrt{x} }$ then we are done. This can be accomplished by noting that $t^{-1/2}$ is a convex function so by the argument in Theorem 3.5:
+$$\sum_{m \leq x} m^{-1/2} \leq \int_{\frac 12}^{x + \frac 12} t^{-1/2} dt = \left. 2 \sqrt{t} \right|_{\frac 12}^{x + \frac 12} < 2 \sqrt{x + \frac 12}.$$
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi
