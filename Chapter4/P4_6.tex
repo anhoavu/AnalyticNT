@@ -1,0 +1,32 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\renewcommand{\O}[1]{O\left(#1\right)}
+\begin{document}
+\fi
+
+\textbf{Problem 4.6}: Obtain an upper estimate for $\psi(x) - \psi(x/2)$ by using the approximate inverse $\delta_1 - 2\delta_2$. Use the inequality you have found to obtain an upper estimate for $\psi(x)$.
+
+\begin{proof}
+In the proof of Lemma 4.6, observe that
+\begin{align*}
+\int_1^x R(x/t) d\psi &= \sum_{1 < n \leq x} R(x/n) \Lambda(n)\\
+&\geq \sum_{x/2 < n \leq x} R(x/n) \Lambda(n) &\text{since }R(x/n) \Lambda(n) \geq 0\\
+&= \sum_{x/2 < n \leq x} \Lambda(n) &\text{since } 1 \leq x/n < 2 \text{ if } x/2 < n \leq x\\
+&= \psi(x) - \psi(x/2)
+\end{align*}
+because $R(t) = N(t) - 2N(t/2) = 1$ if $1 \leq t < 2$. Thus, we obtain an upper bound
+$$\psi(x) - \psi(x/2) \leq x \log 2 + \O{ \log ex }.$$
+
+We then get
+\begin{align*}
+\psi(x) &= \sum_{n = 0}^{k} \psi(x/2^n) - \psi(x/2^{n+1}) &\text{where } k = [\log_2 x]\\
+&\leq \sum_{n = 0}^{k} \frac{x}{2^n} \log 2 + \O{ \log\left( e\frac{x}{2^n} \right) }\\
+&\leq 2 x (1 - (1/2)^{k+1}) \log 2 + \O{ (k + 1) \log ex }\\
+&\leq x \log 4 + \O{ \log^2 ex }.
+\end{align*}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

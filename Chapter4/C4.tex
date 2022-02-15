@@ -1,0 +1,30 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\begin{document}
+\fi
+
+On page 72: Recall
+$$\kappa(n) = \begin{cases}
+1/j &\text{if } n = p^j,\\
+0 &\text{if } n = 1 \text{ or } \omega(n) > 1.
+\end{cases}$$
+So
+$$\sum_{n \leq x} \kappa(n) = \sum_{p^j \leq x} \frac{1}{j} = \sum_{j = 1}^{\infty} \frac{1}{j} \sum_{p^j \leq x} 1  = \sum_{j \leq x} \frac{1}{j} \pi(x^{1/j}).$$
+
+
+On page 74: Let us verify that $L \, dN = d\psi * dN$ is a consequence of $L1 = \Lambda * 1$. To do so, we integrate
+$$\int_{1^-}^x L \, dN = \int_{1^-}^x \log t \, dN(t) = \sum_{n \leq x} \log n$$
+while $L1 = \Lambda * 1$ implies
+$$\int_{1^-}^x d\psi * dN = \int_{1^-}^x d(L1^\Sigma) = \sum_{n \leq x} L1(n) = \sum_{n \leq x} \log n.$$
+
+On page 80: To prove the second identity of Lemma 4.10, we use the left hand side of (4.3) for $R(x)$, namely
+$$R(x) := \int_1^x t^{-1} d\psi = \sum_{n \leq x} \frac{\Lambda(n)}{n} = \sum_{n \leq x} \frac{\log(n) \, \kappa(n)}{n}$$
+and so it plays out exactly as in the proof of the first identity:
+$$\sum_{n \leq x} \frac{\kappa(n)}{n} = \int_{2^-}^x \log^{-1} t \; dR(t) = ...$$
+We find $B_2$ is given by exactly the same expression as $B_1$ except that the $R(x)$ are different.
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

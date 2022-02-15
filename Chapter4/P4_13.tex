@@ -1,0 +1,45 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\renewcommand{\O}[1]{O\left( #1 \right)}
+\begin{document}
+\fi
+
+\textbf{Problem 4.13}: Prove that
+$$\liminf_{n \rightarrow \infty} \frac{\varphi(n) \log \log n}{n} = e^{-\gamma}$$
+You may assume that the constant $c$ of Lemma 4.11 is known to be $-\gamma$.
+
+\begin{proof}
+Let $n_k = p_1 p_2 ... p_k$ denote the product of the first $k$ primes. By lemma 4.13,
+$$\frac{\varphi(n)}{n} \geq \frac{\varphi(n_k)}{n_k}$$
+for all $1 \leq n < n_{k+1}$ and since $\log \log n$ is increasing, we have
+$$\min\left\{ \frac{\varphi(n) \log \log n}{n} : n_k \leq n < n_{k+1} \right\} = \frac{\varphi(n_k) \log\log n_k}{n_k}.$$
+
+Thus, for any $\ell$, we have
+$$\inf\left\{ \frac{\varphi(n) \log \log n}{n} : n \geq n_\ell \right\} = \inf\left\{\frac{\varphi(n_k) \log\log n_k}{n_k} : k \geq \ell \right\}$$
+and so by definition
+$$\liminf_{n \rightarrow \infty} \frac{\varphi(n) \log \log n}{n} = \liminf_{k \rightarrow \infty} \frac{\varphi(n_k) \log\log n_k}{n_k}.$$
+
+We are going to show that not only the second $\liminf$ above exists but the limit of the sequence also exists\footnote{Recall that if lim exists then $\lim = \limsup = \liminf$.} and
+$$\lim_{k \rightarrow \infty} \frac{\varphi(n_k) \log\log n_k}{n_k} = e^{-\gamma}$$
+which solves the problem.
+
+By Lemma 4.11 plus the assumption on the constant, we have
+$$\frac{\varphi(n_k)}{n_k} = \prod_{p \leq p_k} (1 - p^{-1}) \sim e^{-\gamma} / \log p_k$$
+which yields
+$$\lim_{k \rightarrow \infty} \frac{\varphi(n_k) \log p_k}{n_k} = e^{-\gamma}$$
+To swap $\log \log n_k$ for $\log p_k$, we note that
+\begin{align*}
+\log \log n_k - \log p_k &= \log \theta(p_k) - \log p_k &\text{ as } \log n_k = \theta(p_k)\\
+&= \log \frac{\theta(p_k)}{p_k}\\
+&= \log \frac{\psi(p_k) + \O{ \sqrt{p_k} } }{p_k} &\text{by Lemma 4.14}\\
+&= \O{1} &\text{by Lemma 4.5}
+\end{align*}
+is bounded. Thus, the difference
+$$\frac{\varphi(n_k) \log \log n_k}{n_k} - \frac{\varphi(n_k) \log p_k}{n_k} = \O{ \frac{\varphi(n_k)}{n_k} } = \O{ \frac{e^{-\gamma}}{\log p_k} }$$
+goes to 0 as $k \rightarrow \infty$ because $p_k \rightarrow \infty$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

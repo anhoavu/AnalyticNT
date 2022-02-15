@@ -1,0 +1,100 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\renewcommand{\O}[1]{O\left( #1 \right)}
+\begin{document}
+\fi
+
+\textbf{Problem 4.5}: Let $\chi_{(2,\infty)}$ denote the indicator function of the interval $(2, \infty)$. Use the approximate inverse $\delta_1 - 2 \chi_{(2, \infty)}(t) t^{-1} dt$ to show that
+$$\limsup_{x \rightarrow \infty} \psi(x) / x \leq 1 + \log 2$$
+
+\begin{proof}
+To simplify our notation, let $\chi = \chi_{(2,\infty)}$. We have
+\begin{align*}
+R(x) &= \int_{1^-}^x dN * (\delta_1 - 2 \chi(t) t^{-1} dt)\\
+&= N(x) - 2 \underbrace{\int_{1^-}^x N(x/t) \chi(t) t^{-1} dt}_{0 \text{ if } x \leq 2}\\
+&= N(x) - 2 \int_2^x N(x/t) t^{-1} dt &\text{for } x > 2\\
+&= N(x) - 2 \int_1^{x/2} N(u) u^{-1} du &\text{by change of variable } u = x/t\\ %$$N(u) (x/u)^{-1} d(x/u) = N(u) (u / x) (-x/u^2) du = -N(u) u^{-1} du$$
+&= N(x) - 2 \int_1^{x/2} \frac{N(u) - u}{u} du - 2 \int_1^{x/2} du\\
+&= N(x) + 2 \int_1^{x/2} \frac{u - N(u)}{u} du - 2 \left( \frac{x}{2} - 1 \right)\\
+&= N(x) - x + 2 + 2 \int_1^{x/2} \frac{u - N(u)}{u} du\\
+&\geq 1
+\end{align*}
+by the same argument as in the proof of Lemma 4.5: the integral is increasing and $N(x) - x + 2$ is periodic of period 1 so $R(x + 1) > R(x)$ and thus the minimum value of $R$ occurs at some $x \in (1, 2)$ and we find $R(x) \geq R(2^-) = 1$ and so
+\begin{align*}
+\int_{1^-}^x d \psi * dN * (\delta_1 - 2 \chi(t) t^{-1} dt) &= \int_{1^-}^x d \psi * dR\\
+&= \int_{1^-}^x R(x/t) d\psi\\
+&\geq \int_{1^-}^x d\psi &\text{ as } \psi \text{ is increasing}\\
+&= \psi(x).
+\end{align*}
+
+On the other hand, let
+\begin{align*}
+F(x) &:= \int_{1^-}^x L dN = x \log x - x + O(\log ex)
+\end{align*}
+and we have for $x > 2$:
+\begin{align*}
+&\int_{1^-}^x L dN * (\delta_1 - 2 \chi(t) t^{-1} dt)\\
+=& \int_{1^-}^x L dN - \int_{1^-}^x L dN * 2 \chi(t) t^{-1} dt\\
+=& F(x) - \int_{1^-}^x F(x/u) \cdot 2 \chi(u) u^{-1} du\\
+=& F(x) - 2 \int_{2}^x F(x/u) u^{-1} du\\
+=& F(x) - 2 \int_1^{x/2} F(s) s^{-1} ds &\text{change of variable } s = x/u\\
+=& F(x) - 2 \int_1^{x/2} \{ s \log s - s + \O{ \log es } \} s^{-1} ds\\
+=& F(x) - 2 \left\{ F(x/2) - (x/2) + \O{ \int_1^{x/2} \log^2(es) ds } \right\}\\
+=& x \log x - x - 2 \left\{ (x/2) \log(x/2) - (x/2) - (x/2) \right\} + \O{ \log^2 ex }\\
+=& x \log x + x - x \log(x/2) + \O{ \log^2 ex }\\
+=& (1 + \log 2) \, x + \O{ \log^2 ex }.
+\end{align*}
+
+Combining the two inequalities and Chebyshev's identity $d\psi * dN = L dN$ and we derive the inequality.
+
+\textbf{Remark}: While solving this problem, I discover that we have to be very mindful when performing a change of variable.
+
+The rule that always work is that if $s(u)$ is a strictly increasing\footnote{Can be improved to monotone but requires some proper care to the endpoints.} (hence one-to-one) continuous function then
+$$\int_{a}^{b} g(s(u)) \, dF(s(u)) = \int_{s(a)}^{s(b)} g(t) \, dF(t).$$
+This formulation\footnote{The alternative formula is replacing $s$ by $s^{-1}$ i.e.
+$$\int_a^b g(t) \, dF(t) = \int_{s(a)}^{s(b)} g(s^{-1}(u)) \, dF(s^{-1}(u))$$
+as it means we are replacing $u = s(t)$.} is usually used when the integrand can be recognized as a composition as in
+$$\int_a^b (\log^2 u + \log u + 1) \, d(\log u)$$
+whence one wants to put $t = \log u$ to turn the integral into $\int_{\log a}^{\log b} (t^2 + t + 1) dt$.
+
+\begin{proof}
+This comes straight from the definition of integral: Let
+$$A = \int_{a}^{b} g(s(u)) \, dF(s(u))$$
+and $\epsilon > 0$ be arbitrary. We want to find a partition $\Pi_\epsilon$ of $[s(a), s(b)]$ such that $|S(g, F, \Pi, T) - A| < \epsilon$ for all $\Pi$ that refines $\Pi_\epsilon$ and all choices of intermediate points $T = \{ t_i : t_i \in [x_i, x_{i+1}] \}$. Let $\Pi_\epsilon^*$ be the partition of $[a, b]$ in the definition of $A$ and $\Pi_\epsilon = s(\Pi_\epsilon^*) = \{s(x_i) : x_i \in \Pi_\epsilon^*\}$ be the image of $\Pi_\epsilon^*$ under $s$. Now if $\Pi$ is a refinement of $\Pi_\epsilon$ then $s^{-1}(\Pi)$ is a refinement of $\Pi_\epsilon^*$ and $s^{-1}(T)$ is a set of intermediate points of $s^{-1}(\Pi)$ \emph{due to our assumption on $s$ strictly increasing} whence
+$$|S(g, F, \Pi, T) - A| = |S(g \circ s, F \circ s, s^{-1}(\Pi), s^{-1}(T)) - A| < \epsilon.$$
+\end{proof}
+
+Here is the warning: In the context of the book,
+$$2 \, dt \not= d(2t)$$
+so as a consequence,
+$$\int_a^b g(t) \, d(2t) = 2 \int_a^b g(t) \, dt$$
+does not work. The problem is because in the book, the measure $dt$ is truncated by $[1, \infty)$. The intuition is the following:
+\begin{itemize}
+\item $dt$ is the measure that gives length (read: Lebesgue measure) to subsets $X$ of the real numbers after taking $X \cap [1, \infty)$. In other words, $dt( [a, b] )$ is the usual length of $[a, b] \cap [1, \infty)$. For example, $dt( [0, 1] ) = 0$ because $[0, 1] \cap [1, \infty) = [1, 1]$ is a single point even though the interval $[0, 1]$ has length 1.
+
+\item $d(2t)$ measures the length of $X$ by first scaling $X$ by 2 and then taking the intersection with $[1, \infty)$. As an example, $d(2t)$ returns 1 for $X = [0, 1]$ because $2X$ is the interval $[0, 2]$ whose intersection with $[1, \infty)$ is the interval $[1, 2]$, which is of length 1.
+
+\item Now it is clear that $2dt$ and $d(2t)$ give different measures to the same interval $[0, 1]$.
+\end{itemize}
+
+To see it clearly, recall that $dt = d G_0(t)$ where
+$$G_0(t) = \begin{cases} t - 1 &\text{if } t \geq 1\\ 0 &\text{if } t < 1 \end{cases}$$
+so $2dt = d G_1(t)$ where
+$$G_1(t) = \int_{1^-}^{t} 2 dG_0(u) = 2 G_0(t) = \begin{cases} 2(t - 1) &\text{if } t \geq 1\\ 0 &\text{if } t < 1 \end{cases}$$
+while $d(2t) = dG_2(t)$ where
+$$G_2(t) = G_0(2t) = \begin{cases} 2t - 1 &\text{if } t \geq 1/2\\ 0 &\text{if } t < 1/2 .\end{cases}$$
+Clearly $G_1(t) - G_2(t)$ is not a constant so $d G_1 \not= d G_2$.
+
+In this problem, both change of variables $u = x/t$ in $dt$ and $s = x/u$ in $du$ are safe. In other words, we do have
+$$d\left(\frac{x}{t}\right) = \frac{-x}{t^2} dt$$
+\textbf{when integrating from $1$ to $x/2$}. To check: the function associated to $d\left(\frac{x}{t}\right)$ is
+$$H_1(t) = G_0\left(\frac{x}{t}\right) = \begin{cases} x/t - 1 &\text{if } t \leq x, \\ 0 &\text{if } t > x\end{cases}$$
+by the substitution rule described above whereas the function associated to the integrator $\frac{-x}{t^2} dt$, for $t \geq 1$ is
+$$H_2(t) = \int_1^{t} \frac{-x}{u^2} du = x (1/t - 1) = x/t - x$$
+and 0 for $t < 1$. So $H_1 - H_2$ is a constant, namely $x - 1$, on $[1, \frac{x}{2}]$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

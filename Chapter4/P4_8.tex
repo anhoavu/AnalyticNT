@@ -1,0 +1,62 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\IntPart}[1]{\left[ #1 \right]}
+\newcommand{\val}[1]{\nu\left( #1 \right)}
+\newcommand{\pval}[1]{\nu_p\left( #1 \right)}
+\begin{document}
+\fi
+
+\textbf{Problem 4.8}: Let $L(\cdot)$ be as in the preceeding problem.
+\begin{enumerate}
+\item For $k \in \Z^+$ show that $L(2k)$ is divisible by $k \binom{2k}{k}$.
+\item If $k \in \Z^+$ and $k \geq 4$, prove by induction that $k \binom{2k}{k} > 2^{2k}$.
+\item Prove that $L(n) > 2^n$ for $n \geq 7$.
+\end{enumerate}
+
+\begin{proof}
+\begin{enumerate}
+\item For $n \in \Z^+$, we denote $\pval{n}$ the exponent of $p$ in the standard factorization of $n$. In other words, $\pval{n}$ is the number $\alpha$ such that $p^\alpha \;|\; n$ but $p^{\alpha+1} \nmid n$. Note that we then have $n = \prod_p p^{\pval{n}}$. We shall drop the subscript $p$ in the notation if $p$ is implicitly understood from the context.
+
+Note that by unique factorization theorem, to prove that $m \;|\; n$, it suffices to prove that $\pval{m} \leq \pval{n}$ for all prime $p$. So fix an arbitrary $p$ and we show that
+$$\val{L(2k)} \geq \val{k\binom{2k}{k}}.$$
+Recall that the left hand side is $[\log_p (2k)]$ whereas the right hand side is
+$$A := \val{k\binom{2k}{k}} = \val{\frac{(2k)!}{k!(k-1)!}} = \sum_{r = 1}^{\infty} \IntPart{ \frac{2k}{p^r} } - \IntPart{ \frac{k}{p^r} } - \IntPart{ \frac{k-1}{p^r} }$$
+from the formula
+$$\val{n!} = \sum_{r = 1}^{\infty} \IntPart{ \frac{n}{p^r} }$$
+for any $n$. Thus to establish the inequality, we only need to show that
+$$\IntPart{ \frac{2k}{p^r} } - \IntPart{ \frac{k}{p^r} } - \IntPart{ \frac{k-1}{p^r} } \leq 1$$
+for all $r$ since the terms for $r > [\log_p(2k)]$ are all zero. Write $k - 1 = m p^r + s$ where $0 \leq s < p^r$ by division algorithm. Then $\IntPart{ \frac{k-1}{p^r} } = m$,
+$$\IntPart{ \frac{k}{p^r} } = \begin{cases}
+m + 1 &\text{if } s = p^r - 1,\\
+m &\text{if } s < p^r - 1
+\end{cases}$$
+and
+$$\IntPart{ \frac{2k}{p^r} } = \begin{cases}
+2m + 1 &\text{if } s \geq p^r / 2,\\
+2m &\text{if } s < p^r / 2.
+\end{cases}$$
+So the maximum possible value for
+$$\IntPart{ \frac{2k}{p^r} } - \IntPart{ \frac{k}{p^r} } - \IntPart{ \frac{k-1}{p^r} } \leq (2m + 1) - (m) - (m) = 1.$$
+
+\item For $k = 4$ we have $4 \binom{8}{4} = 4 \frac{8 \cdot 7 \cdot 6 \cdot 5}{4!} = 8 \cdot 35$ where as $2^{2 \cdot 4} = 2^8 = 8 \cdot 2^5 = 8 \cdot 32$.
+
+Suppose that the inequality is true for $k$. We prove that it is true for $k + 1$: We have
+\begin{align*}
+(k+1) \binom{2(k+1)}{k+1} &= (k+1) \frac{2k+2}{k+1} \binom{2k+1}{k} &\text{as } \binom{n+1}{k+1} = \frac{n+1}{k+1} \binom{n}{k}\\
+&= (2k+2) \frac{2k+1}{k+1} \binom{2k}{k} &\text{as } \binom{n+1}{k} = \frac{n+1}{n-k+1} \binom{n}{k}\\
+&= 2 (2k+1) \binom{2k}{k}\\
+&> 2 (2) (2^{2k}) = 2^{2(k+1)}.
+\end{align*}
+
+\item If $n = 2k \geq 7$ is even then $k \geq 4$, then obviously
+$$L(n) = L(2k) \geq k\binom{2k}{k} > 2^{2k} = 2^n.$$
+If $n = 2k - 1 \geq 7$ is odd then we use the previous problem
+$$L(n) = L(2k-1) \geq \frac{L(2k)}{2} > 2^{2k - 1}.$$
+\end{enumerate}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

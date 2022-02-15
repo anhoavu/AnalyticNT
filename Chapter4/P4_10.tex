@@ -1,0 +1,25 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\begin{document}
+\fi
+
+\textbf{Problem 4.10}: Show that the integers in the interval $[1, x]$ have an average of $\log \log x + B_1$ distinct prime divisors.
+
+\begin{proof}
+\renewcommand{\P}{\mathcal{P}}
+We have seen in problem 2.6 that $\omega = 1 * 1_\P$ where $1_\P$ is the indicator function of the set of primes. The average number of distinct prime divisor of integers in $[1, x]$ is given by
+\begin{align*}
+\frac{\sum_{n \leq x} \omega(n)}{N(x)} &= \frac{\sum_{n \leq x} (1 * 1_\P)(n)}{N(x)}\\
+&= \frac{\sum_{p \leq x} N(x/p)}{N(x)}\\
+&= \frac{x \sum_{p \leq x} p^{-1} + O(\pi(x))}{N(x)}\\
+&= \frac{x}{N(x)} \sum_{p \leq x} p^{-1} + o(1) &\text{by Lemma 4.3}\\
+&\sim \log \log x + B_1
+\end{align*}
+by Lemma 4.10.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

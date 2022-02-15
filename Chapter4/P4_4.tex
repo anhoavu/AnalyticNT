@@ -1,0 +1,18 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\begin{document}
+\fi
+
+\textbf{Problem 4.4}: Show that $\psi(N)$ equals the least common multiple of the positive integers $1, 2, ..., N$.
+
+\begin{proof}
+Write the least common multiple in prime factorization $\ell = \prod_{i=1}^{r} p_i^{\alpha_i}$. We see that the $\alpha_i$ should be the maximum exponent for $p_i$ such that $p_i^{\alpha_i} \leq N$ so that $\ell$ is divisible by the number $p_i^{\alpha_i}$ amongst the numbers $1, 2, ..., N$. The choice of $\alpha_i$ being the maximum exponent suffices because any other number amongst $1, 2, ..., N$ cannot be divisible by higher power of $p_i$.
+
+Clearly, $\psi(N) = \sum_{\text{max } p^\alpha \leq n} \alpha \log p = \log \ell$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

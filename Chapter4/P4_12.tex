@@ -1,0 +1,42 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\begin{document}
+\fi
+
+\textbf{Problem 4.12}: Prove that
+$$\theta(x) = \sum_{n=1}^{\infty} \mu(n) \psi(x^{1/n}).$$
+
+\begin{proof}
+For fix $x$, we define the auxiliary functions
+$$\theta_x(t) := \theta(x^{t/x}) \qquad \text{ and } \qquad \psi_x(t) := \psi(x^{t/x}).$$
+
+We claim that $d\psi_x = d\theta_x * dN$, that is
+$$\psi_x(t) = \int_{1^-}^t d\theta_x * dN.$$
+To check:
+\begin{align*}
+\int_{1^-}^t d\theta_x * dN &= \int_{1^-}^t \theta_x(t/s) \; dN(s)\\
+&= \sum_{n \leq t} \theta_x(t/n)\\
+&= \sum_{n \leq t} \theta(x^{(t/n)/x})\\
+&= \sum_{n \leq t} \theta(x^{(t/x)/n})\\
+&= \psi(x^{t/x})\\
+&= \psi_x(t).
+\end{align*}
+Here, we note that in the equation
+$$\psi(y) = \sum_{n=1}^{\infty} \theta(y^{1/n}),$$
+applied to $y = x^{t/x}$, the upper range for $n$ can be reduced from $\infty$ to $t$ because if $n > t$ then $x^{(t/x)/n} < x^{1/x} < 2$ whence $\theta = 0$. (Also note that $2^x > x$ for all $x$ so $2 > x^{1/x}$.)
+
+So $d\psi_x * dM = d\theta_x * dN * dM = d\theta_x$ as $dN * dM = \delta_1$. As a result:
+\begin{align*}
+\theta(x) = \theta_x(x) &= \int_{1^-}^{x} d\theta_x(t)\\
+&= \int_{1^-}^{x} d\psi_x * dM\\
+&= \sum_{n \leq x} \psi_x(x/n) \mu(n)\\
+&= \sum_{n \leq x} \mu(n) \psi(x^{1/n}).
+\end{align*}
+The range of summation can be adjusted from $x$ to $\infty$ since if $n > x$ then $x^{1/n} < x^{1/x} < 2$ and $\psi = 0$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

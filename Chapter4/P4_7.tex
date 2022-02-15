@@ -1,0 +1,50 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\IntPart}[1]{\left[ #1 \right]}
+\newcommand{\val}[1]{\nu\left( #1 \right)}
+\newcommand{\pval}[1]{\nu_p\left( #1 \right)}
+\begin{document}
+\fi
+
+\textbf{Problem 4.7}: For $n \in \Z^+$ put $L(n) = \exp \psi(n)$.
+\begin{enumerate}
+\item For $k \in \Z^+$ show that
+$$L(2k) \leq 2L(2k-1)$$
+$$L(2k+1) \leq \binom{2k+1}{k+1} L(k+1) < 2^{2k} L(k+1)$$
+\item Use (1) to show that $L(n) < 4^n$ i.e. $\psi(n) < n \log 4$ for $n \in \Z^+$.
+\end{enumerate}
+
+\begin{proof}
+\begin{enumerate}
+\item Evidently, $2L(2k-1)$ is divisible by $1, 2, ..., 2k - 1$ and is also divisible by $2k$ since $k | L(2k-1)$. Thus, $2L(2k-1)$ is a common multiple of $\{1, 2, ..., 2k\}$ and so it is $\geq L(2k)$ which is the least common multiple of those numbers.
+
+To prove the second inequality, we show that the quotient
+$$\frac{L(2k+1)}{L(k+1)} \text{ divides } \binom{2k+1}{k+1}$$
+by first observing that the quotient is square-free. This is easy to see as its logarithm is:
+$$\psi(2k+1) - \psi(k+1) = \sum_{k + 1 < p^\alpha \leq 2k+1} \log p$$
+and any prime $p$ can only participate once in the sum: For we then have $2(k+1) < 2 p^\alpha$ and so $p^\alpha$ is the maximum power of $p$ not exceeding $2k+1$. But if $p$ is such a prime then it divides $\binom{2k+1}{k+1}$ by $p$-adic valuation:
+$$\pval{\binom{2k+1}{k+1}} \geq \underbrace{\IntPart{\frac{2k+1}{p^\alpha}}}_{1} - \underbrace{\IntPart{\frac{k+1}{p^\alpha}}}_{0} - \underbrace{\IntPart{\frac{k}{p^\alpha}}}_{0} = 1.$$
+
+The remaining inequality is simple:
+\begin{align*}
+2^{2k+1} &= (1 + 1)^{2k+1}\\
+&= \sum_{j = 0}^{2k+1} \binom{2k + 1}{j}\\
+&> \binom{2k+1}{k} + \binom{2k+1}{k+1}\\
+&= 2 \binom{2k+1}{k+1}.
+\end{align*}
+
+\item Finally, we prove $L(n) < 4^n$ by induction. The base case $n = 1$ is evident. Suppose that the inequality is true for all $n < k$ and we show it is true for $n = k$.
+\begin{itemize}
+\item If $k = 2 \ell$ is even then
+$$L(k) = L(2\ell) \leq 2 L(2\ell - 1) < 2 (4^{2\ell - 1}) < 4^{2\ell} = 4^k.$$
+\item If $k = 2 \ell + 1$ is odd then
+$$L(k) = L(2\ell+1) < 2^{2\ell} L(\ell + 1) < 4^{\ell} (4^{\ell + 1}) = 4^{2\ell + 1} = 4^k.$$
+\end{itemize}
+\end{enumerate}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

@@ -1,0 +1,42 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\begin{document}
+\fi
+
+\textbf{Problem 4.9}: Assuming the truth of Lemma 4.8, give another proof that
+$$\limsup_{x \rightarrow \infty} \frac{\psi(x)}{x} < \infty; \qquad \liminf_{x \rightarrow \infty} \frac{\psi(x)}{x} > 0.$$
+
+\begin{proof}
+Using integration by parts, we have
+$$\int_1^x t^{-1} d\psi = \frac{\psi(x)}{x} + \int_1^x \psi(t) t^{-2} dt$$
+so by Lemma 4.8 we get
+$$\frac{\psi(x)}{x} = O(1)$$
+which yields $\limsup < \infty$.
+
+Now suppose that $C$ is the constant in the $O(1)$ of (4.3); that is
+$$\Abs{ \int_1^x t^{-1} d\psi - \log x } < C$$
+for all $x \geq 1$. Fix any $k > 1$ such that that $\log k > 2C$; for example, $k = e^{2|C| + 1}$. For any $x \geq 1$, apply (4.3) to $x$ and $kx$
+$$\Abs{ \int_1^{kx} t^{-1} d\psi - \log (kx) } \leq C; \qquad \qquad \Abs{ \int_1^x t^{-1} d\psi - \log x } \leq C$$
+to deduce that
+$$\Abs{ \int_x^{kx} t^{-1} d\psi - \log k } \leq 2C$$
+so
+\begin{align*}
+0 < \log k - 2C &\leq \int_x^{kx} t^{-1} d\psi\\
+&\leq \int_x^{kx} x^{-1} d\psi &\text{as } \psi \text{ increasing and } t^{-1} \leq x^{-1}\\
+&= x^{-1} \int_x^{kx} d\psi\\
+&= \frac{\psi(kx) - \psi(x)}{x}\\
+&< \frac{\psi(kx)}{x} &\text{because } \psi \geq 0.
+\end{align*}
+
+Thus we proved
+$$\frac{\psi(kx)}{kx} \geq \underbrace{\frac{\log k - 2C}{k}}_{K} > 0$$
+for all $x \geq 1$. That implies
+$$\frac{\psi(x)}{x} \geq K$$
+for all $x \geq k$ and that means the $\liminf$ is bounded from below by the constant $K > 0$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi
