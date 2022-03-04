@@ -1,0 +1,54 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\begin{document}
+\fi
+
+We generalize Lemma 5.7 with a more flexible condition on $B_v(x)$: Let everything be as in Lemma 5.7 but with $B_v(x) = O(x^m)$, $A_1(x) = o(x)$,
+$$\int_{1^-}^{\infty} t^{-1} \; dA_v(x) < \infty.$$
+and suppose that there exists a function $C(x)$ such that
+$$x^{m-1} \int_{C(x)}^x A_1(u) u^{-m-1} du = o(1).$$
+Then we have the same conclusion.
+
+The proof should proceed similarly and modified appropriately. Here, instead of picking a fixed $C$ in the hyperbola method, we let $C(x)$ varies. The conditions are selected to bound the three pieces.
+
+\textbf{Notes}:
+\begin{itemize}
+\item Originally, I use the condition
+$$\lim_{C \rightarrow \infty} \lim_{x \rightarrow \infty} x^{m-1} \int_{C}^x A_1(u) u^{-m-1} du = 0$$
+but this usually is not true because
+$$\int_{C}^x A_1(u) u^{-m-1} du = F(x) - F(C)$$
+where $F$ is the anti-derivative and so the inner limit $\lim_{x \rightarrow \infty} x^{m-1} F(x) - x^{m-1} F(C)$ is usually $\infty$ for fixed $C$.
+\item Unfortunately, while it fixes the core issue mentioned above, this reformulation is not helpful in general either because we now have to deal with another total variation function $A_v(x)$ so this is only helpful in the situation where say $A$ is monotone like $A(x) = \log x$. The total variation function is really hard to control because even if $A$ is bounded, $A_v(x)$ could still grow fast in $x$; as in the example $A(x) = x - [x]$ in Chapter 3.
+\item So it seems that Lemma 5.7 is just right.
+\item An observation is that the proof might have used a stricter inequality: We have
+$$\Abs{ \int_a^b g \; dF } \leq \int_a^b |g \; dF|$$
+by triangle inequality where the right hand side is defined to be
+$$\lim \sum_i |g(t_i)| \cdot |F(x_{i+1}) - F(x_i)|.$$
+(The limit is over all partition $(x_0, x_1, ..., x_k)$ of $[a, b]$ under refinement, just like in the definition of $\int_a^b g \; dF$.)
+
+If we further use the inequality
+$$|F(x_{i+1}) - F(x_i)| \leq V_F([x_i, x_{i+1}]) = F_v(x_{i+1}) - F_v(x_i)$$
+to bound
+$$\sum_i |g(t_i)| \cdot |F(x_{i+1}) - F(x_i)| \leq \sum_i |g(t_i)| \cdot (F_v(x_{i+1}) - F_v(x_i))$$
+whose limit over the partitions can be recognized as
+$$\int_a^b |g| \; d F_v$$
+and thus
+$$\Abs{ \int_a^b g \; dF } \leq \int_a^b |g \; dF| \leq \int_a^b |g| \; dF_v$$
+which is what the book usually employed.
+
+I hope we can get a better generalization if we take the better bound in the middle. However, there is another problem: We have no tool to manipulate the ``integrator'' $|g \; dF| = |g| \cdot |dF|$ in general practice, except for the ``inequality'' $|dF| \leq dF_v$ above.
+\end{itemize}
+
+A small fact that can be seen from Theorem 5.9: We have
+\begin{align*}
+\int_{1^-}^x \frac{x}{t} dM(t) &= \left. \frac{x M(t)}{t} \right|_{1^-}^x + x \int_{1^-}^x M(t) t^{-2} dt\\
+&= M(x) + x \underbrace{\int_{1^-}^x M(t) t^{-2} dt}_{o(1)}
+\end{align*}
+To see that the integral is $o(1)$, dividing both sides by $x$ then recall that $\int_{1^-}^x t^{-1} dM(t) = o(1)$ by (5.13) and $M(x) = o(x)$ by (5.12) so $\frac{M(x)}{x} = o(1)$ as well. Hence, $\int_{1^-}^x M(t) t^{-2} dt = \frac{B(x) - M(x)}{x} = o(1)$. In other words,
+$$\int_{1^-}^\infty M(t) t^{-2} dt = 0.$$
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

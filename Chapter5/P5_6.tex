@@ -1,0 +1,29 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\begin{document}
+\fi
+
+\textbf{Problem 5.6}: Let $\lambda$ denote Liouville's function. Show that
+$$\sum_{n \leq x} \lambda(n) = o(x) \iff M(x) = o(x)$$
+
+\begin{proof}
+\begin{itemize}
+\item The reverse implication: Let $S$ be the set of squares then we recall that $1_S = \mu * |\mu|$ and $|\mu| * \lambda = e$ so $\lambda = \mu * 1_S$. We apply Lemma 5.7 with $B(x) = M(x)$ and
+$$A(x) = \sum_{n \leq x} 1_S(n) = \sum_{m^2 \leq x} 1 = N(\sqrt{x}) \leq \sqrt{x}$$
+Clearly for $A_1(x) = \sqrt{x}$ is increasing and we have
+$$\int_1^\infty A_1(u) u^{-2} du = \int_1^\infty u^{-3/2} du = -2u^{-1/2}|_1^\infty = 2 < \infty.$$
+So if $M(x) = o(x)$ then we have $\sum_{n \leq x} \lambda(n) = \int_{1^-}^{\infty} dA * dB = o(x).$
+
+\item The forward implication: From $\lambda = \mu * 1_S$, we have $\mu = \lambda * 1_S^{*-1}$ where explicitly
+$$1_S^{*-1}(n) = \begin{cases} \mu(\sqrt{n}) &\text{if } n \text{ is a square}, \\ 0 &\text{otherwise}.\end{cases}$$
+We apply Lemma 5.7 again, this time with $B(x) = \sum_{n \leq x} \lambda(n)$ and
+$$A(x) = \sum_{n \leq x} 1_S^{*-1}(n) = \sum_{m^2 \leq x} \mu(m) \leq N(\sqrt{x}) \leq \sqrt{x}.$$
+The same argument applies: if $B(x) = o(x)$ then $M(x) = \int_{1^-}^x dA * dB = o(x)$.
+\end{itemize}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

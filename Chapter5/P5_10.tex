@@ -1,0 +1,64 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\begin{document}
+\fi
+
+\textbf{Problem 5.10}: If $0 < c < 1$, let $f_c(x)$ denote the number of positive integers $n \leq x$ such that $[n^c]$ is prime. Use the PNT to prove that $f_c(x) \sim x/(c \log x)$.
+
+\begin{proof}
+Observe that the prime $p = [n^c] \leq n^c \leq x^c$ and that 
+$$p = [n^c] \iff p \leq n^c < p + 1 \iff p^{1/c} \leq n < (p + 1)^{1/c}.$$
+
+Note that if $x < n < (p + 1)^{1/c}$ then $p \leq x^c < n^c < p + 1 \leq x^c + 1$ so $x < n < (x^c + 1)^{1/c} = x + O(x^{1-c})$ by the Mean Value Theorem (see later). So there are at most $O(x^{1-c})$ integers in the interval $(x, (x^c + 1)^{1/c})$.
+
+Therefore we have\footnote{The sets $\{n \leq x : p^{1/c} \leq n < (p + 1)^{1/c}\}$ are mutually disjoint. If $p < q$ are primes then $q \geq p + 1$. So if $q^{1/c} \leq n < (q + 1)^{1/c}$ then $n \geq (p + 1)^{1/c}$ so $n$ cannot be in the corresponding set for $p$. The converse is similarly seen. This also means the sets $\{n : x < n < (p+1)^{1/c}\}$ for $p < x^c$ are mutually disjoint and their union is a subset of $\{n : x < n < (x^c + 1)^{1/c}\}$.}
+\begin{align*}
+f_c(x) &= \sum_{p \leq x^c} \#\{n \leq x : p^{1/c} \leq n < (p + 1)^{1/c}\}\\
+&= \sum_{p \leq x^c} \#\{ n : p^{1/c} \leq n < (p + 1)^{1/c} \} - \underbrace{ \sum_{p \leq x^c} \#\{ n : x < n < (p+1)^{1/c} \} }_{\leq \#\{n : x^c < n < (x^c + 1)^{1/c} \}} \\
+&= \sum_{p \leq x^c} \sum_{p^{1/c} \leq n < (p + 1)^{1/c}} 1 + O(x^{1-c})\\
+&= \sum_{p \leq x^c} \left( (p + 1)^{1/c} - p^{1/c} + O(1) \right) + O(x^{1-c})\\
+&= \sum_{p \leq x^c} \left( (p + 1)^{1/c} - p^{1/c} \right) + O(\pi(x^c)) + O(x^{1-c})
+\end{align*}
+by the simple estimate
+$$\{n : a \leq n < b\} = N(b) - N(a - 1) = b - a + O(1).$$
+Note that by the PNT, $O(\pi(x^c)) = O(x^c / (c \log x)) = o(x / (c \log x))$ under the assumption that $0 < c < 1$.
+
+We could recognize
+$$\sum_{p \leq x^c} \left( (p + 1)^{1/c} - p^{1/c} \right) = \int_{2^-}^{x^c} ((t + 1)^{1/c} - t^{1/c}) \; d \pi.$$
+(There is no prime $< 2$, right?) This is a nice integral as $\pi \geq 0$ is increasing so $\pi_v = \pi$, which makes absolute value bound easier.
+
+Applying the Mean Value Theorem to the function $f(t) = t^{1/c}$, we have
+$$(t + 1)^{1/c} - t^{1/c} = f(t+1) - f(t) = f'(\xi)$$
+for some $\xi \in (t, t+1)$. For $0 < c < 1$, the function $f'(t) = \frac{1}{c} t^{1/c - 1}$ is increasing on $(0, \infty)$ because its derivative $f''(t) = \frac{1}{c} \left( \frac{1}{c} - 1\right) t^{1/c - 2} > 0$. Therefore, we can bound
+$$f'(t) \leq f'(\xi) \leq f'(t + 1)$$
+which shows that
+$$(t + 1)^{1/c} - t^{1/c} \sim f'(t).$$
+Note that this is how I know $(x^c + 1)^{1/c} = \underbrace{x}_{= (x^c)^{1/c}} + O(x^{1-c})$ for $f'(x^c) = \frac{1}{c} (x^c)^{1/c - 1} = \frac{1}{c} x^{1 - c}$.
+
+This means
+$$\int_{2^-}^{x^c} ((t + 1)^{1/c} - t^{1/c}) \; d \pi \sim \int_{2^-}^{x^c} f'(t) \; d \pi$$
+if we write $(t + 1)^{1/c} - t^{1/c} = f'(t) + o(f'(t))$ and bound
+$$\Abs{ \int_{2^-}^{x^c} ((t + 1)^{1/c} - t^{1/c} - f'(t)) \; d \pi } \leq \int_{2^-}^{x^c} \Abs{ (t + 1)^{1/c} - t^{1/c} - f'(t) } \; d \pi$$
+thank to $\pi_v = \pi$. Then use the usual $\epsilon$ argument to swap the little $o$ outside.
+
+The problem thus becomes estimating
+\begin{align*}
+\int_{2^-}^{x^c} f'(t) \; d \pi &= \int_{2^-}^{x^c} \frac{1}{c} t^{1/c - 1} \; d \pi(t)\\
+&= \frac{1}{c} \int_{2^-}^{x} u^{1-c} \; d \pi(u^c) &\text{change of var } u = t^{1/c}\\
+&= \frac{1}{c} \left( x^{1-c} \pi(x^c) - \int_{2^-}^{x} \pi(u^c)  d(u^{1-c}) \right)\\
+&\sim \frac{1}{c} \left( x^{1-c} \frac{x^c}{c \log x} - \int_{2^-}^{x} \frac{u^c}{c \log u} \; (1-c) u^{-c} \; du \right) &\text{by PNT}\\
+&= \frac{1}{c} \left( \frac{x}{c \log x} + \frac{c-1}{c} \int_{2}^{x} \frac{1}{\log u} du \right)\\
+&\sim \frac{x}{c \log x}
+\end{align*}
+from the well-known knowledge that the function
+$$\operatorname{Li}(x) = \int_2^x \frac{1}{\log t} dt \sim \frac{x}{\log x}$$
+which can be seen from integrating by parts
+$$\int_2^x \frac{1}{\log t} dt = \frac{x}{\log x} - \frac{2}{\log 2} + \int_2^x \frac{1}{\log^2 t} dt$$
+and then observing that $\log^{-2} t = o(\log^{-1} t)$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

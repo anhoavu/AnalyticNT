@@ -1,0 +1,34 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\begin{document}
+\fi
+
+\textbf{Problem 5.4}: Show that equality holds in the last lemma.
+
+\begin{proof}
+We have
+$$\frac{|R(x)|}{x} \leq \alpha + o(1)$$
+by definition of $\alpha = \limsup |R(x)|/x$ so
+$$\frac{1}{\log x} \int_1^x \frac{|R(u)|}{u^2} du \leq \frac{1}{\log x} \int_1^x \frac{\alpha + o(1)}{u} du = \alpha + o(1)$$
+Taking $\limsup$ yields
+$$\limsup \frac{1}{\log x} \int_1^x \frac{|R(u)|}{u^2} du \leq \alpha$$
+which is the reverse inequality of the one in the lemma. So equality holds in the lemma.
+
+(The mentality behind: Let $\epsilon > 0$ be arbitrary. Then there exists $N$ such that
+$$\frac{|R(x)|}{x} < \alpha + \epsilon$$
+for all $x > N$ by definition of $\limsup$. Then for $x > N$, we split the integral
+\begin{align*}
+\frac{1}{\log x} \int_1^x \frac{|R(u)|}{u^2} du &= \frac{1}{\log x} \left\{ \int_1^N + \int_N^x \right\} \frac{|R(u)|}{u^2} du\\
+&\leq \frac{K}{\log x} + \frac{1}{\log x} \int_N^x \frac{\alpha + \epsilon}{u} du &\text{ where } K = \int_1^N |R(u)| u^{-2} du\\
+&= \frac{K}{\log x} + \frac{(\alpha + \epsilon)(\log x - \log N)}{\log x}
+\end{align*}
+so taking $\limsup$ on both sides yields:
+$$\limsup \frac{1}{\log x} \int_1^x \frac{|R(u)|}{u^2} du \leq \limsup \left( \frac{K}{\log x} + \frac{(\alpha + \epsilon)(\log x - \log N)}{\log x} \right) = \alpha + \epsilon.$$
+This works for every $\epsilon$, so the left hand side is $\leq \alpha$.)
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

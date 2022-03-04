@@ -1,0 +1,25 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\begin{document}
+\fi
+
+\textbf{Problem 5.7}: Show that
+$$\#\{n \leq x : \Omega(n) \text{ is even}\} \sim \frac{x}{2}.$$
+
+\begin{proof}
+Let
+$$E(x) := \#\{n \leq x : \Omega(n) \text{ is even}\}$$
+and
+$$F(x) := \#\{n \leq x : \Omega(n) \text{ is odd}\}.$$
+
+Clearly $E(x) + F(x) = N(x)$ and
+$$E(x) - F(x) = \sum_{n \leq x} (-1)^{\Omega(n)} = \sum_{n \leq x} \lambda(n).$$
+Thank to the previous problem and Theorem 5.9, we know that $E(x) - F(x) = o(x)$ so
+$$E(x) = \frac{N(x) + o(x)}{2} \sim \frac{x}{2}.$$
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

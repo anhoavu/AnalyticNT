@@ -1,0 +1,37 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\begin{document}
+\fi
+
+\textbf{Problem 5.2}: Prove that $a + A = 2$.
+
+\begin{proof}
+We have the following rearrangement from equation (5.3) of Selberg's formula
+$$\frac{1}{x \log x} \int_1^x \psi(x/t) d\psi = 2 - \frac{\psi(x)}{x} + O(1/\log x).$$
+Taking $\limsup$ and $\liminf$ (it will be $x \rightarrow \infty$ throughout this problem so we will drop the notation) on both sides yield\footnote{If $F$ is continuous and monotonically decreasing then $\limsup F(\alpha(x)) = F(\liminf \alpha(x))$. Here, apply to $F(x) = 2 - x$. Also recall another property that $\limsup \alpha(x) + \beta(x) = \lim \alpha(x) + \limsup \beta(x)$ if $\lim \alpha(x)$ exists.}
+\begin{align*}
+\limsup \frac{1}{x \log x} \int_1^x \psi(x/t) d\psi &= 2 - a\\
+\liminf \frac{1}{x \log x} \int_1^x \psi(x/t) d\psi &= 2 - A
+\end{align*}
+and so we just have to check that the left hand side of the first (second) equation is $A$ ($a$, respectively). But that is hard so we prove instead that the left hand side of the first equation is $\leq A$ while the left hand side of the second is $\geq a$. Together they yield $2 - a \leq A$ and $2 - A \geq a$ so $A + a = 2$.
+
+Let $\epsilon > 0$ be arbitrary and let $S > 1$ be such that
+$$\frac{\psi(s)}{s} < A + \epsilon$$
+for all $s > S$ by definition of $\limsup$. We split the integral based on whether $x/t > S$:
+\begin{align*}
+\int_1^x \psi(x/t) d\psi &= \int_1^{x/S} \psi(x/t) d\psi + \int_{x/S}^x \psi(x/t) d\psi\\
+&\leq \int_1^{x/S} (A + \epsilon) (x/t) d\psi + \int_{x/S}^x \psi(S) d\psi &\text{as }\psi \text{ is increasing}\\
+&= (A + \epsilon) x \int_1^{x/S} t^{-1} d\psi + \psi(S) \{\psi(x) - \psi(x/S)\}\\
+&= (A + \epsilon) x (\log x - \log S + O(1)) + O(x) &\text{by Lemma 4.8}
+\end{align*}
+so dividing $x \log x > 0$ and taking the $\limsup$, we find
+$$\limsup \frac{1}{x \log x} \int_1^x \psi(x/t) d\psi \leq A + \epsilon.$$
+As $\epsilon$ can be made arbitrarily small, we have $\limsup (...) \leq A$. By an analogous argument, we find
+$$\liminf \frac{1}{x \log x} \int_1^x \psi(x/t) d\psi \geq a.$$
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

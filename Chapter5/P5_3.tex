@@ -1,0 +1,97 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\renewcommand{\O}[1]{O\left( #1 \right)}
+\begin{document}
+\fi
+
+\textbf{Problem 5.3}: Let $f(n) \geq 0$ for $n = 1, 2, ...$. For $j = 0, 1, 2, ...$ define
+$$F_j(x) = \sum_{n \leq x} f(n) (\log x/n)^j / j!.$$
+For each $j \geq 1$, prove that $F_j(x) \sim x \iff F_0(x) \sim x$.
+
+\begin{proof}
+First, one has
+$$F_0(x) = \sum_{n \leq x} f(n)$$
+is the summatory function of $f$ and
+$$F_j(x) =  \int_{1^-}^x \frac{(\log x/t)^j}{j!} \; dF_0(t)
+= \int_{1^-}^x \frac{1}{j!} d(\log^j t) * dF_0(t)$$
+for $j \geq 1$. Observe that
+$$\frac{1}{j!} d(\log^j t) = \frac{1}{j!} j \log^{j-1} t \frac{dt}{t} = \frac{T^{-1} L^{j-1} dt}{(j-1)!}
+= (T^{-1} dt)^{*j}$$
+by problem 3.17. So
+$$F_j(x) = \int_{1^-}^x (T^{-1} dt)^{*j} * dF_0(t) = \int_{1^-}^x (T^{-1} dt) * dF_{j-1}(t) = \int_{1^-}^x F_{j-1}(t) t^{-1} dt$$
+by problem 3.15 (2).
+
+We are going to show a general fact that if $G$ is nonnegative increasing and
+$$H(x) = \int_{1^-}^x G(t) t^{-1} dt$$
+then $G(x) \sim x \iff H(x) \sim x$.
+
+The functions $F_j$ are clearly increasing and nonnegative by our assumption on $f \geq 0$. So applying this recursively will yield $F_j(x) \sim x \iff F_{j-1}(x) \sim x \iff ... \iff F_0(x) \sim x$.
+
+Recall that $R(x) \sim x \iff R(x) - x + c = o(x)$ for any $R$. Therefore, let us turn the equation for $H$ into
+$$H(x) - x + 1 = \int_{1^-}^x \frac{G(t) - t}{t} dt.$$
+
+\begin{itemize}
+\item The ``easier'' implication $G(x) \sim x \Rightarrow H(x) \sim x$: Assuming $G(x) \sim x$ then
+$$\frac{G(t) - t}{t} = o(1)$$
+so
+$$\int_{1^-}^x \frac{G(t) - t}{t} dt = o(x).$$
+So $H(x) - x + 1 = o(x)$ and $H(x) \sim x$ follows.
+
+(In more details: Let $\epsilon > 0$ be arbitrary and $T$ be such that $\Abs{ \frac{G(t) - t}{t} } < \epsilon$ for all $t > T$. Then for $x > T$:
+\begin{align*}
+\Abs{ \int_{1^-}^x \frac{G(t) - t}{t} dt }
+&\leq \int_{1^-}^x \Abs{ \frac{G(t) - t}{t} } dt\\
+&= \left\{ \int_{1^-}^T  + \int_{T}^x \right\} \Abs{ \frac{G(t) - t}{t} } dt\\
+&\leq \O{1} + \epsilon x
+\end{align*}
+so dividing by $x$ and as $\epsilon$ is arbitrary, we get $H(x) - x + 1 = o(x)$.)
+
+\item The ``harder'' implication\footnote{This is sort of like tauberian method where we obtain information about $G$ from its average $H$.} $H(x) \sim x \Rightarrow G(x) \sim x$: We apply the method to prove Lemma 5.2 in the book.
+
+Let $\epsilon \in (0, 1/2)$ be arbitrary and consider
+$$I(x) = \{ H(x + \epsilon x) - ( x + \epsilon x) + 1 \} - \{ H(x) - x + 1\} = \int_x^{x + \epsilon x} \frac{G(t) - t}{t} dt$$
+We have $I(x) = o(x)$ by assumption $H(x) \sim x$. The simple inequality from $G$ nonnegative increasing
+$$\frac{G(t)}{t} \geq \frac{G(x)}{x + \epsilon x} \qquad \text{ for } x \leq t \leq x + \epsilon x$$
+yields
+\begin{align*}
+I(x) &= \int_x^{x + \epsilon x} \frac{G(t) - t}{t} dt\\
+&= \int_x^{x + \epsilon x} \frac{G(t)}{t} dt - \epsilon x\\
+&\geq \int_x^{x + \epsilon x} \frac{G(x)}{x + \epsilon x} dt - \epsilon x\\
+&= \frac{G(x)}{x + \epsilon x} \epsilon x - \epsilon x\\
+&= \frac{\epsilon}{1 + \epsilon} G(x) - \epsilon x
+\end{align*}
+so we have
+$$G(x) \leq \frac{o(x) + \epsilon x}{\epsilon / (1 + \epsilon)} = O(x).$$
+Note that $\epsilon$ is fixed here. So $G(x) = O(x)$ since $G(x) \geq 0$.
+Since $\frac{1}{1 + \epsilon} > 1 - \epsilon$ and $G(x) \geq 0$, we can continue 
+\begin{align*}
+I(x) &\geq (1 - \epsilon) G(x) \epsilon - \epsilon x &\\
+&= \epsilon (G(x) - x) - \epsilon^2 G(x)
+\end{align*}
+so
+$$G(x) - x \leq \frac{I(x)}{\epsilon} + \epsilon G(x) \leq o(x)/\epsilon + \epsilon K x$$
+where $K$ is the bounding constant in $G(x) = O(x)$.
+
+Analogously, using $\frac{1}{1-\epsilon} < 1 + 2\epsilon$, we have
+\begin{align*}
+\int_{x - \epsilon x}^{x} \frac{G(t) - t}{t} dt 
+&\leq \int_{x - \epsilon x}^{x} \frac{G(x)}{x - \epsilon x} dt - \epsilon x\\
+&\leq (1 + 2\epsilon) G(x) \epsilon - \epsilon x\\
+&= \epsilon (G(x) - x) + 2 \epsilon^2 G(x)
+\end{align*}
+so
+$$G(x) - x \geq o(x) / \epsilon - 2 K \epsilon x.$$
+
+Combining the two bounds, we obtain
+$$\frac{\Abs{ G(x) - x }}{x} \leq o(1) / \epsilon + 2 K \epsilon$$
+so taking limsup (fixing $\epsilon$)
+$$\limsup \frac{\Abs{ G(x) - x }}{x} \leq 2 K \epsilon.$$
+As $\epsilon$ is arbitrary, the $\limsup = 0$ and so $G(x) \sim x$.
+\end{itemize}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

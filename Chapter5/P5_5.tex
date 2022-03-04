@@ -1,0 +1,85 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\begin{document}
+\fi
+
+\textbf{Problem 5.5}: Give direct proofs of the following implications:
+$$(5.12) \longrightarrow (5.10), \qquad (5.10) \longrightarrow (5.14), \qquad (5.13) \longrightarrow (5.14)$$
+
+\begin{proof}
+\begin{itemize}
+\item $(5.12) \longrightarrow (5.10)$ i.e. $M(x) = o(x) \Rightarrow \psi(x) \sim x$: We use the formula $d\psi = LdN * dM$ from Chebyshev's identity. Subtracting $dN$ and then integrating yields
+$$\psi(x) - N(x) = \int_{1^-}^x (LdN - dN * dN) * dM.$$
+Now let
+\begin{align*}
+H(x) &:= \int_{1^-}^x LdN - dN * dN\\
+&= \int_{1^-}^x \log t \; dN - \int_{1^-}^x dN * dN\\
+&= \sum_{n \leq x} \log n - (x \log x + 2\gamma x - x + O(\sqrt x)) &\text{by Corollary 3.32}\\
+&= \int_1^x \log t \; dt + O(\log x) - (...) &\text{by problem 3.13}\\
+&= x \log x - x + 1 + O(\log x) - (x \log x + 2\gamma x - x + O(\sqrt x))\\
+&= 2 \gamma x + O(\sqrt x)
+\end{align*}
+So assuming $M(x) = o(x)$, a simple application of Lemma 5.7 yields
+$$\int_{1^-}^x d(H(t) - 2\gamma t) * dM = o(x)$$
+and at the same time, we also have
+$$\int_{1^-}^x d(2\gamma t) * dM = 2 \gamma \int_{1^-}^x \frac{x}{t} dM(t) = 2 \gamma x \int_{1^-}^x t^{-1} dM(t) = o(x)$$
+by an application of Corollary 5.8. Thus,
+$$\psi(x) = N(x) + \int_{1^-}^x dH * dM = x + o(x).$$
+
+\item $(5.10) \longrightarrow (5.14)$ i.e. $\psi(x) \sim x \Rightarrow \int_1^x t^{-1} d\psi = \log x - \gamma + o(1)$: We express
+$$x \int_1^x t^{-1} d\psi(t) = \int_1^x \{ d\psi * dN \;+\; (\delta_1 + dt - dN) * dt \;+\; (\delta_1 + dt - dN) * (d\psi - dt) \}$$
+and assess the three integrals:
+\begin{itemize}
+\item By Chebyshev's identity $d\psi * dN = L dN$, we have
+$$\int_1^x d\psi * dN = \int_1^x L dN = x \log x - x + \underbrace{1 + O(\log x)}_{o(x)}.$$
+
+\item It is clear that
+\begin{align*}
+\int_1^x (\delta_1 + dt - dN) * dt &= \int_1^x \left( \frac{x}{t} - N\left(\frac{x}{t}\right) \right) dt\\
+&= x \int_1^x t^{-1} dt - \int_1^x dN * dt\\
+&= x \log x - \int_1^x (x/t - 1) dN\\
+&= x \log x + N(x) - x \int_1^x t^{-1} dN\\
+&= x \log x + N(x) - x (\log x + \gamma + O(x^{-1}))\\
+&= N(x) - x \gamma + \underbrace{O(1)}_{= o(x)}
+\end{align*}
+
+\item Finally, the third piece
+$$\int_1^x (\delta_1 + dt - dN) * (d\psi - dt) = o(x)$$
+by Lemma 5.7 with $B(x) = \psi(x) - x = o(x)$ by our assumption (5.10), the total variation $B_v(x)$ is at most $\psi_v(x) + x_v = O(x)$ since both $\psi$ and $x \mapsto x$ are increasing and $|x - N(x)| \leq 1$ as exploited in Corollary 5.8.
+\end{itemize}
+So combining the three, we get
+$$x \int_1^x t^{-1} d\psi(t) = x \log x - \gamma x + o(x)$$
+which clearly implies (5.14).
+
+\item $(5.13) \longrightarrow (5.14)$ i.e. $\sum_{n \leq x} \mu(n)/n = o(1) \Rightarrow \int_1^x t^{-1} d\psi = \log x - \gamma + o(1)$: We follow the proof of $(5.12) \longrightarrow (5.14)$ in Theorem 5.9 to write
+\begin{align*}
+x \int_1^x t^{-1} d\psi &= x \log x - \gamma x + \underbrace{\int_1^x (\delta_1 + dt) * (L dN - dt * dN + \gamma dN) * dM}_{I(x)}
+\end{align*}
+Since our assumption (5.13) is the same as
+$$x \int_{1^-}^x t^{-1} dM = \int_{1^-}^x (\delta_1 + dt) * dM = o(x),$$
+it suggests us to treat $I(x) = \int_{1^-}^x dA * dB$ where 
+\begin{align*}
+A(x) &= \int_{1^-}^x L dN - dt * dN + \gamma dN, \text{ and}\\
+B(x) &= \int_{1^-}^x (\delta_1 + dt) * dM.
+\end{align*}
+Unfortunately, this idea does not work out because while it is easy to bound $|A| \leq O(\log x)$, it is \emph{not true} that $B_v(x) = O(x)$: We have
+\begin{align*}
+B_v(x) &= \int_{1^-}^x |(\delta_1 + dt) * dM|\\
+&= \int_{1^-}^x \frac{x}{t} |dM|\\
+&= \int_{1^-}^x \frac{x}{t} dQ(t)\\
+&= Q(x) + x \int_{1^-}^x Q(t) t^{-2} dt\\
+&= Q(x) + x \int_{1^-}^x \left( \frac{6t}{\pi^2} + O(\sqrt{t}) \right) t^{-2} dt\\
+&= Q(x) + \frac{6x}{\pi^2} \int_{1^-}^x t^{-1} dt + O(x)\\
+&= \frac{6}{\pi^2} x \log x + O(x).
+\end{align*}
+Note that it nevertheless follows from Lemma 3.16 that $B_v(x) = O(x^2)$.
+
+In any case, it is a one-line proof to get (5.12) from (5.13).
+\end{itemize}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi
