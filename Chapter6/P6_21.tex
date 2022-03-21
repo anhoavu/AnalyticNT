@@ -1,0 +1,65 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\begin{document}
+\fi
+
+\textbf{Problem 6.21}: Use the formula
+$$\frac{1}{s - 1} - \frac{\zeta(s)}{s} = \int_1^\infty \frac{x - [x]}{x^{s+1}} dx \qquad (\Re s > 0)$$
+(alternative form of (6.12)) to prove that $\zeta(s) \not= 0$ on the set
+$$\{s : \Re s \geq 1/2, |\Im s| \leq \sqrt 3 / 2\}.$$
+Hint: For $\Re s > 0$, show that
+$$\Abs{ \frac{1}{s - 1} - \frac{\zeta(s)}{s} } < \frac{1}{2\sigma}.$$
+
+\begin{proof}
+Note that the formula comes from applying Euler's summation formula with $c = 0$ instead of $c = 1/2$ in (6.12).
+
+To prove the hinted inequality, we have
+$$\Abs{ \frac{1}{s - 1} - \frac{\zeta(s)}{s} } \leq \int_1^\infty \frac{x - [x]}{x^{\sigma + 1}} dx$$
+and equality could occur when $s = \sigma$ is real.
+%Note that
+%$$\frac{1}{2} \int_1^\infty \frac{1}{x^{\sigma + 1}} dx.$$ % = \frac{1}{2} \left. \frac{x^{-\sigma}}{-\sigma} \right|_1^\infty.$$
+
+We have
+$$\frac{1}{\sigma} = \int_1^\infty \frac{1}{x^{\sigma + 1}} dx = \int_1^\infty \frac{x - [x]}{x^{\sigma + 1}} dx + \int_1^\infty \frac{1 - (x - [x])}{x^{\sigma + 1}} dx$$
+and our intuition expects\footnote{The numerators in both integrals goes through the same values 0 to 1, but one covariates and the other contravariates with the denominators. If $a_1 < a_2 < ... < a_n$ and $b_1 < b_2 < ... < b_n$ then we have $\sum a_i b_i > \sum a_i b_{n-i}$. (Covariate gives larger sum product than contravariate.)}
+$$\int_1^\infty \frac{x - [x]}{x^{\sigma + 1}} dx \leq \int_1^\infty \frac{1 - (x - [x])}{x^{\sigma + 1}} dx.$$
+
+To formalize the idea, rewrite the integrals as infinite sums
+\begin{align*}
+\int_1^\infty \frac{x - [x]}{x^{\sigma + 1}} dx &= \sum_{n=1}^{\infty} \int_n^{n+1} \frac{x - n}{x^{\sigma + 1}} dx\\
+&= \sum_{n=1}^{\infty} \int_0^1 \frac{t}{(n + t)^{\sigma + 1}} dt &\text{ change } t = x - n\\
+\int_1^\infty \frac{1 - (x - [x])}{x^{\sigma + 1}} dx &= \sum_{n=1}^{\infty} \int_n^{n+1} \frac{n + 1 - x}{x^{\sigma + 1}} dx\\
+&= \sum_{n=1}^{\infty} \int_0^1 \frac{t}{(n+1-t)^{\sigma + 1}} dt &\text{change } t = n + 1 - x
+\end{align*}
+and it is apparent that for any $n$:
+$$\int_0^1 \frac{t}{(n + t)^{\sigma + 1}} dt \leq \int_0^1 \frac{t}{(n+1-t)^{\sigma + 1}} dt$$
+because
+\begin{align*}
+&\int_0^1 \left( \frac{1}{(n+1-t)^{\sigma + 1}} - \frac{1}{(n + t)^{\sigma + 1}} \right) t \; dt\\
+=& \int_0^{1/2} \left( \frac{1}{(n+1-t)^{\sigma + 1}} - \frac{1}{(n + t)^{\sigma + 1}} \right) t \; dt + \int_{1/2}^1 \left( \frac{1}{(n+1-t)^{\sigma + 1}} - \frac{1}{(n + t)^{\sigma + 1}} \right) t \; dt\\
+=& \int_0^{1/2} \left( \frac{1}{(n+1-t)^{\sigma + 1}} - \frac{1}{(n + t)^{\sigma + 1}} \right) t \; dt + \int_{1/2}^0 \left( \frac{1}{(n+u)^{\sigma + 1}} - \frac{1}{(n + 1 - u)^{\sigma + 1}} \right) (1 - u) \; (-du) &\text{change } u = 1 - t\\
+=& \int_0^{1/2} \left( \frac{1}{(n+1-t)^{\sigma + 1}} - \frac{1}{(n + t)^{\sigma + 1}} \right) t \; dt + \int_0^{1/2} \left( \frac{1}{(n+t)^{\sigma + 1}} - \frac{1}{(n + 1 - t)^{\sigma + 1}} \right) (1 - t) \; dt\\
+=& \int_0^{1/2} \left( \frac{1}{(n+t)^{\sigma + 1}} - \frac{1}{(n + 1 - t)^{\sigma + 1}} \right) (1 - 2 t) \; dt\\
+\geq& 0
+\end{align*}
+since the integrand
+$$\left( \frac{1}{(n+t)^{\sigma + 1}} - \frac{1}{(n + 1 - t)^{\sigma + 1}} \right) (1 - 2 t) \geq 0$$
+for all $t \in [0, 1/2]$ given $\sigma > 0$.
+
+Now we show that $\zeta(s) \not = 0$ for $s$ in the given set. Suppose that $\zeta(s) = 0$ for some $s$ in that set. Then the inequality implies that
+$$\Abs{\frac{1}{s - 1}} < \frac{1}{2\sigma}$$
+which further implies
+$$2\sigma < |s - 1|$$
+so if we write $s = \sigma + i t$ then
+$$4\sigma^2 < (\sigma - 1)^2 + t^2$$
+so
+$$t^2 > 3\sigma^2 + 2\sigma - 1 %= 3 (\sigma^2 + 2/3\sigma - 1/3)
+= 3 \left(\sigma + \frac13\right)^2 - 4/3 \geq 3 \left(\frac12 + \frac13\right)^2 - \frac43 = \frac34.$$
+But this contradicts the assumption that $|t| = |\Im s| \leq \sqrt 3 / 2$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

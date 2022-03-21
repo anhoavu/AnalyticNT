@@ -1,0 +1,59 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Fhat}{\widehat{F}}
+\begin{document}
+\fi
+
+\textbf{Problem 6.11}: Find the abscissa of convergence of the following M.t.'s:
+\begin{enumerate}
+\item $\sum |\mu(n)| n^{-s}$
+\item $\int x^{-s} d(x^3)$
+\item $\int x^{-s} \cos(x^2) dx$
+\item $\sum n^{-2s}$
+\item $\sum_{n \geq 10} n^{\log \log n} n^{-s}$
+\item $\sum_{n \geq 10} n^{-\log \log n} n^{-s}$
+\end{enumerate}
+
+\begin{proof}
+\begin{enumerate}
+\item $\sum |\mu(n)| n^{-s} = \int x^{-s} dQ(x)$ has $\sigma_c = 1$ because the exact growth rate of $Q(x)$ is known to be linear. As an alternative, we can use Problem 6.10 with $\frac{\pi^2}{6} Q(x) \sim x$.
+
+\item Clearly $\int x^{-s} d(x^3)$ has $\sigma_c = 3$ because $F(x) = x^3$ has obvious growth rate.
+
+\item At first sight, we can estimate $\int_{1^-}^x \cos(t^2) \; dt = O(x)$ as $\cos(t^2) = O(1)$. So $\sigma_c \leq 1$ i.e. the M.t. converges for all $s$ with $\Re s > 1$. But this is not the right answer. Making a change of variable $u = x^2$ to get rid of the $x^2$ under $\cos$, we have
+\begin{align*}
+\int x^{-s} \cos(x^2) dx &= \lim_{X \rightarrow \infty} \int_{1^-}^X x^{-s} \cos(x^2) dx\\
+&= \lim_{X \rightarrow \infty} \int_{1^-}^{X^2} u^{-s/2} \cos u \; d(u^{1/2})\\
+&= \frac{1}{2} \lim_{X \rightarrow \infty} \int_{1^-}^{X^2} u^{-s/2-1/2} \cos u \; du\\
+&= \frac{1}{2} \lim_{X \rightarrow \infty} \int_{1^-}^X u^{-(s/2+1/2)} d(\sin u)\\
+&= \frac{1}{2} \Fhat(s/2 + 1/2) &\text{ where } F(x) = \sin x
+\end{align*}
+It is apparent that $\sin x = O(1)$ so $\Fhat(s)$ converges as long as $\Re(s) > 0$. Also, $\Fhat(s)$ diverges for all $s$ with $\Re(s) < 0$ because $\sin x$ is not $c + o(x^{-\epsilon})$ for any $\epsilon > 0$. Thus, $\sigma_c(\Fhat) = 0$ so $\sigma_c = -1$ for $\int x^{-s} \cos(x^2) dx$. %$\Re(s/2 + 1/2) > 0 \iff 1/2 \Re(s) > -1/2 \iff \Re(s) > -1$
+
+\item $\sum n^{-2s} = \zeta(2s)$ so $\sigma_c = 1/2$ thank to the knowledge that $\sigma_c = 1$ for $\zeta(s)$.
+
+\item $\sum_{n \geq 10} n^{\log \log n} n^{-s} = \int x^{-s} \; dF(x)$ minus a constant. Here, $F$ is the summatory function of $n^{\log \log n}$ (note that for $n = 1$, $1^{\log 0} = 1^{-\infty} = 0$ and we take $t^{\log \log t} = 0$ for $t < 1$) i.e.
+\begin{align*}
+F(x) &= \int_{1^-}^x t^{\log \log t} dN(t)\\
+&= N(x) x^{\log \log x} - \int_{1^-}^x N(t) \; d\left( t^{\log \log t} \right)\\
+&= N(x) x^{\log \log x} - \int_{1^-}^x \frac{N(t)}{t} t^{\log \log t}(\log \log t + 1) dt\\
+&\sim x^{1 + \log \log x}
+\end{align*}
+which clearly is not of polynomial growth. (I might be wrong about this estimate. Let us write a program to confirm this.) So $\sigma_c = +\infty$ i.e. the series can never converge.
+
+We can also see this directly: Fix $s$. As $\log \log n \rightarrow \infty$, we have $\log \log n > 1 + \sigma$ for $n$ large enough, say $n > N$. This implies that the terms $n^{\log \log n - s}$ does not converges to 0; otherwise $|n^{\log \log n - s}| = n^{\log \log n - \sigma} \rightarrow 0$ which cannot happen because $n^{\log \log n - \sigma} > n$. Hence, the series does not converge for $s$. (If $\sum a_n$ converges then $a_n \rightarrow 0$ as $a_n$ are difference of consecutive partial sums.)
+
+\item $\sum_{n \geq 10} n^{-\log \log n} n^{-s}$ should have $\sigma_c = -\infty$ i.e. converges for all $s$ on account that
+$$\int_{1^-}^x t^{-\log \log t} dN(t) \sim x^{1 - \log \log x}$$
+which is lower than any $x^k$.
+
+Again, we can see this directly: For fix $s$, take $N$ large enough such that $\log \log n > 2 + \sigma$. Then
+$$\sum_{n \geq N} |n^{-\log \log n} n^{-s}| = \sum_{n \geq N} |n^{-(\log \log n - s)}| < \sum_{n \geq N} n^2 < \infty$$
+so not only the series converges, it converges absolutely.
+\end{enumerate}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

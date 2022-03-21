@@ -1,0 +1,43 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\Fhat}{\widehat{F}}
+\begin{document}
+\fi
+
+\textbf{Problem 6.13}: Let $F \in \V$ and $b > \sigma_a(\Fhat)$. Show that $\Fhat$ is bounded on $\{s : \sigma \geq b\}$.
+
+\begin{proof}
+By assumption on $b$, we have $A = \int x^{-b} dF_v$ converges. It then follows that for any $s$ with $\sigma \geq b$,
+$$|\Fhat(s)| \leq \int x^{-\sigma} dF_v \leq \int x^{-b} dF_v = A$$
+so $\Fhat$ is bounded on $\{s : \sigma \geq b\}$ by $A$.
+\end{proof}
+
+\textbf{Problem 6.14}: Suppose that $\sum a_n n^{-s}$ converges at $s = s_0$. Prove that $\sum |a_n| n^{-\sigma}$ converges if $\Re s > 1 + \Re s_0$ and conclude that $\sigma_a \leq 1 + \sigma_c$.
+
+\begin{proof}
+Let $A(x)$ denotes the summatory function of the $a_n$ and $\sigma_0 = \Re s_0$. By Theorem 6.9, the assumption that $\sum a_n n^{-s} = \int x^{-s} dA$ converges at $s = s_0$ implies that
+\begin{itemize}
+\item $A(x) = c + o(x^{\sigma_0})$ if $\sigma_0 \not= 0$ where $c$ is some constant ($c = 0$ if $\sigma_0 > 0$) so for $C$ large enough $|A(x) - c| \leq C x^{\sigma_0}$ for all $x$ and
+\begin{align*}
+A_v(x) &= \sum_{n \leq x} |a_n|\\
+&= \sum_{n \leq x} |A(n) - A(n-1)|\\
+&\leq \sum_{n \leq x} C (n^{\sigma_0} + (n-1)^{\sigma_0})\\
+&\leq 2C \int_1^{x+1} t^{\sigma_0} dt \sim \frac{2C}{\sigma_0 + 1} x^{\sigma_0 + 1}
+\end{align*}
+since the function $t^{\sigma_0}$ is monotone and so $\int_{n-1}^n t^{\sigma_0} dt \geq (n-1)^{\sigma_0}$ or $n^{\sigma_0}$. (We could use Lemma 3.13 when $\sigma_0 < 0$.) So $A_v(x) = O(x^{\sigma+1})$ and that implies $\sum |a_n| n^{-\sigma} = \int |x^{-s}| dA_v$ converges by Theorem 6.9 again.
+
+\item $A(x) = o(\log ex)$ if $\sigma_0 = 0$. We use a similar argument: Let $C$ be the constant $A(x) < C \log ex$ and then
+\begin{align*}
+A_v(x) &\leq \sum_{n \leq x} C (\log (en) + \log (e(n-1)))\\
+&\leq 2C \int_{1^-}^{x+1} \log(et) dt &\text{for } \int_n^{n+1} \log(et) dt \geq \log(en)\\
+&\leq 2C x \log (ex)
+\end{align*}
+So if $\Re s > 1 + \sigma_0 = 1$ then let $\delta = \sigma - 1 > 0$ then we find $A_v(x) = O(x^{1+\delta/2})$ whence $\sum |a_n| n^{-\sigma} = \int |x^{-s}| dA_v$ converges by Theorem 6.9 due to $\sigma > 1 + \delta/2$.
+\end{itemize}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

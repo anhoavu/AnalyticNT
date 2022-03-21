@@ -1,0 +1,20 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\begin{document}
+\fi
+
+\textbf{Problem 6.20}: Let $\lambda$ denote Liouville's function (c.f. Problem 2.27). Find the numerical value of $\sum_{n=1}^{\infty} \lambda(n)/n$, assuming that the series converges.
+
+\begin{proof}
+We have
+$$\sum_{n=1}^{\infty} \lambda(n) n^{-s} = \frac{\zeta(2s)}{\zeta(s)}$$
+so taking the limit as $s \rightarrow 1^+$ yields
+$\sum_{n=1}^{\infty} \lambda(n)/n = 0$
+for $\zeta(s)$ has a pole there.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

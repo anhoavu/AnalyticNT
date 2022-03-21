@@ -1,0 +1,77 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\begin{document}
+\fi
+
+\textbf{Problem 6.5}: Use the result of Example 6.8 to approximate
+$$\prod_p \left(1 - \frac{2}{p^2 - 1} \right).$$
+
+\begin{proof}
+We factor out two $\zeta$-values:
+\begin{align*}
+I &:= \prod_p \left(1 - \frac{2}{p^2 - 1} \right)\\
+&= \zeta(2)^{-2} \prod_p \left(1 - \frac{2}{p^2 - 1} \right) (1 - p^{-2})^{-2} &\text{as } -\frac{2}{p^2 - 1} \sim -2p^{-2}\\
+&= \frac{36}{\pi^4} \prod_p \left(1 - \frac{3p^2 - 1}{(p^2 - 1)^3} \right)\\
+&= \frac{36}{\pi^4} \zeta(4)^{-3} \prod_p \left(1 - \frac{3p^2 - 1}{(p^2 - 1)^3} \right) (1 - p^{-4})^{-3} &\text{ as } - \frac{3p^2 - 1}{(p^2 - 1)^3} \sim -3 p^{-4}\\
+&= \frac{36}{\pi^4} \frac{90^3}{\pi^{12}} \prod_p \left(\frac{p^{16} (p^2 - 3) }{(p^2 - 1)^6 (p^2 + 1)^3} \right)\\
+&= \frac{26,244,000}{\pi^{16}} \underbrace{\prod_p \left( 1 - g(p) \right)}_{J}
+\end{align*}
+where
+\begin{align*}
+g(p) &= 1 - \frac{ p^{16} (p^2 - 3) }{(p^2 - 1)^6 (p^2 + 1)^3} \\
+&= \frac{8 p^{12} - 6 p^{10} - 6 p^8 + 8 p^6 - 3 p^2 + 1}{(p^2 - 1)^6 (p^2 + 1)^3}.
+\end{align*}
+
+Using the inequality
+$$0 > \log(1 - K^{-1}) > -(K-1)^{-1}, \qquad \forall K > 2$$
+in Example 6.8 to reduce the complexity (via getting rid of the logarithm) in Lemma 4.12, we have
+\begin{align*}
+0 &> \sum_{p > X} \log(1 - g(p))\\
+&> - \sum_{p > X} \frac{1}{\frac{1}{g(p)} - 1}\\
+&= - \sum_{p > X} \frac{g(p)}{1 - g(p)}\\
+&= - \sum_{p > X} \frac{8 p^{12} - 6 p^{10} - 6 p^8 + 8 p^6 - 3 p^2 + 1}{p^{16} (p^2 - 3)}\\
+&= - \sum_{p > X} \frac{8}{p^4 (p^2 - 3)} + \sum_{p > X} \frac{6 p^{10} +6 p^8 - 8 p^6 + 3 p^2 - 1}{p^{16} (p^2 - 3)}\\
+&> - \sum_{p > X} \frac{8}{p^4 (p^2 - 3)}\\
+&> - \sum_{p > X} \frac{1}{p^5} &\text{when } X > 7
+\end{align*}
+because then $p \geq 11$ and $p^2 - 3 \geq 8p$. % \iff (p - 4)^2 \geq 19 \iff p \geq 4 + \sqrt{19} = 8.35\cdots$.
+The function $f(x) = x^{-5}$ is non-negative convex on $[0, \infty)$ and
+\begin{align*}
+\int_X^\infty f(x) dx = \left.\frac{x^{-4}}{-4} \right|_X^\infty = \frac{1}{4 X^4}
+\end{align*}
+which can be made $< 3 \epsilon$ by choosing $X > \sqrt[4]{\frac{1}{12\epsilon}}$. That means for $\epsilon = 10^{-6}$, taking $N = 4$ so that
+$$X = 6N - 3 = 21 > \sqrt[4]{10^6 / 12} = 10 \sqrt[4]{100/12} = 16.99\cdots > 7$$
+then
+$$a = \sum_{p \leq X} \log(1 - g(p))$$
+satisfies
+$$|a - \log J| < \frac{1}{3} \int_X^\infty f(x) dx < \epsilon$$
+by Lemma 4.12 whence (note that $J < 1$)
+$$|e^a - J| < J (e^\epsilon - 1) < 2 \epsilon.$$
+
+Note that % {p < 21} = {2, 3, 5, 7, 11, 13, 17, 19}
+\begin{align*}
+e^a &= \prod_{p \leq X} (1 - g(p)) \\
+&= \frac{(\prod_{p \leq X} p)^{16} \prod_{p \leq X} (p^2 - 3)}{(\prod_{p \leq X} (p^2 - 1))^6 (\prod_{p \leq X} (p^2 + 1))^3} \\
+&= \frac{9699690^{16} \cdot 12177858346368}{57789539942400^6 \cdot 141523538000000^3}\\
+% &= \frac{356172372737609865916787176261675714823918430816027906960547594332402268815328155432773}{502973487059206069117596592324781827613978396665382251404157673603806003200000000000000}\\
+&= 0.708133\cdots
+\end{align*}
+% In WolframAlpha:
+% product_(i=1)^8 p_i          = 9699690
+% product_(i=1)^8((p_i)^2 - 3) = 12177858346368
+% product_(i=1)^8((p_i)^2 - 1) = 57789539942400
+% product_(i=1)^8((p_i)^2 + 1) = 141523538000000
+% (9699690^{16} * 12177858346368) / (57789539942400^6 * 141523538000000^3)
+can be accurately computed as a rational number. With a rational approximation of $\frac{26,244,000}{\pi^{16}} \approx 0.291495642$ with error $< \epsilon$, we are guaranteed a rational approximation
+$$0.291495642 \times 0.708133 = 0.206417683456386$$
+to $I$ with error $\epsilon^2 + (e^a + 0.291495642) \epsilon < \epsilon$.
+
+% Check that
+% product_(i=1)^50(1 - 2/((p_i)^2 - 1)) = 0.20669326518...
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

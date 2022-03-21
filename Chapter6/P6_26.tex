@@ -1,0 +1,74 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Fhat}{\widehat{F}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\begin{document}
+\fi
+
+\textbf{Problem 6.26}: Let $f = \prod_{n=2}^{\infty} (e_1 - e_n)^{*-1}$ and let $F$ be the summatory function of $f$. Show that if $n \geq 2$ then $f(n)$ equals the number of representations of $n$ as a product $k_1 k_2 ... k_r$, where $r \geq 1$ and $2 \leq k_1 \leq k_2 \leq ... \leq k_r$. (For example $12 = 2 \cdot 6 = 3 \cdot 4 = 2 \cdot 2 \cdot 3$ and $f(12) = 4$.) Show that $\Fhat(s) = \prod_{n=2}^{\infty} (1 - n^{-s})^{-1}$ and $\sigma_c(\Fhat) = 1$. Conclude that $F(x) = O(x^{1 + \epsilon})$ for any positive number $\epsilon$.
+
+\begin{proof}
+\begin{enumerate}
+\item  For any $N \geq 2$, let
+$$f_N := \prod_{n=2}^{N} (e_1 - e_n)^{*-1}$$
+and we show that $f_N(n)$ equals the number of representations of $n$ as a product $k_1 k_2 ... k_r$ where $r \geq 1$ and $2 \leq k_1 \leq k_2 \leq ... \leq k_r \leq N$. Then it is clear that $f(n) = f_N(n)$ for any $N \geq n$ since in any such factorization $n = k_1 ... k_r$, we must have $k_i \leq n$ as they are divisors of $n$ and so $f(n)$ has the prescribed description in the problem.
+
+For $j \geq 2$, we have
+$$(e_1 - e_j)^{*-1} = \sum_{m = 0}^{\infty} e_{j^m} = e_1 + e_j + e_{j^2} + ...$$
+so $(e_1 - e_j)(d) = 1$ only when $d$ is a power of $j$ and is zero otherwise. Therefore,
+\begin{align*}
+f_N(n) &= \sum_{n = d_2 ... d_N} \prod_{j = 2}^N (e_1 - e_j)^{*-1}(d_j)\\
+&= \sum_{n = 2^{\alpha_2} ... N^{\alpha_N}} 1
+\end{align*}
+counts the number of ways to write $n$ as the product $n = 2^{\alpha_2} ... N^{\alpha_N}$. Clearly, each such representation gives us a factorization $n = k_1 ... k_r$ where $r = \alpha_2 + ... + \alpha_N$ given by $k_1 = \cdots = k_{\alpha_2} = 2 < k_{\alpha_2 + 1} = \cdots = k_{\alpha_2 + \alpha_3} = \alpha_3 < \cdots$. In other words, the first $\alpha_2$ numbers are 2, the next $\alpha_3$ numbers are 3 and so on. Conversely, each factorization $n = k_1 ... k_r$ satisfying the conditions yields a representation $n = 2^{\alpha_2} ... N^{\alpha_N}$ where $\alpha_j$ is the number of indices $t$ where $k_t = j$. In our example, $12 = 2 \cdot 2 \cdot 3$ corresponds to $12 = 2^2 \cdot 3^1$.
+
+\item In problem 6.24, we showed that for any fixed $r$,
+$$\sum_{n = k_1 k_2 ... k_r, \; k_i \geq 2 \; \forall i} 1 \leq \frac{n \log^{r-1} n}{(r-1)!}$$
+so for any $n$, we have
+\begin{align*}
+f(n) &= \sum_{r = 1}^{\infty} \sum_{n = k_1 k_2 ... k_r, \; 2 \leq k_1 \leq k_2 \leq ... \leq k_r} 1\\
+&\leq \sum_{r = 1}^{\infty} \sum_{n = k_1 k_2 ... k_r, 2 \leq k_i \; \forall i} 1\\
+&\leq \sum_{r = 1}^{\infty} \frac{n \log^{r-1} n}{(r-1)!}\\
+&= n e^{\log n}\\
+&= n^2
+\end{align*}
+which implies the summatory function $F(x)$ is $O(x^3)$. So $\Fhat(s)$ converges absolutely for all $s$ with $\Re s > 3$. So $\sigma_a(\Fhat) < +\infty$.
+
+\item The key idea in the infinite product for $\Fhat$ is the fact that
+$$\Fhat_N(s) = \prod_{n = 2}^{N} (1 - n^{-s})^{-1} \qquad (\Re s > 0)$$
+by Theorem 6.2 so we expect $\Fhat(s) = \lim_{N \rightarrow \infty} \Fhat_N(s)$ since $f_N \rightarrow f$. Note that the Dirichlet series for $(e_1 - e_j)^{*-1}$ is $\sum_{m=1}^{\infty} j^{-m s}$ converges absolutely for $\Re s > 0$.
+
+To actually prove it, at least for $\Re s > \sigma_a(\Fhat)$ where $\Fhat(s)$ converges absolutely, we imitate Lemma 6.4 and consider the difference
+\begin{align*}
+\Fhat(s) - \Fhat_N(s) &= \sum_{n=1}^{\infty} (f(n) - f_N(n)) \; n^{-s} \\
+&= \sum_{n=N + 1}^{\infty} (f(n) - f_N(n)) \; n^{-s}
+\end{align*}
+since the difference $f(n) - f_N(n) = 0$ if $n \leq N$ and it counts the number of factorizations $n = k_1 ... k_r$ with $2 \leq k_1 \leq \cdots \leq k_r$ but $k_j > N$ for some $j$ (which implies $k_r > N$). The last series is the tail of an absolutely convergent series 
+$$\Abs{ \sum_{n=N + 1}^{\infty} (f(n) - f_N(n)) \; n^{-s} } \leq \sum_{n = N + 1}^{\infty} f(n) \; n^{-\sigma}$$
+so it goes to 0. Thus, fix $s$ with $\Re s > \sigma_a$ then for any $\epsilon > 0$, we simply choose $N$ large enough so that
+$$\sum_{n = N + 1}^{\infty} f(n) \; n^{-\sigma} < \epsilon$$
+by absolute convergence and that will ensure $|\Fhat(s) - \Fhat_m(s)| < \epsilon$ whenever $m \geq N$. This proves $\Fhat(s) = \lim_{N \rightarrow \infty} \Fhat_N(s)$ and thus, we get the product representation $\Re s > \sigma_a$.
+
+\item To prove that $\sigma_c(\Fhat) = 1$, we first note that $\Fhat$ cannot converge at $s = 1$ because
+$$\prod_{n = 2}^{\infty} (1 - n^{-s})^{-1} = \zeta(s) \prod_{\text{non-prime } n = 2}^{\infty} (1 - n^{-s})^{-1}$$
+has a pole at 1. Note that each factor $(1 - n^{-s})^{-1} > 1$ if $s = \sigma > 0$. By Problem 6.18, $\Fhat$ does not converge at any point on the line $\sigma = 1$ and so $\sigma_c \geq 1$.
+
+For any $\sigma > 1$, we consider the logarithm of the product
+$$0 \leq -\sum_{n = 2}^{\infty} \log(1 - n^{-\sigma}) \leq \sum_{n = 2}^{\infty} \frac{1}{n^\sigma - 1}$$
+where as exploited in Example 6.8, one has
+$$0 > \log(1 - n^{-\sigma}) = \log\left(\frac{n^\sigma - 1}{n^\sigma}\right) = - \log\left(1 + \frac{1}{n^\sigma - 1}\right) \geq -\frac{1}{n^\sigma - 1}$$
+for $n > 2$ and $\sigma > 1$ so
+$$0 < -\log(1 - n^{-\sigma}) \leq \frac{1}{n^\sigma - 1} \leq \frac{1}{(n-1)^{\sigma}}$$
+because $0 < (n-1)^{\sigma} \leq n^\sigma - 1 \iff 1 \leq n^\sigma - (n-1)^\sigma$ which is true by Mean Value Theorem: $n^\sigma - (n-1)^\sigma = \sigma \xi^{\sigma - 1} \geq 1$ for some $\xi \in (n-1, n)$ and $\sigma \xi^{\sigma - 1} \geq 1$ as $\xi \geq n - 1 \geq 2 - 1 = 1$ and $\sigma > 1$.
+
+The last series converges absolutely which implies convergence of
+$$-\sum_{n = 2}^{\infty} \log(1 - n^{-\sigma})$$
+which estabishes convergence of $\Fhat(s)$ for $\Re s > 1$.
+\end{enumerate}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

@@ -1,0 +1,85 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Fhat}{\widehat{F}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\begin{document}
+\fi
+
+\textbf{Problem 6.24}: Suppose $\varphi \in \A$, $\varphi(1) = 0$ and $f = \exp \varphi$. Show that if one of $f, \varphi$ is of polynomial growth then so is the other. Use these relations to give another proof of Lemma 6.30.
+
+\begin{proof}
+Let us show first that
+\begin{enumerate}
+\item The integral
+\begin{align*}
+\int_1^x \frac{x}{t} \log^{k-1}\left(\frac{x}{t}\right) \; dt
+=& x \int_1^x (\log x - \log t)^{k-1} \; d(\log t)\\
+=& x \int_0^{\log x} (\log x - u)^{k-1} \; du\\
+=& x \left. \frac{-(\log x - u)^{k}}{k} \right|_{u=0}^{u=\log x}\\
+=& \frac{x \log^k x}{k}.
+\end{align*}
+
+\item Define the function
+$$s_k(n) = \sum_{d_1 ... d_k = n, \; d_i > 1 \; \forall i} 1$$ which counts the number of ways to write $n = d_1 ... d_k$ with $d_i > 1$ for all $i$. It is easy to see that
+$$s_k = (1 - e_1)^{*k}.$$
+
+Let $S_k$ be the summatory function of $s_k$. Then for any $k \geq 1$ and any $x \geq 1$,
+$$S_k(x) \leq \frac{x \log^{k-1} x}{(k-1)!} =: f_k(x).$$
+
+We prove this by induction.
+
+\textbf{The base case} $k = 1$ is clear: $S_1(x) = N(x) - 1 \leq x = f_1(x)$.
+
+\textbf{Induction}: Suppose that the inequality holds for $k$. We want to show that it holds for $k + 1$. One has
+\begin{align*}
+S_{k+1}(x) &= \int_{1^-}^x d S_k * (d N - \delta_1) &\text{from } s_{k+1} = s_k * (1 - e_1)\\
+&= \int_{1^-}^x S_k(x/t) \; d (N - \delta_1) \\
+&\leq \int_{1^-}^x S_k(x/t) \; dt &\text{by Lemma 3.11} \\
+&\leq \int_{1^-}^x f_k(x/t) \; dt &\text{by induction hypothesis}\\
+&= \int_1^x f_k(x/t) \; dt\\
+&= f_{k+1}(x) &\text{as evaluated above}
+\end{align*}
+Note that the function $t \mapsto S_k(x/t)$ is nonnegative decreasing since $S_k$ is clearly increasing and $N(t) - 1 \leq t - 1$. Recall that $dt = d(t - 1)$ is continuous at 1 so we can replace $1^-$ by $1$.
+
+\item Suppose that $g(1) = 0$ and $|g(n)| \leq A n^\alpha$ for some constants $A$ and $\alpha$. For any $k \geq 1$, we have
+\begin{align*}
+\Abs{ g^{*k}(n) } &= \Abs{ \sum_{d_1 ... d_k = n, \; d_i > 1 \; \forall i} g(d_1) \cdots g(d_k) } &\text{ since } g(1) = 0\\
+&\leq \sum_{d_1 ... d_k = n, \; d_i > 1 \; \forall i} (Ad_1^\alpha \cdots Ad_k^\alpha)\\
+&= \sum_{d_1 ... d_k = n, \; d_i > 1 \; \forall i} A^k n^\alpha\\
+&= A^k n^\alpha s_k(n)\\
+&\leq A^k n^\alpha S_k(n)\\
+&\leq A^k n^\alpha \frac{n \log^{k-1} n}{(k-1)!}\\
+&= \frac{A^k n^{\alpha + 1} \log^{k-1} n}{(k-1)!}.
+\end{align*}
+\end{enumerate}
+
+Now we are ready to solve the main problem.
+\begin{itemize}
+\item Suppose that $\varphi$ is of polynomial growth. So $|\varphi(n)| \leq A n^\alpha$ for some $A$ and $\alpha$. Then for any $n \geq 3$, we have
+\begin{align*}
+\Abs{ f(n) } &= \Abs{ \sum_{k = 0}^{\infty} \frac{1}{k!} \varphi^{*k}(n) }\\
+&\leq \sum_{k = 0}^{\infty} \frac{A^k n^{\alpha + 1} \log^{k-1} n}{k! (k-1)!} &\text{ by above inequality for } g = \varphi\\
+&= n^{\alpha + 1} \sum_{k = 0}^{\infty} \frac{A^k \log^k n}{k!} &\text{ for } n \geq 3 \text{ we have } \log n \geq 1\\
+&= n^{\alpha + 1} e^{A \log n}\\
+&= n^{\alpha + A + 1}
+\end{align*}
+so $f$ is of polynomial growth.
+
+\item For the other direction, suppose that $f$ is of polynomial growth so we can find $A$ and $\alpha$ such that $|f(n)| \leq A n^{\alpha}$. Note that $f - e_1$ satisfies the same inequality and vanishes at 0. For any $n \geq 3$:
+\begin{align*}
+\Abs{\varphi(n)} &= \Abs{ \sum_{k = 1}^{\infty} \frac{(-1)^{k-1}}{k} (f - e)^{*k} (n)}\\
+&\leq \sum_{k = 1}^{\infty} \frac{1}{k} \frac{A^k n^{\alpha + 1} \log^{k-1} n}{(k-1)!} &\text{ by above inequality for } g = f - e_1\\
+&\leq n^{\alpha + 1} \sum_{k = 0}^{\infty} \frac{A^k \log^k n}{k!}\\
+&= n^{\alpha + A + 1}
+\end{align*}
+so $\varphi$ is of polynomial growth.
+\end{itemize}
+
+Finally, to derive Lemma 6.30, by assumption $f$ of polynomial growth, we have $\varphi = \log f$ is of polynomial growth. So is $-\varphi$ and subsequently $f^{*-1} = \exp(-\varphi)$ is of polynomial growth.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

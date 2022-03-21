@@ -1,0 +1,59 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\begin{document}
+\fi
+
+\textbf{Problem 6.12}: For each of the following M.t.'s, find the set of points on its line of convergence at which it converges:
+\begin{enumerate}
+\item $\int x^{-s} dx$
+\item $\int x^{-s} \log(ex)^{-1} dx$
+\item $\int x^{-s} \log(ex)^{-2} dx$
+\end{enumerate}
+
+\begin{proof}
+\begin{enumerate}
+\item $\int x^{-s} dx$: The line of convergence is $\sigma = 1$. For $t \not= 0$, we have
+$$\int x^{-1+it} dx = \frac{1}{it} (\lim_{X \rightarrow \infty} X^{it} - 1)$$
+does not converge since $X^it = e^{i t \log X}$ goes around the circle indefinitely. As for $t = 0$,
+$$\int x^{-1+it} dx = \int x^{-1} dx = \lim_{X \rightarrow \infty} \log X$$
+does not converge.
+
+\item $\int x^{-s} \log(ex)^{-1} dx$: The function
+$$\int_2^x \log(et)^{-1} dt \sim \frac{x}{\log ex}$$
+is $o(x^\sigma)$ only for $\sigma > 1$. So $\sigma_c = 1$ and the line of convergence is $\sigma = 1$. For $s = -1$, one has
+$$\int x^{-1} \log(ex)^{-1} dx = \int \frac{d\log x}{1 + \log x} = \lim_{X \rightarrow \infty} \log(1 + \log X)$$
+which obviously diverges. For $s = 1 - it$ with $t \not= 0$, one has $x^{it} = e^{i t \log x} = \cos(t\log x) + i \sin(t\log x)$ so
+\begin{align*}
+\int x^{-1+it} \log(ex)^{-1} dx &= \int \frac{\cos(t\log x) + i \sin(t\log x)}{x \log(ex)} dx\\
+&= \int \frac{\cos(t\log x)}{x \log(ex)} dx + i \int \frac{\sin(t\log x)}{x \log(ex)} dx\\
+&= \int \frac{\cos u}{1 + \frac{u}{|t|}} \frac{du}{|t|} + i \frac{t}{|t|} \int \frac{\sin(u)}{1 + \frac{u}{|t|}} \frac{du}{|t|} &\text{ change } u = |t| \log x\\
+&= \int \frac{\cos u}{|t| + u} du + i \frac{t}{|t|} \int \frac{\sin(u)}{|t| + u} du
+\end{align*}
+The use of absolute value is to make sure that $u \rightarrow +\infty$ as $x \rightarrow +\infty$. Note that the change of variable is only possible when $t \not= 0$ and the limit in $\int (...)$ is $\lim_{U \rightarrow \infty} \int_0^U (...)$ due to the change of variable. Put $a = |t|$. We have
+$$\int_0^U \frac{\cos u}{a + u} du = \int_0^U \frac{1}{a + u} d\sin u = \left. \frac{\sin u}{a + u} \right|_0^U + \int_0^U \frac{\sin u}{(a + u)^2} du$$
+converges as $U \rightarrow \infty$: It is clear for
+$$\left. \frac{\sin u}{a + u} \right|_0^U = \frac{\sin U}{a + U} \rightarrow 0$$
+whereas the later converges absolutely
+\begin{align*}
+\int_0^U \frac{|\sin u|}{(a + u)^2} du \leq \underbrace{\int_0^1 \frac{|\sin u|}{(a + u)^2} du}_{K} + \int_{1}^{U} \frac{1}{u^2} du = K + \left. \frac{-1}{u} \right|_{1}^{U} \rightarrow K + 1.
+\end{align*}
+So $\int x^{-s} \log(ex)^{-1} dx$ converges at every point on the line of convergence $\sigma = 1$, except for the real point $s = 1$.
+
+\item $\int x^{-s} \log(ex)^{-2} dx$: We expect a similar analysis as the previous problem. Starting with
+$$F(x) = \int_1^x \log(et)^{-2} dt \sim \frac{x}{\log^2 ex}$$
+so we have the same line of convergence $\sigma = 1$. Note that $F$ is increasing so $F_v = F$. The difference now is that
+\begin{align*}
+\int |x^{-1+it}| d F_v(x) &= \int |x^{-1+it}| \log(et)^{-2} dt\\
+&= \lim_{X \rightarrow \infty} \int_1^X \frac{d \log x}{(1 + \log x)^2}\\
+&= \lim_{X \rightarrow \infty} 1 - \frac{1}{1 + \log X}\\
+&= 1
+\end{align*}
+converges for all $t$. So not only $\int x^{-s} \log(ex)^{-2} dx$ converges at every point on the line of convergence $\sigma = 1$, it converges absolutely at those points as well.
+\end{enumerate}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

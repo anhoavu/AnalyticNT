@@ -1,0 +1,56 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Fhat}{\widehat{F}}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\begin{document}
+\fi
+
+\textbf{Problem 6.22}: Let $\Fhat(s) = \sum a_n n^{-s}$ be a D.s. with $\sigma_c(\Fhat) < \infty$. Let $N \in \Z^+$ and let $s_1, s_2, ...$ be a sequence from $\C$ with $\Re s_j \rightarrow +\infty$ as $j \rightarrow \infty$. Show that
+$$\lim_{j \rightarrow \infty} N^{s_j} \sum_{n = N}^{\infty} a_n n^{-s_j} = a_N.$$
+Use this relation prove Theorem 6.25.
+
+\begin{proof}
+Note that
+$$N^{s_j} \sum_{n = N}^{\infty} a_n n^{-s_j} = \sum_{n = N}^{\infty} a_n (N/n)^{s_j}$$
+so if we have uniform convergence, we could then swap the limit and the series
+$$\lim_{j \rightarrow \infty} \sum_{n = N}^{\infty} a_n (N/n)^{s_j} = \sum_{n = N}^{\infty} \lim_{j \rightarrow \infty} a_n (N/n)^{s_j} = a_N$$
+for if $n > N$ then $N/n < 1$ and $(N/n)^{u} \rightarrow 0$ as $\Re u \rightarrow \infty$ so the only term that survives is the one for $n = N$. Without uniform convergence, we prove it directly from the definition. Recall $\sigma_a < \infty$ so we can fix an $b > \sigma_a$. Then for all $j$ such that $\sigma_j = \Re s_j > b$, we have
+\begin{align*}
+\Abs{ N^{s_j} \sum_{n = N}^{\infty} a_n n^{-s_j} - a_N } &= \Abs{ \sum_{n = N + 1}^{\infty} a_n \left(\frac{N}{n}\right)^{s_j} }\\
+&\leq \sum_{n = N + 1}^{\infty} |a_n| \left(\frac{N}{n}\right)^{\sigma_j}\\
+&= N^b \sum_{n = N + 1}^{\infty} |a_n| n^{-b} \left(\frac{N}{n}\right)^{\sigma_j - b}\\
+&\leq N^b \sum_{n = N + 1}^{\infty} |a_n| n^{-b} \left(\frac{N}{N + 1}\right)^{\sigma_j - b} &\text{ for } \frac{N}{n} \leq \frac{N}{N+1}\\
+&\leq \underbrace{N^b \left( \sum_{n = N + 1}^{\infty} |a_n| n^{-b} \right)}_{\text{constant}} \left(\frac{N}{N + 1}\right)^{\sigma_j - b}\\
+&\rightarrow 0 \text{ as } j \rightarrow \infty
+\end{align*}
+because $\sigma_j \rightarrow \infty$.
+
+Now to derive Theorem 6.25, first we note that we could assume the existence of $s_j$ such that $\Re s_j \rightarrow \infty$. For the other assumption where $s_j$ has a limit point in a common half plane, the two series are identical there and so we can simply pick another sequence.
+
+Second, subtracting $f$ by $g$, we can assume $g = 0$ without loss of generality. In other words, it suffices to show that if there exists a sequence $s_j$ with $\Re s_j \rightarrow \infty$ and that $\Fhat(s_j) = 0$ for all $j$ then $f = 0$. We do this by induction:
+\begin{itemize}
+\item $f(1) = 0$: Follows from the limit formula for $N = 1$:
+$$f(1) = \lim_{j \rightarrow \infty} \Fhat(s_j) = 0.$$
+\item Induction: Assume that $f(1) = f(2) = ... = f(n - 1) = 0$. We show that $f(n) = 0$. By the limit formula for $N = n$:
+\begin{align*}
+f(n) &= \lim_{j \rightarrow \infty} n^{-s_j} \sum_{k = n}^{\infty} a_k k^{-s_j} \\
+&= \lim_{j \rightarrow \infty} n^{-s_j} \sum_{k = 1}^{\infty} a_k k^{-s_j} &\text{by induction hypothesis}\\
+&= \lim_{j \rightarrow \infty} n^{-s_j} \Fhat(s_j)\\
+&= 0.
+\end{align*}
+\end{itemize}
+So $f(n) = 0$ for all $n$.
+\end{proof}
+
+\textbf{Problem 6.23}: Let $\Fhat$ be a nonconstant D.s. with $\sigma_c(\Fhat) < \infty$ and let $\alpha$ be any fixed complex number. Show that there exists a half plane $\{s : \sigma > \sigma_0(\Fhat, \alpha) \}$ on which $\Fhat(s) \not= \alpha$.
+
+\begin{proof}
+Without loss of generality, we could assume $\alpha = 0$; otherwise, consider the Dirichlet series $\Fhat(s) - \alpha$. Assume that there is no such half plane, or equivalently $\sigma_0(\Fhat, 0)$. Then we could find a sequence $s_j \rightarrow \infty$ such that $\Fhat(s_j) = 0$. But then $\Fhat(s) = 0$ by Theorem 6.25 (or the previous problem), a contradiction.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

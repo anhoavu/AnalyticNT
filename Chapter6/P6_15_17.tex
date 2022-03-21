@@ -1,0 +1,64 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Fhat}{\widehat{F}}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\begin{document}
+\fi
+
+\textbf{Problem 6.15}: Use Theorem 6.15 to give another proof that the region of convergence of an M.t. is a half plane.
+
+\begin{proof}
+Basically, this is just due to the fact that as $\delta \rightarrow 0$, the sector $S_\delta$ becomes the half plane $\sigma > \Re s_0$.
+
+To do it formally, assume the M.t. converges at $s_0$ and we show that it converges at all $s$ such that $\Re s > \Re s_0$ as in Lemma 6.11. Since $\Re s > \Re s_0$, the angle $\arg(s - s_0)$ made by the two points is between $(-\pi/2, \pi/2)$. So $\delta = \pi/2 - |\arg(s - s_0)| > 0$ and so we have a sector $S_{\delta/2}$ contains $s$ which implies convergence at $s$ by Theorem 6.15.
+\end{proof}
+
+\textbf{Problem 6.16}: Let $F$, $\delta$, $S_\delta$ be as in Theorem 6.15. Show that $\lim \Fhat(s) = F(1)$, where $s \rightarrow \infty$ in the sector $S_\delta$.
+
+\begin{proof}
+In the sector $S_\delta$ we have uniform convergence to swap the limit over $X$ and over $s$:
+\begin{align*}
+\lim_s \Fhat(s) &= \lim_s \lim_{X \rightarrow \infty} \int_{1^-}^X x^{-s} dF(x)\\
+&= \lim_{X \rightarrow \infty} \lim_s \int_{1^-}^X x^{-s} dF(x) &\text{by uniform convergence}\\
+&= \lim_{X \rightarrow \infty} F(1)\\
+&= F(1)
+\end{align*}
+To explain why the inner limit $\lim_s \int_{1^-}^X x^{-s} dF(x)$ is constant $F(1)$, we observe that
+$$\int_{1^-}^X x^{-s} dF(x) = F(1) - \underbrace{F(1^-)}_{0} + \int_1^X x^{-s} dF(x)$$
+by Lemma 3.8. Let $\epsilon > 0$ be arbitrary. Since $x^{-s} \rightarrow 0$ as $s \rightarrow \infty$ as long as $x > 1$, we have $x^{-s} < \frac{\epsilon}{F_v(X) - F_v(1)}$ for all $s$ sufficiently large\footnote{In other words, there exists some $N$ such that the inequality holds for all $s \in S_\delta$ such that $|s| > N$.} and all $1 < x < X$ whence
+\begin{align*}
+\Abs{ \int_1^X x^{-s} dF(x) } &\leq \int_1^X \frac{\epsilon}{F_v(X) - F_v(1)} dF_v(x)\\
+&= \frac{\epsilon}{F_v(X) - F_v(1)} (F_v(X) - F_v(1))\\
+&= \epsilon.
+\end{align*}
+So we just showed
+$$\int_1^X x^{-s} dF(x) \rightarrow 0, \qquad s \rightarrow \infty \text{ in } S_\delta$$
+by definition of limit.
+\end{proof}
+
+\textbf{Problem 6.17}: Let $F(x) := \int_1^x \cos(\log u) du$ for $x \geq 1$. Show that the integral defining $\Fhat$ converges, but not uniformly, in the open half plane $\{s : \sigma > 1\}$.
+
+\begin{proof}
+We have
+\begin{align*}
+F(x) &= \int_1^x \cos(\log u) \; du\\
+&= \int_0^{\log x} \cos(t) \; d(e^t) &\text{substitute } t = \log u\\
+&= \left. \frac{1}{2} e^t (\sin t + \cos t) \right|_0^{\log x} &\text{integration by parts}\\
+&= \frac{1}{2} x (\sin \log x + \cos \log x) - \frac{1}{2}
+\end{align*}
+is clearly $O(x)$. So $\Fhat$ converges on $\{\sigma > 1\}$ by Theorem 6.9. As for uniform convergence, we want to check
+\begin{align*}
+\int_Y^Z x^{-s} \cos(\log x) \; dx &= \int_Y^Z x^{-(s-1)} \cos(\log x) \; d(\log x)\\
+&= \int_Y^Z e^{- (s-1) \log x} \cos(\log x) \; d(\log x)\\
+&= \int_{\log Y}^{\log Z} e^{- (s-1) u} \cos(u) \; du\\
+&= \left. \frac{e^{-(s-1)u} (\sin u - (s - 1) \cos u)}{(s-1)^2 + 1} \right|_{\log Y}^{\log Z}
+\end{align*}
+The trouble is apparent now: Given any fixed $Y, Z$ (no matter how large), the denominator $(s-1)^2 + 1 = (s - 1 - i) (s - 1 + i)$ could become arbitrarily close to zero as $s \rightarrow 1 \pm i$ whereas the two numerators $e^{-(s-1)u} (\sin u - (s - 1) \cos u)$ converges to non-zero values
+$$e^{\mp i \log Z} (\sin \log Z - (\mp i) \cos \log Z)$$
+and similarly for $Y$ so that the integral blows up. Here, note that the complex number $\sin \log Z - (\mp i) \cos \log Z = 0$ if and only if $\sin \log Z = \pm \cos \log Z = 0$ as those are the real and imaginary parts but $\sin$ and $\cos$ cannot be simultaneously zero. The fact that $e^{\mp i \log Z} \not= 0$ is obvious since the exponential function cannot take value 0.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

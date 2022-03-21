@@ -1,0 +1,35 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\Fhat}{\widehat{F}}
+\newcommand{\cconj}[1]{\overline{#1}}
+\begin{document}
+\fi
+
+\textbf{Problem 6.1}: Suppose $F \in \V$ and is real valued. Prove that if $\Fhat(s)$ converges, then $\Fhat(\cconj{s})$ converges and equals $\cconj{\Fhat(s)}$.
+
+\begin{proof}
+\newcommand{\sbar}{\cconj{s}}
+One has
+\begin{align*}
+\Fhat(\cconj{s}) &= \int x^{-\sbar} dF(x)\\
+&= \cconj{\int \cconj{x^{-\sbar}} \; \cconj{dF(x)}} &\text{from the limit definition of integral}\\
+&= \cconj{\int \cconj{x^{-\sbar}} \; dF(x)} &\text{by assumption } F \text{ real}\\
+&= \cconj{\int x^{-s} \; dF(x)} = \cconj{\Fhat(s)}
+\end{align*}
+because if $s = \sigma + it$ then $\cconj{x^{-\sbar}} = \cconj{e^{-\sbar \log x}} = \cconj{e^{-(\sigma - i t) \log x}} = \cconj{e^{-\sigma \log x}} \; \cconj{e^{i t \log x}} = e^{-\sigma \log x} e^{- i t \log x} = e^{-s}$. Here we used the fact that $\cconj{e^{i\alpha}} = e^{-i\alpha}$ for real $\alpha$; which comes from an observation that if $|z| = z \; \cconj{z}= 1$ then $\cconj{z} = z^{-1}$.
+\end{proof}
+
+\textbf{Problem 6.2}: Find $f \in \A$ such that $\zeta(2s) = \sum f(n)n^{-s}$.
+
+\begin{proof}
+We have
+$$\zeta(2s) = \sum n^{-2s} = \sum (n^2)^{-s}$$
+so $f$ should be $1_S$ where $S$ is the set of squares.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

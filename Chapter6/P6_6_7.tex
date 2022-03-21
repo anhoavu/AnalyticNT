@@ -1,0 +1,57 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Z}{\mathbb{Z}}
+\begin{document}
+\fi
+
+\textbf{Problem 6.6}: Let $\varphi$ denote Euler's function, and for each $j \in \Z^+$ define $a_j = \#\{n \in \Z^+ : \varphi(n) = j\}$. Show that for $\sigma > 1$,
+$$\sum_{j = 1}^{\infty} a_j j^{-s} = \sum_{n = 1}^{\infty} \varphi(n)^{-s} = \zeta(s) \prod_p \{ 1 + (p - 1)^{-s} - p^{-s} \}.$$
+
+\begin{proof}
+First, let us establish the absolute convergence of the series in the middle $\sum_{n = 1}^{\infty} \varphi(n)^{-s}$ when $\sigma > 1$. Observe that for any $\epsilon > 0$, there exists a constant $C$ (depending on $\epsilon$) such that $\varphi(n) \geq C n^{1 - \epsilon}$ for all $n$ because $p - 1 \geq p^{1-\epsilon}$ when $p$ is large enough. So we find that
+$$\sum_{n = 1}^{\infty} |\varphi(n)^{-s}| \leq \sum_{n = 1}^{\infty} C^\sigma n^{(1 - \epsilon) \sigma} = C^\sigma \sum_{n = 1}^{\infty} n^{\sigma - \epsilon \sigma} < \infty$$
+by picking the appropriate $\epsilon > 0$ such that $\sigma - \epsilon \sigma > 1$, equivalently $\epsilon < \frac{\sigma - 1}{\sigma}$ and that is clearly possible if $\sigma > 1$.
+
+The first equality then comes from absolute convergence of the series in the middle. Recall that if $\sum a_n$ converges absolutely then any rearrangement i.e. $\sum a_{\sigma(n)}$ for any permutation $\sigma$ of $\Z^+$ converges to the same value. Thus, if $\sum_{n = 1}^{\infty} \varphi(n)^{-s}$ converges absolutely then we can permute the $n$ so that the ones with the same $\varphi$ are next to each other and that gives us $\sum_{j = 1}^{\infty} a_j j^{-s}$. It does not even matter the order in which the sum over $j$ is performed.
+
+With absolute convergence comes
+$$\sum_{n = 1}^{\infty} \varphi(n)^{-s} = \prod_p (1 + \varphi(p)^{-s} + \varphi(p^2)^{-s} + \cdots)$$
+by Lemma 6.4 applied to the multiplicative function $\varphi(n)^{-s}$. It is easy to see that
+\begin{align*}
+1 + \varphi(p)^{-s} + \varphi(p^2)^{-s} + \cdots &= 1 + (p - 1)^{-s} + (p(p-1))^{-s} + \cdots\\
+&= 1 + (p-1)^{-s} (1 + p^{-s} + p^{-2s} + \cdots)\\
+&= 1 + (p-1)^{-s} (1 - p^{-s})^{-1}\\
+&= (1 - p^{-s})^{-1} (1 - p^{-s} + (p-1)^{-s})
+\end{align*}
+and so the second equality follows.
+\end{proof}
+
+\textbf{Problem 6.7}: Show that
+$$\prod_p \{ 1 + (p - 1)^{-1} - p^{-1} \} = \zeta(2) \zeta(3) / \zeta(6).$$
+
+\begin{proof}
+This should follows easily by matching the Euler's factors on both sides
+$$1 + (p - 1)^{-1} - p^{-1} = \frac{(1 - p^{-2})^{-1} (1 - p^{-3})^{-1}}{(1 - p^{-6})^{-1}}.$$
+
+Explicitly, we expand the right hand side of the above
+\begin{align*}
+\frac{(1 - p^{-2})^{-1} (1 - p^{-3})^{-1}}{(1 - p^{-6})^{-1}} &= \frac{1 - p^{-6}}{(1 - p^{-2}) (1 - p^{-3})}\\
+&= \frac{1 + p^{-3}}{1 - p^{-2}}\\
+&= \frac{(1 + p^{-1})(1 - p^{-1} + p^{-2})}{(1 - p^{-1})(1 + p^{-1})}\\
+&= \frac{1 - p^{-1} + p^{-2}}{1 - p^{-1}}\\
+&= \frac{p^2 - p + 1}{p(p-1)}
+\end{align*}
+and compare with the left hand side
+\begin{align*}
+1 + (p - 1)^{-1} - p^{-1} &= 1 + \frac{1}{p-1} - \frac{1}{p}\\
+&= \frac{1}{p-1} + \frac{p - 1}{p}\\
+&= \frac{p + (p-1)^2}{p(p-1)}\\
+&= \frac{p^2 - p + 1}{p(p-1)}.
+\end{align*}
+And there is a match.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

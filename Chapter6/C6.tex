@@ -1,0 +1,56 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb,hyperref}
+\newcommand{\Fhat}{\widehat{F}}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\begin{document}
+\fi
+
+\section{Uniform Convergence}
+
+When we say $\Fhat$ converges uniformly on $U$, what we mean is: For any $\epsilon > 0$, there exists an $X_0$ such that for any $X > X_0$,
+$$\Abs{\int_{1^-}^X x^{-s} dF(x) - \Fhat(s)} < \epsilon$$
+for all $s \in U$.
+
+In other words, the uniform convergence is for the $\lim_{X \rightarrow \infty}$ in the definition of $\Fhat$.
+
+To see how this goes back to the \href{https://en.wikipedia.org/wiki/Uniform\_convergence}{classical definition of uniform convergence} of a sequence of functions $f_n \rightarrow f$, the ``sequence'' of functions in this case is
+$$\Fhat_X(s) = \int_{1^-}^X x^{-s} dF(x).$$
+So $\Fhat_X \rightarrow \Fhat$ uniformly, by the classical definition, means that for any $\epsilon > 0$, we can find a single $X_0(\epsilon)$ i.e. independent of $s$ such that
+$$\Abs{ \Fhat_X(s) - \Fhat(s) } < \epsilon$$
+as long as $X > X_0(\epsilon)$. See also the proof of Corollary 6.16.
+
+Due to completeness of the real/complex numbers, the above definition has an equivalent Cauchy's version: $\Fhat_X \rightarrow \Fhat$ uniformly if and only if for any $\epsilon > 0$, we can find a single $X_0(\epsilon)$ such that for all $Y, Z > X_0(\epsilon)$, we have
+$$\Abs{ \Fhat_Y(s) - \Fhat_Z(s) } < \epsilon.$$
+This is the condition we used in the proof of Theorem 6.15. Also note in the proof of that Theorem, the reason we can write
+$$\int_Y^Z x^{-s} dF(x) = \int_Y^Z x^{-(s-s_0)} d\psi(x)$$
+is to first express
+$$\int_Y^Z x^{-s} dF(x) = \int_Y^Z x^{-s_0} x^{-(s-s_0)} dF(x) = \int_Y^Z x^{-s_0} d\psi_0(x)$$
+where 
+$$\psi_0(y) = \int_{1^-}^y x^{-(s-s_0)} dF(x).$$
+And then we observe that $\psi_0(y) - \psi(y) = K$ is a constant, namely $K = \int_{1^-}^{\infty} x^{-s_0} dF(x)$ by convergence assumption. This implies $\psi(y) = \psi_0(y) - K$ and so $d\psi = d\psi_0$.
+
+\section{Weirstrass M test}
+
+The classical statement is: Let $f_n$ be a sequence of functions $f_n: E \to \mathbb {C}$ and let $M_n$ be a sequence of positive real numbers such that $|f_n(x)|\leq M_{n}$ for all $x \in E$ and $n = 1, 2, 3, \ldots$. If $\sum M_n$ converges, then $\sum f_n$ converges uniformly on $E$.
+
+In the proof of Lemma 6.13, we are using the obvious inequality
+$$\Abs{ \int_Y^Z x^{-s} dF(x) } \leq \int_Y^Z x^{-b} dF_v$$
+for all $s \in \{\sigma \geq b\}$ and the assumption $\int x^{-b} dF_v < \infty$ to deduce $\int x^{-s} dF(x)$ converges uniformly on that half plane.
+
+\section{A consequence of Example 6.29}
+
+We proved here that $\zeta(s) = \exp\left(\sum \kappa(n) n^{-s}\right)$ on $\{\Re s > 1\}$. This implies that $\zeta(s)$ has no zero on that halfplane.
+
+\section{The inequality in the second proof of Lemma 6.30}
+
+The inequality $n^\alpha \leq n^{\alpha + 1} - n^{\alpha}$ can be shown by noting that
+$$n^\alpha \leq n^{\alpha + 1} - (n - 1)^{\alpha + 1} \iff n^\alpha + (n-1)^{\alpha + 1} \leq n^{\alpha + 1}$$
+which easily follows from the trivial bound
+$$(n-1)^{\alpha + 1} = (n-1) (n-1)^{\alpha} \leq (n-1) n^{\alpha}$$
+whence
+$$n^\alpha + (n-1)^{\alpha + 1} \leq n^{\alpha} + (n-1) n^{\alpha} = n^{\alpha + 1}.$$
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

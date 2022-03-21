@@ -1,0 +1,36 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+
+\begin{document}
+\fi
+
+\textbf{Problem 6.3}: Find the infinite product representation of $\sum |\mu(n)| n^{-s}$. Determine the region in which the representation is valid. Express the product as a quotient of zeta functions.
+
+\begin{proof}
+Obviously $|\mu|$ is multiplicative and $|\mu(n)| = O(1)$, just like $\mu$. So by Corollary 6.6 with $c = 0$, we find
+$$\sum |\mu(n)| n^{-s} = \prod_p (1 + p^{-s})$$
+valid for $\sigma > 1$. As
+$$1 + p^{-s} = \frac{1 - p^{-2s}}{1 - p^{-s}},$$
+we find
+$$\prod_p (1 + p^{-s}) = \frac{\zeta(s)}{\zeta(2s)}.$$
+\end{proof}
+
+\textbf{Problem 6.4}: Show that there is a constant $k$ such that
+$$\prod_{2 < p \leq x} (1 - 2/p) \sim k/\log^2 x, \qquad x \rightarrow \infty.$$
+
+\begin{proof}
+We consider the quotient
+$$\frac{1 - 2/p}{(1 - 1/p)^2} = \frac{(p-2)/p}{(p-1)^2/p^2} = \frac{p(p-2)}{(p-1)^2} = 1 - \frac{1}{(p-1)^2}$$
+and recall that
+$$\prod_{2 < p \leq x} (1 - 1/p) \sim e^c / \log x$$
+for some constant $c$, known to be $-\gamma$, by Lemma 4.11 so
+$$\prod_{2 < p \leq x} (1 - 2/p) = \prod_{2 < p \leq x} (1 - p^{-1})^2 \prod_{2 < p \leq x} \left( 1 - \frac{1}{(p-1)^2} \right) \sim \frac{e^{2c} K}{\log^2 x}$$
+where the constant $K$ is
+$$K = \lim_{x \rightarrow \infty} \prod_{2 < p \leq x} \left( 1 - \frac{1}{(p-1)^2} \right) = \prod_p \left( 1 - \frac{1}{(p-1)^2} \right) = \sum_{n=1}^{\infty} \frac{\mu(n) n^2}{\varphi(n)^2} n^{-2}$$
+exists by Corollary 6.6: the function $g(n) = \frac{\mu(n) n^2}{\varphi(n)^2}$ is multiplicative and $O(n)$ by the simple bound $\varphi(n) \geq \sqrt{n / 2}$ for square-free $n$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

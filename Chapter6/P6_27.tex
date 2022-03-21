@@ -1,0 +1,16 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Fhat}{\widehat{F}}
+\begin{document}
+\fi
+
+\textbf{Problem 6.27}: Let $\Fhat(s) = \int_1^\infty x^{-s} (\log ex)^{-2} dx$. Observe that $\sigma_c = 1$, $F \uparrow$, and the integral defining $\Fhat(s)$ converges at $s = 1$. Is this consistent with Theorem 6.31? Explain.
+
+\begin{proof}
+Yes. The fact that the integral defining $\Fhat(s)$ converges at $s = 1$ does not imply $\Fhat(s)$ could be analytically continued to a region containing $s = 1$. In fact, it follows from Theorem 6.31 that $\Fhat(s)$ cannot extend beyond the line $\sigma = 1$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi
