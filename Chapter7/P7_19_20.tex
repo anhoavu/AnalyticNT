@@ -1,0 +1,92 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb,cancel}
+\newcommand{\R}{\mathbb{R}}
+\begin{document}
+\fi
+
+\textbf{Problem 7.19}: Show that $\sum_{n \leq x} T(1_2 * 1_2)(n) = O(x \log x)$ but does not have an asymptotic approximation of the form $c x \log x$. Hint. The sum can be expressed in closed form.
+
+\begin{proof}
+Note that
+$$(1_2 * 1_2)(n) = \begin{cases}
+m + 1 &\text{ if } n = 2^m,\\
+0 &\text{ otherwise}.
+\end{cases}$$
+So
+$$F(x) := \sum_{n \leq x} T(1_2 * 1_2) = \sum_{2^m \leq x} (m + 1) 2^m = \sum_{m = 0}^{k} (m + 1) 2^m$$
+where $k = k(x) = [\frac{\log x}{\log 2}]$. For fix $k$, consider the function
+$$f(x) = f_k(x) = \sum_{m = 0}^{k} (m + 1) x^m$$
+we have
+$$\int_0^x f(t) dt = \sum_{m = 0}^{k} x^{m+1} = x \sum_{m = 0}^{k} x^{m} = x \frac{x^{k+1} - 1}{x - 1} = \frac{x^{k+2} - x}{x - 1}$$
+so
+$$f(x) = \frac{d}{dx} \left(\frac{x^{k+2} - x}{x - 1}\right) = \frac{\{(k+2) x^{k+1} - 1\}(x - 1) - (x^{k+2} - x)}{(x - 1)^2}.$$
+
+Thus, we have a closed form formula for
+$$F(x) = f_k(2) = \frac{\{(k+2) 2^{k+1} - 1\}(2 - 1) - (2^{k+2} - 2)}{(2 - 1)^2} = k 2^{k+1} + 1$$
+and it becomes apparent that $\frac{F(x)}{x \log x}$ has no limit as $x \rightarrow \infty$: If such a limit exists, taking the sequence $x_k = 2^k$ yields
+$$\lim_{x \rightarrow \infty} \frac{F(x)}{x \log x} = \lim_{k \rightarrow \infty} \frac{k 2^{k+1} + 1}{k 2^k} = \lim_{k \rightarrow \infty} 2 + \frac{1}{k 2^k} = 2$$
+whereas taking the sequence $x_k = 2^{k+1} - 1$ yields
+\begin{align*}
+\lim_{x \rightarrow \infty} \frac{F(x)}{x \log x} &= \lim_{k \rightarrow \infty} \frac{k 2^{k+1} + 1}{(2^{k+1} - 1) \log(2^{k+1} - 1)} \\
+&= \lim_{k \rightarrow \infty} \frac{k}{(1 - 2^{-k-1}) \log(2^{k+1} - 1)} \\
+&= \lim_{k \rightarrow \infty} \frac{k}{\log(2^{k+1} - 1)} \\
+&= \frac{1}{\log 2} \left( \lim_{k \rightarrow \infty} \frac{k \log 2}{\log(2^{k+1} - 1)} \right)\\
+&= \frac{1}{\log 2} \left( \lim_{k \rightarrow \infty} 1 - \frac{\log(2^{k+1} - 1) - k \log 2}{\log(2^{k+1} - 1)} \right) \\
+&= \frac{1}{\log 2} - \lim_{k \rightarrow \infty} \frac{\log(2 - 2^{-k})}{\log(2^{k+1} - 1)} \\
+&= \frac{1}{\log 2}.
+\end{align*}
+\end{proof}
+
+\textbf{Problem 7.20}: \begin{enumerate}
+\item Show by a lattice point counting argument that
+$$\sum_{n \leq x} (1_2 * 1_3)(n) = \frac{\log^2 x}{2 \log 2 \log 3} + O(\log x).$$
+Does this estimate lead to another proof of (7.28)?
+\item It is known that actually the sharper estimate
+$$\sum_{n \leq x} (1_2 * 1_3)(n) = \frac{\log^2 x}{2 \log 2 \log 3} + b \log x + o(\log x)$$
+holds for a certain constant $b$. Does this result imply (7.28)?
+\end{enumerate}
+
+\begin{proof}
+\begin{enumerate}
+\item We have
+$$G(x) := \sum_{n \leq x} (1_2 * 1_3)(n) = \sum_{2^a 3^b \leq x} 1$$
+can be interpreted as the number of lattice points in the triangle
+$$\{(a, b) \in \R^2 \;|\; a, b \geq 0 \text{ and } a \log 2 + b \log 3 \leq \log x\}$$
+which could be approximated via its area
+$$\frac{1}{2} \left(\frac{\log x}{\log 2}\right) \left(\frac{\log x}{\log 3}\right)$$
+because this is a right triangle with sides of length $\frac{\log x}{\log 2}$ and $\frac{\log x}{\log 3}$.
+
+The error is $O(\log x)$, the length of each side. This can be seen from a more general perspective of counting lattice point in the triangle $T$ with vertices $(0, 0)$, $(a, 0)$ and $(0, b)$ where $a, b > 0$: Let $T'$ be the triangle with vertices $(a, 0), (0, b)$ and $(a, b)$. Together the two triangles made up the rectangle whose number of lattice points is easily counted as $[a] \cdot [b]$. The difference in the number of lattice points between $T$ and $T'$ is at most $\max\{a, b\}$.
+
+Then to estimate $\sum_{n \leq x} T(1_2 * 1_3)(n)$, we recognize it as $\int_{1^-}^x t \, dG(t)$ and integrate by part to apply the known estimate for $G(t)$:
+\begin{align*}
+\sum_{n \leq x} T(1_2 * 1_3)(n) &= \int_{1^-}^x t \, dG(t) \\
+&= x G(x) - \int_1^x G(t) dt \\
+&= x G(x) - \int_1^x \left\{ \frac{\log^2 t}{2 \log 2 \log 3} + O(\log t) \right\} dt \\
+&= x G(x) - \frac{1}{2 \log 2 \log 3} \int_1^x \log^2 t dt + O(\int_1^x \log t dt )\\
+&= x \left\{ \frac{\log^2 x}{2 \log 2 \log 3} + O(\log x) \right\} \\
+&\qquad - \frac{1}{2 \log 2 \log 3} ( x \log^2 x - 2 x \log x + 2 x - 2) + O(x \log x)\\
+&= \frac{x \log x}{\log 2 \log 3} + O(x \log x)\\
+&= O(x \log x)
+\end{align*}
+so we do not gain anything.
+
+\item In this case, redoing the above integration by parts argument from the third equation onward, we have
+\begin{align*}
+\sum_{n \leq x} T(1_2 * 1_3)(n) &= x G(x) - \int_1^x \left\{ \frac{\log^2 t}{2 \log 2 \log 3} + b \log t + o(\log t) \right\} dt \\
+&= x \left\{ \frac{\log^2 x}{2 \log 2 \log 3} + b \log x + o(\log x) \right\} \\
+&\qquad - \frac{1}{2 \log 2 \log 3} \left( x \log^2 x - 2 x\log x + 2 x - 2 \right) \\
+&\qquad - b (x \log x - x + 1) + o(x \log x)\\
+&= \cancel{\frac{x \log^2 x}{2 \log 2 \log 3}} + \cancel{b x \log x} + o(x\log x) \\
+&\qquad - \cancel{\frac{x \log^2 x}{2 \log 2 \log 3}} + \frac{x\log x}{\log 2 \log 3} - \frac{x}{\log 2 \log 3} + \frac{1}{\log 2 \log 3} \\
+&\qquad - \cancel{b x \log x} + bx - b + o(x \log x)\\
+&= \frac{x\log x}{\log 2 \log 3} - \left(b - \frac{1}{\log 2 \log 3}\right) (x - 1) + o(x \log x)
+\end{align*}
+which clearly implies (7.28).
+\end{enumerate}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

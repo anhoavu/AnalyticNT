@@ -1,0 +1,49 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Fhat}{\widehat{F}}
+\begin{document}
+\fi
+
+\textbf{Problem 7.6}: Show that $M(x) = o(x)$ by applying the Wiener-Ikehara theorem to
+$$\zeta(s) + \zeta^{-1}(s) = \int x^{-s} \{dN(x) + dM(x)\}.$$
+
+\begin{proof}
+Note that we would love to use the Wiener-Ikehara theorem to $\zeta^{-1}(s) = \int x^{-s} dM$. But we do not know its absissca of convergence. Hence, we use $dN + dM$.
+
+Knowing that $\zeta(s)$ has no zero on the line of convergence $\sigma = 1$, hence $\zeta(s) \not= 0$ on $\sigma \geq 1$, we can deduce that $\zeta^{-1}(s)$ is continuous on the region $\{\sigma \geq 1\}$. This implies $\zeta(s) + \zeta^{-1}(s)$ has a simple pole at $s = 1$ and so $\sigma_c = 1$. Therefore,
+$$\varphi(s) := \zeta(s) + \zeta^{-1}(s) - \frac{1}{s - 1}$$
+is continuous on $\{\sigma \geq 1\}$ from the behavior of $\zeta(s)$. To satisfy the Wiener-Ikehara theorem, we still need $N(x) + M(x)$ is monotone nondecreasing but that is evident because it is the summatory function of $1 + \mu \geq 0$.
+
+Thus, we get
+$$N(x) + M(x) = x + o(x)$$
+by Wiener-Ikehara theorem which easily implies
+$$M(x) = x - N(x) + o(x) = o(x).$$
+\end{proof}
+
+\textbf{Problem 7.7}: Let $dN^{*1/2}$ denote the positive convolution square root of $dN$, and recall that $dt^{*1/2} = L^{-1/2} dt / \Gamma(1/2)$ (c.f. Example 6.3 and 7.27). Prove that
+$$\int_{1^-}^x dN^{*1/2} * L^{-1/2} dt / \Gamma(1/2) \sim x.$$
+
+\begin{proof}
+Let
+\begin{align*}
+F(x) &:= \int_{1^-}^x dN^{*1/2} * L^{-1/2} dt / \Gamma(1/2)\\
+&= \pi^{-1/2} \int_{1^-}^x \underbrace{\left( \int_1^{x/t} \log^{-1/2} u \; du \right)}_{\geq 0} dN^{*1/2} &\text{ as } \Gamma(1/2) = \sqrt{\pi}
+\end{align*}
+
+Observe that the function $\int_{1^-}^x dN^{*1/2}$ is monotone nondecreasing because it is the summatory function of the arithmetic function $\exp(\kappa/2) \geq 0$: It is clear from the definition of convolution that for any arithmetic functions $f, g \geq 0$, we have $f * g \geq 0$ so by induction $f^{*n} \geq 0$ if $f \geq 0$. Thus, $\exp(\nu) = \sum \nu^{*n}/n! \geq 0$ if $\nu \geq 0$. This is how we know $\exp(\kappa/2) \geq 0$.
+
+So $F(x)$ is monotone nondecreasing by the definition of integral or by Lemma 3.13. Next, for $\sigma > 1$, we have
+\begin{align*}
+\Fhat(s) &= \underbrace{\left(\int x^{-s} dN^{*1/2} \right)}_{\sqrt{\zeta(s)}} \underbrace{\left( \int x^{-s} L^{-1/2} dt / \Gamma(1/2) \right)}_{\frac{1}{\sqrt{s-1}}} &\text{ by Theorem 6.2}\\
+&= \sqrt{\frac{1}{s-1} \zeta(s)}\\
+&= \frac{1}{s-1} \sqrt{1 + (s - 1) \psi(s)}
+\end{align*}
+where $\psi(s) = \zeta(s) - \frac{1}{s - 1}$ is an analytic function on $\{\sigma > 0\}$. This formula implies that $\Fhat(s)$ does not converge at $s = 1$ and hence, $\sigma_c(\Fhat) = 1$. (We should be more careful about the branch of square-root here.) The formula also implies that $\Fhat(s) - \frac{1}{s - 1}$ is an analytic function on $\{\sigma \geq 0\}$.
+
+The estimate $F(x) \sim x$ now follows immediately from the Wiener-Ikehara theorem.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

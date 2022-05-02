@@ -1,0 +1,110 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Fhat}{\widehat{F}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\newcommand{\IntPart}[1]{\left[ #1 \right]}
+\newcommand{\cconj}[1]{\overline{#1}}
+\begin{document}
+\fi
+
+\textbf{Problem 7.14}: Discuss the reasons for assuming that $x > 1/2$ in most of the preceeding proof.
+
+\begin{proof}
+The equation
+$$F(x) = \IntPart{ 1 + \frac{\log x}{\log 2} }$$
+only works when $1 + \frac{\log x}{\log 2} \geq 0$ which is the same as $x \geq \frac{1}{2}$.
+\end{proof}
+
+\textbf{Problem 7.15}: Give a real variable proof that the Fourier series for $S(y)$ of Lemma 7.15 converges boundedly on $\R$ and uniformly away from integers. Hint. For $y$ near an integer $m$, use the inequality
+$$\sin|2\pi n y| \leq 2\pi n |y - m|.$$
+Elsewhere, use summation by parts.
+
+\begin{proof}
+For $\delta \in (0, 1/2)$, define
+$$\R_\delta := \R \backslash \bigcup_{n \in \Z} B(n, \delta) = \bigcup_{n \in \Z} [n + \delta, n + 1 - \delta]$$
+the set of real numbers that are at least $\delta$-away from the integers. For any real number $\rho \geq 0$, let
+\begin{align*}
+S_{N,\rho}(y) &:= \sum_{n=1}^N \frac{1}{\pi (n + \rho)} \sin 2\pi n y = \int_{1^-}^N \frac{1}{\pi (t + \rho)} d F_y(t)\\
+C_{N,\rho}(y) &:= \sum_{n=1}^N \frac{1}{\pi (n + \rho)} \cos 2\pi n y = \int_{1^-}^N \frac{1}{\pi (t + \rho)} d G_y(t)
+\end{align*}
+where for any fixed $y \in \R$, let the summatory functions
+\begin{align*}
+F_y(x) := \sum_{n \leq x} \sin(2 \pi n y)\\
+G_y(x) := \sum_{n \leq x} \cos(2 \pi n y).
+\end{align*}
+Note that our problem is to prove $S_N(y) := S_{N, 0}(y)$ converges boundedly on $\R$ and uniformly on $\R_\delta$.
+
+Our first goal is to study the growth behavior of $F_y$ and $G_y$. To do so, we sum up the Euler's formulas\footnote{This should not count as complex variable method, right?}
+$$e^{2 \pi y n i} = \cos(2 \pi y n) + i \sin(2\pi y n)$$
+to get
+$$\sum_{n \leq x} e^{2 \pi y n i} = G_y(x) + i F_y(x).$$
+For $x \geq 1$ and $y \not\in \Z$, let $u = e^{2 \pi y i}$ and $m = [x]$ then $u \not= 1$ and the left hand side can be completely evaluated as
+$$\sum_{n \leq x} e^{2 \pi y n i} = \sum_{n = 0}^{m} u^n - 1 = \frac{u^{m + 1} - 1}{u - 1} - 1.$$
+Using the obvious inequality $|\Re z| \leq |z|$ and $|\Im z| \leq |z|$ and triangle inequality, we find
+$$|F_y(x)| \leq \Abs{ \frac{u^{m + 1} - 1}{u - 1} - 1 } \leq 1 + \frac{2}{|u - 1|}$$
+The same bound holds for $|G_y(x)|$. This inequality implies that both $|F_y(x)|$ and $|G_y(x)|$ are bounded above for all $x$ by
+$$C_\delta := 1 + \frac{2}{|e^{2\pi i \delta} - 1|} \leq 1 + \frac{2}{\sin 2\pi\delta}.$$
+for $y \in R_\delta$ because then $|u - 1| \geq |e^{2\pi i \delta} - 1|$. In other words, $F_y$ and $G_y$ are $O(1)$ uniformly for $y \in R_\delta$.
+
+Performing integration by parts, we get
+\begin{align}
+S_{N,\rho}(y) &= \frac{F_y(N)}{\pi (N + \rho)} + \int_1^N F_y(t) \frac{1}{\pi (t + \rho)^2} dt \label{eq:SN_Int_Part}
+\end{align}
+which allows us to establishes uniform convergence and bounded convergence of $S_{N,\rho} \rightarrow S_\rho$ on $\R_\delta$: Bounded convergence is clear: For all $N$ and $y \in R_\delta$, we have
+$$|S_{N,\rho}(y)| \leq \frac{\Abs{F_y(N)}}{\pi (N + \rho)} + \int_1^N \frac{|F_y(t)|}{\pi t^2} dt \leq \frac{2 C_\delta}{\pi}.$$
+For uniform convergence, let $\epsilon > 0$ be arbitrary and let $N_0$ be large enough so that
+$$\frac{C_\delta}{\pi N_0} < \frac{\epsilon}{3}$$
+then for any $N, M > N_0$ and any $y \in \R_\delta$, we find
+\begin{align*}
+&\Abs{ S_{N,\rho}(y) - S_{M,\rho}(y) }\\
+=& \Abs{ \frac{F_y(N)}{\pi (N + \rho)} + \int_1^N F_y(t) \frac{1}{\pi (t + \rho)^2} dt - \frac{F_y(M)}{\pi (M + \rho)} - \int_1^M F_y(t) \frac{1}{\pi (t + \rho)^2} dt } \\
+\leq& \Abs{ \frac{F_y(N)}{\pi (N + \rho)} } + \Abs{ \frac{F_y(M)}{\pi (M + \rho)} } + \Abs{ \int_M^N F_y(t) \frac{1}{\pi (t + \rho)^2} dt } \\
+\leq& \frac{C_\delta}{\pi (N + \rho)} + \frac{C_\delta}{\pi (M + \rho)} + \int_{N_0}^{\infty} \frac{C_\delta}{\pi t^2} dt \\
+\leq& 3 \frac{C_\delta}{\pi N_0} \\
+<& \epsilon.
+\end{align*}
+Note that we did not use any particular property of $F_y$ other than its uniform bound by $C_\delta$. So the argument above works for the functions $C_{N,\rho}(y)$ as well.
+
+All that is left in the problem is to establish a uniform bound on the complement $\R - \R_\delta$ for $S_N(y) := S_{N, 0}(y)$. (Note that uniform boundedness on $\R$ does not apply to the function $C_{N, \rho}(y)$ since $C_{N, 0}(0) = \sum_{n = 1}^N \frac{1}{\pi n} \sim \frac{1}{\pi} \log N$.)
+
+Fix $\delta = \frac14$ and let $y \in (0, \delta)$ be arbitrary. Then there is the smallest positive integer $M$ such that $y M \geq \delta$ by the Archimedean property. Our choice of $\delta$ ensures that $My \leq 1 - \delta$ as well for by definition, we must also have
+$$(M - 1)y < \delta$$
+so $My \leq \delta + y < 2 \delta = \frac{1}{2} < \frac34 = 1 - \delta$. (Note $\delta = \frac13$ also works.)
+
+If $N \leq M - 1$ then using the inequality $0 \leq \sin x \leq x$ for small $x > 0$ which applies to $ry$ for $1 \leq r < M$ we get
+$$0 < \sum_{r = 1}^{N} \frac{\sin 2\pi r y}{\pi r} \leq \sum_{r = 1}^{N} \frac{2\pi r y}{\pi r} = 2 N y \leq 2 (M - 1) y < 2 \delta$$
+by minimality of $M$.
+
+For $N \geq M$, we rearrange the terms in $S_N$ by their congruence modulo $M$:
+\begin{align*}
+S_N(y) &= S_{M-1}(y) + \sum_{r = 0}^{M - 1} \sum_{M \leq n \leq N, n \equiv r \bmod M} \frac{\sin 2\pi n y}{\pi n}\\
+&= S_{M-1}(y) + \sum_{r = 0}^{M - 1} \sum_{1 \leq k \leq \frac{N-r}{M}} \frac{\sin 2\pi (M k + r) y}{\pi (M k + r)}
+\end{align*}
+
+The sum $S_{M - 1}(y) = \sum_{r = 1}^{M - 1} \frac{\sin 2\pi r y}{\pi r}$ already was bound by $2\delta$. For the remaining sum, we use the common trigonometric identities to expand
+\begin{align*}
+&S_N(y) - S_{M-1}(y)\\
+=& \sum_{r = 0}^{M - 1} \sum_{1 \leq k \leq \frac{N-r}{M}} \frac{\sin 2\pi (M k + r) y}{\pi (M k + r)} \\
+=& \sum_{r = 0}^{M - 1} \sum_{1 \leq k \leq \frac{N-r}{M}} \frac{\sin (2 \pi M k y) \cos (2\pi r y) + \cos (2 \pi M k y) \sin (2 \pi r y)}{\pi (M k + r)} \\
+=& \sum_{r = 0}^{M - 1} \left\{ \cos (2\pi r y) \underbrace{\sum_{1 \leq k \leq \frac{N-r}{M}} \frac{\sin (2 \pi M k y)}{\pi M (k + \frac{r}{M})}}_{S_{[\frac{N-r}{M}], \frac{r}{M}}(My) / M} + \sin (2 \pi r y) \underbrace{\sum_{1 \leq k \leq \frac{N-r}{M}} \frac{\cos (2 \pi M k y)}{\pi M (k + \frac{r}{M})}}_{C_{[\frac{N-r}{M}], \frac{r}{M}}(My) / M} \right\}
+\end{align*}
+
+Now since $\delta \leq My \leq 1 - \delta$, we have 
+$$\Abs{ S_{[\frac{N-r}{M}], \frac{r}{M}}(My) }, \Abs{ C_{[\frac{N-r}{M}], \frac{r}{M}}(My) } \leq \frac{2 C_\delta}{\pi}$$
+so
+\begin{align*}
+\Abs{S_N(y) - S_{M - 1}(y)} 
+\leq& \sum_{r = 0}^{M - 1} \left\{ \frac{2 C_\delta}{M \pi} + \frac{2C_\delta}{M \pi} \right\} = \frac{4C_\delta}{\pi}.
+\end{align*}
+
+This settles the case $y \in (0, \delta)$. For $y \in (1-\delta, 1)$, we use the fact that $S_N(1 - y) = -S_N(y)$ and apply the bound with $1 - y \in (0, \delta)$ in place of $y$. This gives us the bound
+$$|S_N(y)| \leq \max\left\{2\delta, \frac{4C_\delta}{\pi}\right\}$$
+for all $y \in (0, 1)$ and $N$. The bound for the remaining $y \in \R$ follows from periodicity of $S_N$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

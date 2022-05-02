@@ -1,0 +1,72 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Fhat}{\widehat{F}}
+\newcommand{\Ghat}{\widehat{G}}
+\newcommand{\R}{\mathbb{R}}
+\begin{document}
+\fi
+
+\textbf{Problem 7.17}: Under the hypothesis of Theorem 7.16, prove that
+$$\frac{1}{2\pi i} \int_{b - i \infty}^{b + i\infty} \frac{x^s \Fhat(s)}{s(s+1)} ds = \int_1^x \left(1 - \frac{t}{x}\right) dF(t), \qquad 1 < x < \infty.$$
+
+\begin{proof}
+The key strategy to get the denominator $s$ is to convolute $dF$ with $x^{-1} dx$ because the Mellin transform of $H(x) = \int_{1^-}^x x^{-1} dx$ is $\frac{1}{s}$. Let $dG = dH * dF$ then by Theorem 6.2 $\Ghat(s) = \Fhat(s) \widehat{H}(s) = \Fhat(s)/s$.
+
+Thus, to get $s+1$ appears, we need to convolute with another integrator whose Mellin transform is $\frac{1}{s + 1}$. Observe that for any fix $\alpha$, the Mellin transform
+$$\int x^{-s} \frac{dx}{x^\alpha} = \int x^{-s-\alpha} dx = \left. \frac{x^{-s-\alpha+1}}{-s-\alpha+1} \right|_{1^-}^\infty = \frac{1}{s + \alpha - 1}$$
+converges absolutely for $\sigma > 1 - \alpha$. Taking $\alpha = 2$ will do in our case.
+
+Now to imitate the proof of Theorem 7.16, consider the function
+$$G(x) = \int_{1^-}^{x} dF(t) * t^{-2} dt$$
+for $x \geq 1$ and $G(x) = 0$ for $x < 0$. Note that $t^{-2} dt = d\{ \delta_1(t)(1 - t^{-1}) \}$ so
+$$G(x) = \int_{1^-}^x \delta_1(t) \left(1 - t/x \right) dF(t) = \int_1^x \left(1 - \frac{t}{x}\right) dF(t)$$
+which is continuous because the function $t \mapsto \delta_1(t)(1 - t^{-1})$ is.
+
+Then by Theorem 6.2 we have $\Ghat(s) = \frac{\Fhat(s)}{s+1}$ for $\sigma > \max\{\sigma_c(\Fhat), -1\}$. We apply Theorem 7.10 to $\Ghat$ to get
+$$\lim_{T \rightarrow \infty} \frac{1}{2 \pi i} \int_{b - iT}^{b + iT} x^{-s} \frac{\Fhat(s)}{s + 1} \frac{ds}{s} = \frac{G(x+) + G(x-)}{2} = G(x)$$
+for $b > \max\{\sigma_c(\Ghat), 0\}$ and so for $b > \max\{\sigma_c(\Fhat), 0\}$.
+
+It remains to turn the symmetric limit to the asymmetric one. For that we need to show that
+\begin{equation}
+\lim_{T, T' \rightarrow \infty} \frac{1}{2 \pi i} \int_{b + iT}^{b + iT'} x^{-s} \frac{\Fhat(s)}{s(s + 1)} ds = 0. \label{eq:limit_int_xsFhatssp1_equals_0}
+\end{equation}
+Note that in this integral $|x^{-s}| = |x^{-b-it}| = x^{-b}$ is constant.
+
+If $b > \sigma_a(\Fhat)$ then $|\Fhat(s)|$ is bounded and so $|\frac{\Fhat(s)}{s(s + 1)}| \leq \frac{C}{\max\{T + 1, T' + 1\}^2}$ for some constant $C$ and so
+$$\int_{b + iT}^{b + iT'} |x^{-s} \frac{\Fhat(s)}{s(s + 1)}| ds \leq \frac{C x^{-b} |T' - T|}{\max\{T + 1, T' + 1\}^2} \rightarrow 0$$
+as $T, T' \rightarrow \infty$. Note that we cannot simply use Lemma 7.13 here for $\Fhat(b + it) = o(|t|)$ since it does not provide enough control over the relationship between $T$ and $T'$.
+
+If $b \leq \sigma_a(\Fhat)$, then we need to deform the integral by taking $b' > \sigma_a(\Fhat)$ and consider the rectangle $R_{T,T'}$ with vertices $b + iT$, $b' + iT$, $b + iT'$, $b' + iT'$. On the top and bottom sides of $R$, we use Lemma 7.13 to conclude that the integral tends to 0 as $T \rightarrow \infty$ (or $T' \rightarrow \infty$, respectively). The function $s \mapsto x^{-s} \frac{\Fhat(s)}{s(s + 1)}$ has no pole in $R$ by assumption on $\sigma > 0$ so $s \not= 0, -1$. So taking the limit
+$$\int_{R_{T,T'}} x^{-s} \frac{\Fhat(s)}{s(s + 1)} ds = 0$$
+we deduce \eqref{eq:limit_int_xsFhatssp1_equals_0}.
+\end{proof}
+
+We review in passing here that the meaning of the improper integral
+$$\int_{-\infty}^{\infty} f(x) \, dx$$
+is the limit
+$$\lim_{\scriptsize\begin{array}{l} a \rightarrow -\infty\\ b \rightarrow \infty\end{array}} \int_a^b f(x) \, dx$$
+which in general is not the same as
+$$\lim_{a \rightarrow \infty} \int_{-a}^a f(x) \, dx.$$
+
+To understand the ``simultaneous'' limit, we think of the function under limit as a two-variable function i.e. a function $\R^2 \rightarrow \R$
+$$F(a, b) := \int_a^b f(x) \, dx$$
+and the simultaneous limit can be think of as limit of function between metric spaces
+$$\lim_{\scriptsize\begin{array}{l} a \rightarrow -\infty\\ b \rightarrow \infty\end{array}} \int_a^b f(x) \, dx = \lim_{(a, b) \rightarrow (-\infty, \infty)} F(a, b)$$
+
+Unfortunately, $(-\infty, \infty)$ is not a point in $\R^2$; otherwise, we recall that if $X, Y$ are metric spaces and $g : X \rightarrow Y$ then $\lim_{x \rightarrow x_0} f(x) = y \in Y$ if for every $\epsilon > 0$, there exists $\delta > 0$ such that $d_Y (f(x), y) < \epsilon$ for all $x \in B_X(x_0, \delta) := \{x : d_X(x, x_0) < \delta\}$. To account for $(-\infty, \infty)$, we think of $\pm \infty$ as the limit of $\frac{1}{x}$ where $x \rightarrow 0^\pm$. So
+$$\lim_{(a, b) \rightarrow (-\infty, \infty)} F(a, b) = \lim_{(a', b') \rightarrow (0^-, 0^+)} F\left(\frac{1}{a'}, \frac{1}{b'}\right)$$
+which can be viewed as the limit $(a, b) \rightarrow (0, 0)$ in the second quadrant of $\R^2$. Thank to $(0, 0) \in \R^2$, the last limit can be defined explicitly via $\epsilon$-$\delta$ definition: For every $\epsilon > 0$, there exists $\delta > 0$ such that if $-\delta < a' < 0, 0 < b' < \delta$ then $|F\left(\frac{1}{a'}, \frac{1}{b'}\right) - L| < \epsilon$.
+
+The conditions on $a', b'$ translates to $a < -\frac{1}{\delta}$ and $b > \frac{1}{\delta}$ and so we can directly define\footnote{This is how we define the one-variable $\lim_{x \rightarrow \infty} F(x)$ and the discrete limit of a sequence $\lim_{n \rightarrow \infty} a_n$ as well!} $\lim_{(a, b) \rightarrow (-\infty, \infty)} F(a, b) = L$ as: For any $\epsilon > 0$, there exists $N = N(\epsilon) > 0$ such that for any $a, b$ such that $a < -N$ and $b > N$, we have $|F(a, b) - L| < \epsilon$. Logically, this differs $\lim_{a \rightarrow \infty} F(-a, a) = L$ which only imposes $|F(a, a) - L| < \epsilon$.
+
+For illustration: The series (ignoring $0$ here)
+$$\sum_{n = -\infty}^{\infty} \frac{1}{n} = \lim_{m, k \rightarrow \infty} \sum_{n = -m, n \not= 0}^{k} \frac{1}{n}$$
+does not converge for if we choose the special sequence of $(m, k)$ such as $k = m^2$ then
+$$\sum_{n = -m, n \not= 0}^{m^2} \frac{1}{n} \sim \log(m^2) - \log(m) = \log(m)$$
+diverges. However, the special sequence of $m = k$ yield
+$$\lim_{m \rightarrow \infty} \sum_{n = -m, n \not= 0}^{m} \frac{1}{n} = 0.$$
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

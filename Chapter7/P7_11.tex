@@ -1,0 +1,27 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Fhat}{\widehat{F}}
+\begin{document}
+\fi
+
+\textbf{Problem 7.11}: Using the identity
+$$\zeta^4(s)/\zeta(2s) = \sum \tau^2(k) k^{-s}$$
+and the generalized Wiener-Ikehara theorem, prove that
+$$\sum_{k \leq x} \tau^2(k) \sim \pi^{-2} x \log^3 x.$$
+(Cf. Problem 2.31 and 3.23, part (4).)
+
+\begin{proof}
+The summatory function of $\tau^2$ is obviously real valued monotone nondecreasing. The identity holds at least on $\sigma > 1$ thank to Theorem 6.2 and we deduce that $\sigma_c = 1$ using the pole of $\zeta$ function. Clearly
+$$\zeta^4(s) / \zeta(2s) = (s-1)^{-4} \varphi(s)$$
+where
+$$\varphi(s) = \frac{((s-1) \zeta(s))^4}{\zeta(2s)}$$
+is analytic on $\{\sigma > 1/2\}$. So the generalized Wiener-Ikehara theorem implies
+$$\sum_{k \leq x} \tau^2(k) \sim \varphi(1) \frac{x \log^3 x}{\Gamma(4)}.$$
+With $\varphi(1) = \frac{1}{\zeta(2)} = \frac{6}{\pi^2}$
+and $\Gamma(4) = 3! = 6$, we get the claimed asymptotic formula.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

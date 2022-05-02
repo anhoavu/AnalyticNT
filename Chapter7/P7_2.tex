@@ -1,0 +1,63 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb,hyperref}
+
+\begin{document}
+\fi
+
+\textbf{Problem 7.2}: Show that $\int_{-\infty}^{\infty} K_1(x) dx = \pi$ or obtain upper and lower numerical bounds for the integral.
+
+\begin{proof}
+We shall drop the subscript in $K_1$ as there can be no confusion. Recall that
+$$K(x) = \left(\frac{\sin x}{x}\right)^2$$
+by Lemma 7.4. Since $K$ is an even function, we have %(Also recall that $\cos 2x = 1 - 2 \sin^2 x$.)
+$$\int_{-\infty}^{\infty} K(x) dx = 2 \int_0^{\infty} K(x) dx.$$
+
+An integration by parts yields
+\begin{align*}
+\int_0^{\infty} K(x) dx &= \underbrace{\left. \frac{\sin^2 x}{x} \right|_0^{\infty}}_{0} - \int_0^{\infty} x \cdot \frac{(2 \sin x \cos x) \cdot x^2 - (\sin^2 x) \cdot 2 x}{x^4} dx \\
+% &= - \int_{-\infty}^{\infty} \left( \frac{(2 \sin x \cos x) x - (\sin^2 x) 2}{x^2} \right) dx \\
+&= - \int_0^{\infty} \left( \frac{\sin 2x}{x} - 2 K(x) \right) dx \\
+&= 2 \int_0^{\infty} K(x) dx - \int_0^{\infty} \frac{\sin 2x}{x} dx 
+\end{align*}
+Here we recall that $\lim_{x \rightarrow 0} \frac{\sin x}{x} = \lim_{x \rightarrow 0} \frac{\cos x}{1} = 1$ by L'Hospital rule and so the result of evaluating $\frac{\sin^2 x}{x}$ at 0 is 0; as claimed in the first line. So
+$$\int_0^{\infty} K(x) dx = \int_0^{\infty} \frac{\sin 2x}{x} dx = \int_0^{\infty} \frac{\sin x}{x} dx$$
+by a simple change of variable $u = 2x$.
+
+It would be easier to consider
+$$\int_{-\infty}^{\infty} \frac{\sin x}{x} dx = 2 \int_0^{\infty} \frac{\sin x}{x} dx$$
+because for any $R$, we have
+$$\int_{-R}^{R} \frac{\cos x}{x} dx = 0$$
+thank to $\frac{\cos x}{x}$ being an odd function. This leads to
+$$\int_{-\infty}^{\infty} \frac{e^{ix}}{x} dx = \int_{-\infty}^{\infty} \frac{\cos x + i \sin x}{x} dx = i \int_{-\infty}^{\infty} \frac{\sin x}{x} dx$$
+and the integrand $\frac{e^{ix}}{x}$ looks like something we can apply the residue theorem: Consider the path $C_{X_1, X_2, Y}$ made up of a large rectangle with vertices $-X_1, -X_1 + iY, X_2 + iY, X_2$ where $X_1, X_2, Y > 0$ with the segment $[-\delta, \delta]$ on the real axis replaced by a semicircle $S_\delta$ of radius $\delta$ on the lower half plane to avoid the singularity $0$, we find from residue theorem that
+$$\int_{C_{X_1, X_2, Y}} \frac{e^{iz}}{z} dz = 2 \pi i e^{i \cdot 0} = 2 \pi i$$
+given the winding number of $C_{X_1, X_2, Y}$ around 0 is clearly 1.
+\begin{itemize}
+\item On the vertical line segment $L$ from $X$ to $X + iY$ with $Y > 0$ using parametrization $z(t) = X + it$ for $t \in [0, Y]$ we have
+$$\int_{L} \frac{e^{iz}}{z} dz = \int_0^Y \frac{e^{i(X + it)}}{X + it} i dt = i e^{iX} \int_0^Y \frac{e^{-it}}{X + it} dt$$
+which can be bounded in absolute value by $\int_0^Y \frac{1}{|X|} dt = |\frac{Y}{X}|$ and so made arbitrarily small if $Y = o(X)$.
+
+\item On the horizontal line segment $L$ from $-X_1 + iY$ to $X_2 + iY$ with parametrization $z(t) = t + iY$, we have
+$$\int_{L} \frac{e^{iz}}{z} dz = \int_{-X_1}^{X_2} \frac{e^{i(t + iY)}}{t + iY} dt = e^{-Y} \int_{-X_1}^{X_2} \frac{e^{it}}{t + iY} dt$$
+Again, in terms of absolute value $|t + iY| \geq |Y|$ so the above can be bound in absolute value by
+$$e^{-Y} \int_{-X_1}^{X_2} \frac{1}{|Y|} dt = \frac{X_2 + X_1}{|Y| e^Y}$$
+which goes to 0 as long as $Y \rightarrow \infty$ but $X_2 + X_1$ goes slower than $e^Y$. Combining with the above, the choice of $X_1 = X_2 = Y^2$ should work.
+
+\item For the small semicircle $S_\delta$ centered at $0$ and radius $\delta$ on the lower half plane with natural parametrization $z(t) = \delta e^{it}$ where $t \in [\pi, 2\pi]$ we find
+$$\int_{S_\delta} \frac{e^{iz}}{z} dz = i \int_\pi^{2\pi} e^{i \delta e^{it}} dt$$
+because $dz = i z dt$. As $\delta \rightarrow 0$, the integrand $e^{i \delta e^{it}} = e^{i \delta \cos t - \delta \sin t} = e^{-\delta \sin t} e^{i \delta \cos t} \rightarrow 1$ uniformly and so
+$$\lim_{\delta \rightarrow 0} i \int_\pi^{2\pi} e^{i \delta e^{it}} dt = i \int_\pi^{2\pi} dt = \pi i.$$
+\end{itemize}
+
+Combining all these, we derive
+$$\int_{-\infty}^{\infty} \frac{e^{ix}}{x} dx = 2 \lim_{Y \rightarrow +\infty, \delta \rightarrow 0^+} \int_\delta^{Y^2} \frac{e^{ix}}{x} dx = 2 \pi i - \pi i = \pi i$$
+which implies
+$$\int_{-\infty}^{\infty} \frac{\sin x}{x} dx = \pi.$$
+
+\textbf{Remark}: Sometimes ago, I think I came up with a way to compute this integral without complex analysis while preparing my notes for the modular forms seminar. But I forget how that works. In any case, a quick search yields \href{https://people.math.harvard.edu/~ctm/home/text/others/hardy/sinx/sinx.pdf}{Hardy's pleasant article} on \textit{The Mathematical Gazette}.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

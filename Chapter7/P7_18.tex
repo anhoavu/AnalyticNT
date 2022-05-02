@@ -1,0 +1,156 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\begin{document}
+\fi
+
+\textbf{Problem 7.18}: Suppose that the monotonicity condition of Lemma 7.18 is replaced by the difference estimate
+$$|F(y) - F(x)| \leq (1 + y - x) x^{\alpha - 1}\varphi(x)$$
+valid for $1 \leq x < y \leq 2x$. Here $\varphi$ is a monotone increasing function. Show first that $P(\log x) = O(\varphi(x))$; then show that
+$$F(x) = x^\alpha Q(\log x) + O(\sqrt{x^\alpha \varphi(x) E(x)}) + O(x^{\alpha - 1} \varphi(x)).$$
+
+\begin{proof}
+Note that to show $P(\log x) = O(\varphi(x))$ is to show $\frac{|P(\log x)|}{\varphi(x)}$ is bounded above and that is the same as showing the reciprocal $\frac{\varphi(x)}{|P(\log x)|}$ is bounded below by a positive number.
+
+We write
+\begin{align}
+G(y) - G(x) &= \int_x^y F(t) t^{-1} dt \notag\\
+&= \int_x^y F(x) t^{-1} dt + \int_x^y (F(t) - F(x)) t^{-1} dt \notag \\
+&= h F(x) + \int_x^y (F(t) - F(x)) t^{-1} dt
+\label{eq:diffG}
+\end{align}
+where $h := h(x, y) = \log(y/x)$. The left hand side can be related to $P(\log x)$ so our goal is to find an upper bound for (the absolute value of) the right hand side in term of $\varphi(x)$.
+
+For $1 \leq x < y \leq 2x$, we can bound the second integral
+\begin{align}
+\Abs{ \int_x^y (F(t) - F(x)) t^{-1} dt }
+\leq& \int_x^y |F(t) - F(x)| t^{-1} dt \notag \\
+\leq& \int_x^y (1 + t - x) x^{\alpha - 1}\varphi(x) \; t^{-1} dt \notag \\
+=& x^{\alpha - 1} \varphi(x) \int_x^y (1 + t - x) t^{-1} dt \notag\\
+=& x^{\alpha - 1} \varphi(x) \{ (1 - x) h + y - x \}. \label{ineq:bound_second_integral_Gdiff}
+\end{align}
+
+To get an upper bound for $|F(x)|$, let $x \geq 1$ be fixed and denote $k = k(x) := [\frac{\log x}{\log 2}]$ so $2^k \leq x < 2^{k+1}$ or equivalently, $1 \leq \frac{x}{2^k} < 2$ so we can apply the inequality for $x = 1$ and $y = \frac{x}{2^k}$ to get
+$$\Abs{F\left(\frac{x}{2^k}\right) - F(1)} \leq \left(1 + \frac{x}{2^k} - 1\right) 1^{\alpha - 1} \varphi(1) < 2 \varphi(1).$$
+
+For $r = 0, 1, ..., k - 1$, we have $x \geq 2^{r+1}$ so we can apply the given inequality to derive
+\begin{align*}
+\Abs{ F\left(\frac{x}{2^r}\right) - F\left(\frac{x}{2^{r+1}}\right) } \leq& \left(1 + \frac{x}{2^r} - \frac{x}{2^{r+1}}\right) \left(\frac{x}{2^{r+1}}\right)^{\alpha - 1} \varphi\left(\frac{x}{2^{r+1}}\right)\\
+\leq& \left(1 + \frac{x}{2^{r+1}}\right) \frac{x^{\alpha - 1}}{2^{(r+1)(\alpha - 1)}} \varphi(x) &\text{ since } \varphi \uparrow\\
+=& \varphi(x) (x^{\alpha - 1} 2^{-(\alpha - 1)(r+1)} + x^{\alpha} {2^{-\alpha (r+1)}})
+\end{align*}
+
+Combining these inequalities, we obtain the upper bound
+\begin{align}
+\Abs{ F(x) } \leq& |F(1)| + \Abs{F\left(\frac{x}{2^k}\right) - F(1)} + \sum_{r = 0}^{k-1} \Abs{ F\left(\frac{x}{2^r}\right) - F\left(\frac{x}{2^{r+1}}\right) } \notag\\
+%%%
+\leq & \underbrace{|F(1)| + 2\varphi(1)}_{C} + \sum_{r = 0}^{k-1} \varphi(x) (x^{\alpha - 1} 2^{-(\alpha - 1)(r+1)} + x^{\alpha} {2^{-\alpha (r+1)}}) \notag\\
+%%%
+= & C + \varphi(x) \left\{ \sum_{r = 0}^{k-1} x^{\alpha - 1} 2^{-(\alpha - 1)(r+1)} + \sum_{r = 0}^{k-1} x^{\alpha} {2^{-\alpha (r+1)}} \right\} \notag\\
+%%%
+= & C+ \varphi(x) \left\{ x^{\alpha - 1} 2^{-(\alpha - 1)} \sum_{r = 0}^{k-1} 2^{-(\alpha - 1) r} + x^{\alpha} 2^{-\alpha} \sum_{r = 0}^{k-1} 2^{-\alpha r} \right\} \notag\\
+%%%
+\leq & C + \varphi(x) \left\{ x^{\alpha - 1} B(x, \alpha)
++ \frac{x^{\alpha}}{2^{\alpha} - 1} \right\}
+\label{ineq:upperbound_abs_F}
+\end{align}
+where
+$$B(x, \alpha) := \begin{cases}
+\dfrac{1}{2^{\alpha - 1} - 1} &\text{if } \alpha > 1,\\\\
+\dfrac{x^{1-\alpha} - 1}{1 - 2^{\alpha-1}} &\text{if } 0 < \alpha < 1,\\\\
+\dfrac{\log x}{\log 2} &\text{if } \alpha = 1.
+\end{cases}$$
+
+The final inequality \eqref{ineq:upperbound_abs_F} comes from the observation that
+$$2^{-\alpha} \sum_{r = 0}^{k-1} 2^{-\alpha r} \leq 2^{-\alpha} \sum_{r = 0}^{\infty} 2^{-\alpha r} = \frac{x^{\alpha}}{2^{\alpha} - 1}$$
+and
+\begin{align*}
+2^{-(\alpha - 1)} \sum_{r = 0}^{k-1} 2^{-(\alpha - 1) r} &= \begin{cases}
+\dfrac{2^{-(\alpha - 1)k} - 1}{1 - 2^{\alpha-1}} &\text{if }\alpha \not= 1,\\\\
+k &\text{if } \alpha = 1
+\end{cases}\\
+&\leq B(x, \alpha)
+\end{align*}
+for in case $0 < \alpha < 1$, $2^{\alpha - 1} < 1$ and $2^{-(\alpha - 1)k} = (2^k)^{1-\alpha} \leq x^{1-\alpha}$ while in case $\alpha > 1$, we just extend the summation to infinity.
+
+Dividing both sides of \eqref{eq:diffG} by $x^\alpha |P(\log x)|$ assuming $x$ is sufficiently large so that $P(\log x) \not= 0$, we get
+\begin{align*}
+&\Abs{\frac{G(y) - G(x)}{x^\alpha P(\log x)}}\\
+%%%
+\leq& \Abs{\frac{hF(x)}{x^\alpha P(\log x)}} + \frac{\Abs{\int_x^y (F(t) - F(x)) t^{-1} dt}}{x^\alpha |P(\log x)|}\\
+%%%
+\leq& \frac{h (C + \varphi(x) \left\{ x^{\alpha - 1} B(x, \alpha) + \frac{x^{\alpha}}{2^{\alpha} - 1}\right\})}{x^\alpha |P(\log x)|} + \frac{x^{\alpha - 1} \varphi(x) \{ (1 - x) h + y - x \}}{x^\alpha |P(\log x)|} &\text{by } \eqref{ineq:bound_second_integral_Gdiff} \text{ and } \eqref{ineq:upperbound_abs_F}\\
+%%%
+=& \frac{C h}{x^\alpha |P(\log x)|} + \frac{\varphi(x)}{|P(\log x)|} \left\{ \frac{B(x, \alpha) h}{x}  + \frac{h}{2^{\alpha} - 1} + \frac{(1 - x) h + y - x}{x}\right\}
+\end{align*}
+while on the other hand, using the assumption on $G$
+\begin{align*}
+\Abs{\frac{G(y) - G(x)}{x^\alpha P(\log x)}} &= \Abs{\frac{y^\alpha P(\log y) + O(E(y)) - x^\alpha P(\log x) - O(E(x))}{x^\alpha P(\log x)}}\\
+&= \Abs{\frac{y^\alpha P(\log y)}{x^\alpha P(\log x)} - 1 + \frac{O(E(y)) + O(E(x))}{x^\alpha P(\log x)}}
+\end{align*}
+so specializing $y = 2x$ (so $h = \log 2$) we get the inequality
+\begin{align*}
+&\Abs{2^\alpha \frac{P(\log x + \log 2)}{P(\log x)} - 1 + \frac{O(E(2x)) + O(E(x))}{x^\alpha P(\log x)}} \\
+\leq &\frac{C \log 2}{x^\alpha |P(\log x)|} + \frac{\varphi(x)}{|P(\log x)|} \left\{ \frac{B(x, \alpha) \log 2}{x}  + \frac{\log 2}{2^{\alpha} - 1} + \frac{(1 - x) \log 2 + x}{x}\right\}
+\end{align*}
+which yields
+\begin{align*}
+&\frac{\Abs{2^\alpha \frac{P(\log x + \log 2)}{P(\log x)} - 1 + \frac{O(E(2x)) + O(E(x))}{x^\alpha P(\log x)}} - \frac{C \log 2}{x^\alpha |P(\log x)|} }{\frac{B(x, \alpha) \log 2}{x}  + \frac{\log 2}{2^{\alpha} - 1} + \frac{(1 - x) \log 2 + x}{x}}\leq \frac{\varphi(x)}{|P(\log x)|} 
+\end{align*}
+by a simple rearrangement.
+
+As $x \rightarrow \infty$, we have $\frac{(1 - x) \log 2 + x}{x} \rightarrow 1 - \log 2, \frac{P(\log x + \log 2)}{P(\log x)} \rightarrow 1, \frac{B(x, \alpha) \log 2}{x} \rightarrow 0$ and $\frac{O(E(2x)) + O(E(x))}{x^\alpha P(\log x)} \rightarrow 0$ by assumption on $E$, namely $E(x) = o(x^\alpha P(\log x))$ and $E(2x) \leq K E(x)$ and so the left hand side has limit
+$$L := \frac{2^\alpha - 1}{\frac{\log 2}{2^\alpha - 1} + 1 - \log 2} > 0.$$
+Thus, for any $\epsilon > 0$, we have
+$$\frac{\varphi(x)}{|P(\log x)|} \geq L - \epsilon$$
+for all $x$ sufficiently large. This proves $P(\log x) = O(\varphi(x))$ as we can adjust the constant to account for the $x$ in a finite range.
+
+To get the final formula for $F(x)$, we copy the proof of Lemma 7.18. As in the proof of that lemma, we put $f(u) = e^{\alpha u} P(u)$. There we find
+\begin{itemize}
+\item The difference
+\begin{align*}
+G(y) - G(x) &= f(\log y) - f(\log x) + O(E(x))\\
+&= h f'(\log x) + \frac{h^2}{2} f''(\log z) + O(E(x))
+\end{align*}
+for some $z$ such that $x < z < y$ by Taylor's formula.
+
+\item $f'(\log x) = x^\alpha Q(\log x)$ is the expected main term for $F(x)$.
+
+\item $f''(u) = O(e^{\alpha u} P(u))$ for $u$ large enough so $f''(\log z) = O(z^\alpha P(\log z)) = O(y^\alpha P(\log y)) = O(e^h x^\alpha P(h + \log x))$.
+\end{itemize}
+So this time, dividing both sides of \eqref{eq:diffG} by $h$, we obtain from \eqref{ineq:bound_second_integral_Gdiff} that
+$$\Abs{F(x) - \frac{G(y) - G(x)}{h}} \leq x^{\alpha - 1} \varphi(x) \left\{ 1 - x + \frac{y - x}{h} \right\}$$
+which leads to
+$$\Abs{F(x) - f'(\log x) + \frac{h}{2} f''(\log z) + O(h^{-1} E(x))} \leq x^{\alpha - 1} \varphi(x) \left\{ 1 - x + \frac{y - x}{h} \right\}$$
+and we have the error bound
+$$\Abs{F(x) - x^\alpha Q(\log x)} \leq \frac{h}{2} f''(\log z) + O(h^{-1} E(x)) + x^{\alpha - 1} \varphi(x) + x^{\alpha - 1} \varphi(x) \left\{\frac{y - x}{h} - x \right\}.$$
+
+Now we choose $y$ such that
+$$h = h(x) = \sqrt{\frac{E(x)}{x^\alpha \varphi(x)}}$$
+i.e. $y = x e^{h(x)}$. By assumption $E(x) = o(x^\alpha P(\log x))$ and the proven fact that $P(\log x) = O(\varphi(x))$, we have $h \rightarrow 0$ as $x \rightarrow \infty$ so eventually $y \leq 2x$. So for $x$ sufficiently large, with this choice for $y$, we find
+\begin{itemize}
+\item the first error term
+\begin{align*}
+\frac{h}{2} f''(\log z) &= \frac{1}{2} \sqrt{\frac{E(x)}{x^\alpha \varphi(x)}} \; O(e^h x^\alpha P(h + \log x)) \\
+&= \frac{1}{2} \sqrt{\frac{E(x)}{x^\alpha \varphi(x)}} \; O(x^\alpha P(\log x)) \\
+&= O(\sqrt{E(x) x^\alpha \varphi(x)})
+\end{align*}
+because $h \rightarrow 0$ as $x \rightarrow \infty$ so $e^h \rightarrow 1$ and $\frac{P(h + \log x)}{P(\log x)} \rightarrow 1$ are eventually bounded and we have $O(e^h x^\alpha P(h + \log x)) = O(x^\alpha P(\log x))$. The second equality comes from $P(x) = O(\varphi(x))$.
+
+\item the second and the third error terms are obvious
+$$h^{-1} E(x) = \frac{E(x)}{\sqrt{\frac{E(x)}{x^\alpha \varphi(x)}}} = \sqrt{E(x) x^\alpha \varphi(x)}$$
+
+\item finally, we use Taylor's theorem to write $e^h = 1 + h + \frac{h^2}{2} e^\xi$ for some $\xi \in (0, h)$ so $e^\xi \leq e^h$ to bound
+$$\frac{y - x}{h} - x = \frac{e^h x - x}{h} - x = x\left( \frac{e^h - 1}{h} - 1 \right) \leq \frac{1}{2} h e^h x$$
+so the final error term
+$$x^{\alpha - 1} \varphi(x) \left\{\frac{y - x}{h} - x \right\} \leq \frac{e^h}{2} h x^\alpha \varphi(x) = \frac{e^h}{2} \sqrt{\frac{E(x)}{x^\alpha \varphi(x)}} x^\alpha \varphi(x)$$
+is also $O(\sqrt{E(x) x^\alpha \varphi(x)})$ since $e^h \rightarrow 1$ as $x \rightarrow \infty$.
+\end{itemize}
+
+So the final formula for $F(x)$ is proven.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

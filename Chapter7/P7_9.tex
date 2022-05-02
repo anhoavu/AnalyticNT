@@ -1,0 +1,108 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Fhat}{\widehat{F}}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\newcommand{\cconj}[1]{\overline{#1}}
+\begin{document}
+\fi
+
+\textbf{Problem 7.9}: Let $c$ be a fixed positive number, and define a completely multiplicative function $f$ by setting $f(p) = 0$ for all primes $p \leq c$ and $f(p) = c$ for all $p > c$. Show that
+$$\sum_{n \leq x} f(n) \sim \prod_{p \leq c} (1-p^{-1})^c \prod_{p > c} \left\{ \frac{(1 - p^{-1})^c}{1 - c p^{-1}} \right\} \frac{x(\log x)^{c - 1}}{\Gamma(c)}.$$
+
+\begin{proof}
+Let $F(x)$ denote the summatory function of $f$.
+
+\textbf{Short version}: By complete multiplicativity, we expect an Euler product
+$$\Fhat(s) = \prod_{p > c} (1 - c p^{-s})^{-1}.$$
+According to the strategy in Example 6.8, we extract the zeta power $\zeta(s)^c$ from $\Fhat(s)$ and write
+$$\Fhat(s) = \zeta(s)^c \; \xi(s)$$
+where $\xi(s) = \Fhat(s) \zeta(s)^{-c}$ should have a lower abscissa of convergence. Then extracting the pole from $\zeta(s)$, we can write
+$$\Fhat(s) = (s - 1)^{-c} \; \underbrace{((s - 1) \zeta(s))^c \; \xi(s)}_{\varphi(s)}$$
+where $\varphi$ is analytic on the the closed half plane $\sigma \geq 1$. Applying the generalized Wiener-Ikehara theorem, we get the asymptotic estimate.
+
+\textbf{Full version}: We work out the argument in full details.
+
+\begin{itemize}
+\item First, we prove that $\sigma_c(\Fhat) \leq 1$.
+
+Define the half plane $H_a := \{s : \sigma > a\}$.
+
+The simple bound $0 \leq f(n) < n$ implies that $F(x) = O(x^2)$ whence $\Fhat(s)$ converges absolutely on $H_2$ and we have the Euler product by Corollary 6.6.
+To push absolute convergence to $H_1$, one can try to prove that $F(x) = O(x^{1+\epsilon})$ for any $\epsilon > 0$ but that is not going to be easy.
+To get around the issue, we use our partial converse to Lemma 6.4: As $f(n) n^{-\sigma} > 0$ for all $n$, $\sum f(n) n^{-\sigma}$ converges whenever the infinite product $\prod_{p > c} (1 + c p^{-\sigma} + c^2 p^{-2\sigma} + \cdots)$ does.
+
+To see that the infinite product for $\sigma > 1$ converges, we have to prove the equivalent fact that $\prod_{p > c} (1 - c p^{-\sigma})$ converges (to a non-zero limit). Clearly, the sequence of partial products $\prod_{c < p < N} (1 - c p^{-\sigma})$ is decreasing and bounded below by 0 for $0 < 1 - c p^{-\sigma} < 1$ so it has a limit. We just have to prove that the limit is not zero by proving that the logarithm
+$$\sum_{p > c} \log(1 - c p^{-\sigma}) \not= -\infty$$
+or simply that it is bounded below. Using the simple bound for $\log(1 - x)$ in Chapter 6, we obtain
+\begin{align*}
+\sum_{p > c} \log(1 - c p^{-\sigma}) &\geq \sum_{p > c} - \frac{1}{c^{-1} p^\sigma - 1}\\
+&= - c \sum_{p > c} \frac{1}{p^\sigma - c}\\
+&\geq -c \sum_{c < p \leq N} \frac{1}{p^\sigma - c} - c \sum_{p > N} \frac{1}{p^\sigma / 2} \\
+&\geq -c \sum_{c < p \leq N} \frac{1}{p^\sigma - c} - 2 c \sum_{p > N} p^{-\sigma}
+\end{align*}
+where $N$ could be any number large enough so that $p^{\sigma} - c \geq p^{\sigma}/2$ for all $p > N$. The last series $\sum_{p > N} p^{-\sigma}$ is already known to converge for $\sigma > 1$ as it is bounded above by $\zeta(\sigma)$.
+
+We have thus proved that $\Fhat(s)$ converges absolutely on $H_1$ and we have an Euler product there.
+
+\item Next, we show that $\xi(s)$ has a lower abscissa of convergence.
+
+Note that we expect $ \xi(s) = \Fhat(s) \zeta(s)^{-c}$ but we will not take this as its definition because at this point, $\Fhat(s)$ only exists for $\sigma > 1$. Instead, we shall later define it via the infinite product
+\begin{align*}
+\xi(s) &:= \prod_p (1 - p^{-s})^c \prod_{p > c} (1 - cp^{-s})^{-1}\\
+&= \prod_{p \leq c} (1 - p^{-s})^c \prod_{p > c} \frac{(1 - p^{-s})^c}{1 - cp^{-s}}
+\end{align*}
+and obtains its analyticity on the larger region $H := H_{1/2}$ from that of another function $\eta(s)$.
+
+Note that unlike series, an infinite product $\prod a_n$ needs not converge when $\prod |a_n|$ does; to wit, consider $a_n = (-1)^n$ or $a_n = e^{in}$.
+
+We define $\xi(s)$ via its logarithm (omitting finitely many Euler factor)
+$$\eta(s) := \sum_{p > N} c \log(1 - p^{-s}) - \log(1 - cp^{-s})$$
+where $N > c$ is to be specified.
+
+The Taylor series
+$$\log(1 - z) = - \sum_{k = 1}^{\infty} \frac{z^k}{k}$$
+converges for $|z| < 1$ by ratio test and define an analytic function on the unit disk extending the usual function $\log(1 - x)$ for real $x \in (0, 1)$.
+
+So let $N > c$ is any number large enough so that both $c p^{-\sigma} < \frac12$ and $p^{-\sigma} < \frac12$ for any $p > N$ and $\sigma > 1/2$. This lets us use the above series and also make a future inequality holds.
+
+We show that $\eta(s)$ converges and is analytic on $H$ so that
+$$\xi(s) := e^{\eta(s)} \prod_{p \leq c} (1 - p^{-s})^c \prod_{c < p \leq N} \frac{(1 - p^{-s})^c}{1 - cp^{-s}}$$
+is also.
+
+Thank to our choice of $N$, we can use the series for logarithm:
+\begin{align*}
+\eta(s) &= \sum_{p > c} \sum_{k=1}^{\infty} \left( - c \frac{p^{-ks}}{k} + \frac{c^k p^{-ks}}{k} \right)\\
+&= \sum_{p > c} \sum_{k=2}^{\infty} (c^k - c) \frac{p^{-ks}}{k}
+\end{align*}
+If $c \leq 1$ then $|c^k - c| = c - c^k \leq c$. If $c > 1$ then $|c^k - c| = c^k - c \leq c^k \leq c^{k+1}$. So in either case we find $|c^k - c| \leq c \cdot \max\{1, c^k\} = c d^k$ where $d := \max\{1, c\}$.
+
+We have
+\begin{align*}
+\sum_{p > N} \sum_{k=2}^{\infty} \Abs{ (c^k - c) \frac{p^{-ks}}{k} } &= \sum_{p > N} \sum_{k=2}^{\infty} |c^k - c| \;   \frac{p^{-k\sigma}}{k}\\
+&\leq \sum_{p > N} \sum_{k=2}^{\infty} c d^k \frac{p^{-k\sigma}}{k} \\
+&= c \sum_{p > N} \sum_{k=2}^{\infty} \frac{(d p^{-\sigma})^k}{k} \\
+&= c \sum_{p > N} - \log(1 - dp^{-\sigma}) - d p^{-\sigma} \\
+&\leq \sum_{p > N} 2 d^2 p^{-2\sigma} \\
+&< 2 c d^2 \zeta(2\sigma)
+\end{align*}
+so $\eta(s)$ converges absolutely for $\sigma > 1/2$. Here we have used the inequality
+$$- \log(1 - x) - x \leq 2 x^2, \qquad x \in [0, 1/2)$$
+which is another reason for our choice $N$ (so that $dp^{-\sigma} < \frac12$). This inequality comes from
+$$- \log(1 - x) - x \leq \frac{x^2}{2(1-x)^2}$$
+which I proved in Chapter 6.
+
+The fact that $\eta(s)$ is analytic is not difficult to see: By the above bound, the series defining $\eta(s)$ converges uniformly on any closed half plane $\sigma \geq \delta$ for any fixed $\delta > 1/2$ (thank to convergence of $\zeta(2 \delta)$) so it follows by the well-known consequence of Morera's theorem that $\eta(s)$ is analytic on that half plane since it is the uniform limit of a sequence of analytic functions.
+
+\item Now we can apply the generalized Wiener-Ikehara theorem: From absolute convergence of $\Fhat(s)$ on $H_1$, we have an Euler product which gives us the equation
+$$\Fhat(s) = (s - 1)^{-c} \; ((s - 1) \zeta(s))^c \; \xi(s)$$
+on $H_1$ where $\xi(s)$ is defined from $\eta(s)$ and is known to be analytic on $H$. This equation implies $\sigma_c(\Fhat) = 1$ because $\Fhat$ has a pole at 1 whence it cannot converge on the line $\sigma = 1$. Applying the theorem with $\varphi(s) = ((s - 1) \zeta(s))^c \; \xi(s)$ and $\psi(s) = 0$, we find the desired asymtotic formula
+$$F(x) \sim \xi(1) \frac{x (\log x)^{c - 1}}{\Gamma(c)}$$
+as the constant
+$$\xi(1) = \prod_{p \leq c} (1-p^{-1})^c \prod_{p > c} \left\{ \frac{(1 - p^{-1})^c}{1 - c p^{-1}} \right\} \not= 0.$$
+\end{itemize}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

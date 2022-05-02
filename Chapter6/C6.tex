@@ -6,6 +6,47 @@
 \begin{document}
 \fi
 
+\section{A partial converse to Lemma 6.4: Euler product implies convergence of series}
+
+In Lemma 6.4, we show the Euler product formula
+$$\sum f(n) = \prod (1 + f(p) + f(p^2) + \cdots)$$
+assuming the series converges absolutely.
+
+Let me prove a simple partial converse here: Suppose that $f \geq 0$ is multiplicative and that the infinite product $\prod (1 + f(p) + f(p^2) + \cdots)$ converges. Then the series $\sum f(n)$ converges absolutely (and hence, the Euler product above holds by the original Lemma 6.4).
+
+By assumption $f \geq 0$, the sequence of partial sums for the series $\sum_{n \leq N} f(n)$ is an increasing sequence so to establish convergence, it suffices to show that it is bounded above and an obvious candidate for such bound is the limit of the infinite product.
+
+To prove that, let $C_N$ be the finite set of all positive integers $n$ such that (i) every prime divisor of $n$ does not exceed $N$; and (ii) if $p^k | n$ then $k \leq N$. In other words, if $p_1, ..., p_r$ is the list of all primes $\leq N$ (i.e. $r = \pi(N)$) then
+$$C_N = \{p_1^{\alpha_1} p_2^{\alpha_2} \cdots p_r^{\alpha_r} : 0 \leq \alpha_i \leq N \text{ for all } i\}.$$
+It is clear that $C_N \supseteq \{1, 2, ..., N\}$. Therefore,
+\begin{align*}
+\sum_{n \leq N} f(n) &\leq \sum_{n \in C_N} f(n) \\
+&= \prod_{p \leq N} (1 + f(p) + \cdots + f(p^N)) \\
+&< \prod_{p \leq N} (1 + f(p) + f(p^2) + \cdots) \\
+&< \prod_p (1 + f(p) + f(p^2) + \cdots).
+\end{align*}
+And so the series $\sum f(n)$ converges.
+
+\section{On the simple logarithm bound in Example 6.8}
+
+In Example 6.8, we have the simple bound
+$$0 > \log\left(1 - \frac{1}{K}\right) > \frac{-1}{K - 1}, \qquad K > 2.$$
+
+This inequality actually applies to all $K > 1$. Let me rewrite it as
+$$0 > \log(1 - x) > -\frac{1}{x^{-1} - 1} = -\frac{x}{1 - x}, \qquad x \in (0, 1).$$
+
+To prove that, recall the classical inequality
+$$\log(1 + x) \leq x, \qquad \text{ for } x \geq -1$$
+which could be proved by considering the function
+$$f(x) = x - \log(1 + x)$$
+defined on $(-1, \infty)$. Its derivative
+$$f'(x) = 1 - \frac{1}{1 + x} = \frac{x}{1 + x}$$
+is positive if $x > 0$ and is negative if $-1 < x < 0$. So $f(x) \geq f(0) = 0$ for all $x \in (-1, \infty)$.
+
+Now back to our claimed inequality: We have
+$$-\log(1 - x) = \log\left(\frac{1}{1 - x}\right) = \log\left(1 + \frac{x}{1 -  x}\right) \leq \frac{x}{1 - x}$$
+as long as $\frac{x}{1 - x} \geq -1$ which is obvious if $x \in (0, 1)$.
+
 \section{Uniform Convergence}
 
 When we say $\Fhat$ converges uniformly on $U$, what we mean is: For any $\epsilon > 0$, there exists an $X_0$ such that for any $X > X_0$,

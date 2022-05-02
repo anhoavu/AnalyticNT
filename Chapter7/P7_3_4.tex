@@ -1,0 +1,39 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Fhat}{\widehat{F}}
+\begin{document}
+\fi
+
+\textbf{Problem 7.3}: By exploiting the behavior of $e^{it\log n}$ for large values of $n$, show that $|\zeta(\rho + it)| < 2$ for all real $t \not= 0$.
+
+\begin{proof}
+From the series for $\zeta(s)$, it is clear that
+$$|\zeta(\rho + it)| \leq \sum_{n=1}^{\infty} |n^{-\rho-it}| = \zeta(\rho) = 2$$
+and equality can only occurs when $n^{-i t} = 1$ for all $n$; equivalently, $n^{i t} = e^{i t \log n} = 1$. Since $e^{i t \log n} = 1 \iff \frac{t \log n}{2\pi}$ is an integer, we find
+$$\frac{1}{2\pi} (t \log(n + 1) - t \log n) = \frac{t}{2\pi} \log \frac{n+1}{n}$$
+is an integer for all $n$. When $n$ becomes very large, this sequence of integers approaches 0 and so must be constant 0 from some point onward\footnote{Use $\epsilon = 1/2$ in the definition of limit.}. But that implies
+$$\frac{t \log n}{2\pi} = \frac{t \log (n + 1)}{2\pi}$$
+for all $n$ sufficiently large and that cannot happen unless $t = 0$.
+\end{proof}
+
+\textbf{Problem 7.4}: Let $\varphi$ denote Euler's function. Prove that as $y \rightarrow \infty$,
+$$\#\{n: \varphi(n) \leq y\} \sim \frac{\zeta(2)\zeta(3)}{\zeta(6)} y.$$
+
+\begin{proof}
+Recall from Problem 6.6 that if we put $f(j) = \#\{n : \varphi(n) = j\}$ then
+$$\sum f(j) j^{-s} = \sum_{n=1}^{\infty} \varphi(n)^{-s} = \zeta(s) \psi(s)$$
+valid for $\sigma > 1$ where
+$$\psi(s) = \prod_p (1 + (p-1)^{-s} - p^{-s})$$
+converges at every point on the line of convergence $\sigma = 1$. The summatory function of $f$ is evidently
+$$F(y) = \#\{n: \varphi(n) \leq y\}$$
+real valued monotone non-decreasing. It is clear from the last formula that $\sigma_c(\Fhat) = 1$. From Problem 6.7
+$$\psi(1) = L = \frac{\zeta(2)\zeta(3)}{\zeta(6)}$$
+together the fact that $\zeta(s)$ is analytic on $\sigma > 0$ with a simple pole at $s = 1$, we get
+$$\Fhat(s) - \frac{L}{s - 1} = \left(\zeta(s) - \frac{1}{s-1}\right) \psi(s) + \frac{\psi(s) - L}{s - 1}$$
+extends to a continuous function on $\{\sigma \geq 1\}$. Thus, the Wiener-Ikehara theorem implies our desired assymptotic formula.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

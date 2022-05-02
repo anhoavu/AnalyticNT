@@ -1,0 +1,76 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\newcommand{\Fhat}{\widehat{F}}
+\newcommand{\Ghat}{\widehat{G}}
+\begin{document}
+\fi
+
+\textbf{Problem 7.13}: Suppose $F \in \V$ and $\sigma_c(\Fhat) < \alpha < \infty$. Let
+$$I(T, \alpha) := \frac{1}{2T} \int_{-T}^T \Fhat(\alpha + it) dt.$$
+Show that $\lim_{T \rightarrow \infty} I(T, \alpha)$ exists and equals $F(1)$. Hint. Show that
+$$I(T, \alpha) = F(1) + \int_1^2 x^{-\alpha} \frac{\sin (T\log x)}{T \log x} dF(x) + \frac{\Ghat(\alpha + iT) - \Ghat(\alpha - iT)}{-2iT},$$
+where $\Ghat(s) = \int_2^\infty x^{-s} (\log x)^{-1} dF(x).$
+
+\begin{proof}
+Note that $\Fhat(\alpha + it)$ converges uniformly on $[-T, T]$ by Theorem 6.15 so we can swap the limit in $\Fhat$ and the integral to get
+\begin{align*}
+I(T, \alpha) &= \frac{1}{2T} \int_{-T}^T \left( \lim_{X \rightarrow \infty} \int_{1^-}^X x^{-\alpha-it} dF \right) dt \\
+&= \lim_{X \rightarrow \infty} \int_{1^-}^X \left( \frac{1}{2T} \int_{-T}^T x^{-\alpha-it}  dt \right) dF \\
+&= \lim_{X \rightarrow \infty} \int_{1^-}^X x^{-\alpha} \left( \frac{1}{2T} \left. \frac{x^{-it}}{-i \log x} \right|_{-T}^T   \right) dF \\
+&= \lim_{X \rightarrow \infty} \int_{1^-}^X \frac{x^{-\alpha}(x^{-iT} - x^{iT} )}{- 2 i T \log x} dF \\
+&= \int_{1^-}^\infty \frac{x^{-\alpha-iT} - x^{-\alpha+iT}}{- 2 i T \log x} dF \\
+&= F(1) \left\{ \lim_{x \rightarrow 1} \frac{x^{-\alpha-iT} - x^{-\alpha+iT}}{- 2 i T \log x} \right\} + \int_{1}^\infty \frac{x^{-\alpha-iT} - x^{-\alpha+iT}}{- 2 i T \log x} dF
+\end{align*}
+by Lemma 3.8. Observe that
+\begin{align*}
+\lim_{x \rightarrow 1} \frac{x^{-\alpha-iT} - x^{-\alpha+iT}}{- 2 i T \log x} &= \lim_{x \rightarrow 1} x^{-\alpha} \frac{\sin(T \log x)}{T \log x} \\
+&= \lim_{x \rightarrow 1} \frac{\sin(T \log x)}{T \log x} &\text{since } \lim_{x \rightarrow 1} x^{-\alpha} = 1 \\
+&= \lim_{h \rightarrow 1} \frac{\sin(h)}{h} \\
+&= 1 &\text{by L'hospital rule}
+\end{align*}
+so it remains to show that
+$$\lim_{T \rightarrow \infty} \int_{1}^\infty \frac{x^{-\alpha-iT} - x^{-\alpha+iT}}{- 2 i T \log x} dF = 0.$$
+
+We would like to express
+\begin{align*}
+&\int_{1}^\infty \frac{x^{-\alpha-iT} - x^{-\alpha+iT}}{- 2 i T \log x} dF\\
+=& - \frac{1}{2 i T} \left( \int_{1}^\infty x^{-\alpha-iT} \frac{1}{\log x} dF - \int_{1}^\infty x^{-\alpha+iT} \frac{1}{\log x} dF\right)\\
+=& -\frac{\Ghat(\alpha + iT) - \Ghat(\alpha - iT)}{2iT}
+\end{align*}
+where $G(x) = \int_1^x \frac{1}{\log x} dF$ and then simply invoke Lemma 7.13 which gives $\Ghat(\alpha \pm iT) = o(T)$ to deduce that the limit is 0. The only issue with this argument is that $\log 1 = 0$ so we cannot define $G(x)$ like that.
+
+To rectify the idea, we just have to split $\int_1^\infty = \int_1^2 + \int_2^\infty$. Then we could define
+$$G(x) = \begin{cases} \int_2^x \frac{1}{\log x} dF &\text{if } x > 2 \\ 0 &\text{if } x \leq 2 \end{cases}$$
+to settle $\lim_{T \rightarrow \infty} \int_2^\infty$. (It should be clear that $\sigma_c(G) \leq \sigma_c(F)$ so we can apply Lemma 7.13.)
+
+To deal with the limit of
+\begin{align*}
+\int_1^2 \frac{x^{-\alpha-iT} - x^{-\alpha+iT}}{- 2 i T \log x} dF =& \int_1^2 x^{-\alpha} \frac{\sin(T \log x)}{T \log x} dF,
+\end{align*}
+we first recall that
+$$\lim_{\delta \rightarrow 0^+} \int_1^{1 + \delta} x^{-\alpha} dF_v = 0$$
+by Lemma 3.8. Let $\epsilon > 0$ be arbitrary then we can choose $\delta > 0$ be such that
+$$0 < \int_1^{1 + \delta} x^{-\alpha} dF_v < \epsilon / 2.$$
+We can bound
+\begin{align*}
+\Abs{ \int_1^{1 + \delta} x^{-\alpha} \frac{\sin(T \log x)}{T \log x} dF } \leq& \int_1^{1 + \delta} x^{-\alpha} \Abs{ \frac{\sin(T \log x)}{T \log x} } dF_v \\
+\leq& \int_1^{1 + \delta} x^{-\alpha} dF_v
+\end{align*}
+because $\Abs{ \frac{\sin t}{t} } \leq 1$ for all $t$ and
+\begin{align*}
+\Abs{ \int_{1 + \delta}^2 x^{-\alpha} \frac{\sin(T \log x)}{T \log x} dF } \leq& \int_{1 + \delta}^2 x^{-\alpha} \Abs{ \frac{\sin(T \log x)}{T \log x} } dF_v\\
+\leq& \int_{1 + \delta}^2 x^{-\alpha} \frac{1}{T \log(1 + \delta)} dF_v \\
+=& \frac{1}{T \log(1 + \delta)} \int_{1 + \delta}^2 x^{-\alpha} dF_v \\
+\leq& \frac{1}{T \log(1 + \delta)} \int_1^2 x^{-\alpha} dF_v 
+\end{align*}
+which we can bound by $\epsilon / 2$ if we pick $T$ large enough (note that $\delta$ is constant here).
+
+\textbf{Note}: To check $\Abs{ \frac{\sin t}{t} } \leq 1$ for $t > 0$, we need to show that $-t \leq \sin t \leq t$. The derivative $(t \pm \sin t)' = 1 \pm \cos t \geq 0$ so $t \pm \sin t$ are both increasing functions and that means for $t \geq 0$, one has $t \pm \sin t \geq 0 \pm \sin 0 = 0$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi
