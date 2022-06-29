@@ -1,0 +1,119 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb,cancel}
+\DeclareMathOperator{\li}{li}
+\renewcommand{\O}[1]{O\left( #1 \right)}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\begin{document}
+\fi
+
+\textbf{Problem 8.12}: Show that $\li x$ is indeed a better asymptotic approximation to $\pi(x)$ than $x/\log x$.
+
+\begin{proof}
+We want to show that the error $\pi(x) - \li x$ is eventually smaller than $\pi(x) - \frac{x}{\log x}$. To do that, we show instead that the error $\pi(x) - \li x$ is eventually small compared to $\li x - \frac{x}{\log x}$ as we have no access to the second error $\pi(x) - \frac{x}{\log x}$.
+
+To see how this work, let $A = \pi(x)$, $B = \li x$, $C = x/\log x$ to simplify our notation and observe by triangle inequality that $|A - C| \geq |B - C| - |A - B|$. So if we can show that $|A - B| < \frac{1}{2} |B - C|$ eventually then $|A - C| \geq \frac12 |B - C| \geq |A - B|$ so $B$ is the better approximation to $A$ than $C$.
+
+By Theorem 8.15, we have $|A - B| = O(x e^{-c\sqrt{\log x}})$ for some $c > 0$. We have on page 203 that
+$$\li x = \sum_{n = 1}^{N} \frac{(n-1)! x}{\log^n x} + \O{\frac{x}{\log^{N + 1} x}}$$
+so in particular for $N = 2$,
+$$|B - C| = \frac{x}{\log^2 x} + \O{\frac{x}{\log^3 x}}.$$
+
+So let $K, L > 0$ be such that
+$$|A - B| \leq K x e^{-c\sqrt{\log x}}$$
+and
+$$|B - C| \geq \frac{x}{\log^2 x} - L \frac{x}{\log^3 x}.$$
+
+Our goal is to show that for $x$ sufficiently large,
+\begin{align*}
+\frac{1}{2} \left( \frac{x}{\log^2 x} - L \frac{x}{\log^3 x} \right) > K x e^{-c\sqrt{\log x}} &\iff \frac{1}{\log^2 x} - \frac{L}{\log^3 x} - 2 K e^{-c\sqrt{\log x}} > 0\\
+&\iff \log x - L - 2 K e^{-c\sqrt{\log x}} \log^3 x  > 0\\
+&\iff e^{c\sqrt{\log x}} (\log x - L) - 2 K \log^3 x  > 0.
+\end{align*}
+
+We have
+$$e^{c\sqrt{\log x}} \geq 1 + c \sqrt{\log x}$$
+and
+$$\log x - L \geq \frac{1}{2} \log x$$
+for sufficiently large $x$. Thus, for large enough $x$
+$$e^{c\sqrt{\log x}} (\log x - L) - 2 K \log^3 x \geq \frac{1}{2} (1 + c \sqrt{\log x}) \log x - 2 K \log^3 x$$
+and the latter expression is evidently positive for sufficiently large $x$. This proves $|A - B| < \frac{1}{2} |B - C|$ eventually whence $|A - B| < |A - C|$. And so $\li x$ is indeed a better asymptotic approximation to $\pi(x)$ than $\frac{x}{\log x}$.
+\end{proof}
+
+\textbf{Problem 8.13}: Show that there exists a unique number $B$ such that
+$$\pi(x) - \frac{x}{\log x - B} = \O{\frac{x}{\log^3 x}}.$$
+Find its value. Approximate $\pi(x)$ by this expression for some values of $x$ listed in Table 8.1.
+
+\begin{proof}
+Using
+\begin{align*}
+\pi(x) - \li x &= \O{x e^{-c\sqrt{\log x}}}\\
+\li x - \frac{x}{\log x} - \frac{x}{\log^2 x} &= \O{\frac{x}{\log^3 x}}\\
+e^{-c\sqrt{\log x}} &= o(\log^{-3} x)
+\end{align*}
+we see that any such $B$ needs to satisfy
+\begin{align*}
+\frac{x}{\log x} + \frac{x}{\log^2 x} - \frac{x}{\log x - B} &= \O{\frac{x}{\log^3 x}}.\\
+\frac{x(\log x(\log x - B) + (\log x - B) - \log^2 x)}{\log^2 x (\log x - B)} &=\\
+\frac{x(\cancel{\log^2 x} - B \log x + \log x - B - \cancel{\log^2 x})}{\log^2 x (\log x - B)} &=\\
+\frac{x((1 - B) \log x - B)}{\log^2 x (\log x - B)} &=
+\end{align*}
+and so the only possibility is $B = 1$ so that the $\log x$ term is removed in the numerator.
+
+% Use "table 10^n/(-1 + n log(10)) + 0.001 for n = 2..10" on WolframAlpha to get the table
+% The + 0.001 is to force it to render result in decimal form
+\begin{center}
+\begin{tabular}{ l r }
+$x$ & $x/(\log x - 1)$\\
+\hline
+$10^2$ & 27.7 \\
+$10^3$ & 169.2 \\
+$10^4$ & 1217.9 \\
+$10^5$ & 9512.1 \\
+$10^6$ & 78030.4 \\
+$10^7$ & 661458.9 \\
+$10^8$ & 5740303.8 \\
+\hline
+\end{tabular}
+\end{center}
+\end{proof}
+
+\textbf{Problem 8.14}: Show that for $n \geq 2$,
+$$p_n = n ( \log n + \log \log n + O(1) ).$$
+
+\begin{proof}
+This problem is a callback to Theorem 5.9. Observe that $\pi(p_n) = n$. In fact, $p_n$ is the smallest solution to the equation $\pi(x) = n$ so asymptotic approximation to $\pi(x)$ gives bounds on the solutions. The key strategy is to replace $p_n$ by its assymptotic whenever we encounter it in the $O$-notation, making use of the fact that $O(f) = O(g)$ if $f \sim g$.
+
+Starting from
+$$p_n \sim n \log n$$
+in Theorem 5.9, we deduce
+\begin{equation}
+p_n = (1 + o(1)) \; n \log n
+\label{eq:pn_asymptotic}
+\end{equation}
+and
+\begin{equation}
+\log p_n = \underbrace{\log (1 + o(1))}_{o(1)} + \log n + \log \log n.
+\label{eq:log_pn}
+\end{equation}
+
+Applying the the simple estimate $\pi(x) = \frac{x}{\log x} + \O{\frac{x}{\log^2 x}}$ to $\pi(p_n) = n$, we get
+\begin{align*}
+n &= \frac{p_n}{\log p_n} + \O{\frac{p_n}{\log^2 p_n}}\\
+&= \frac{p_n}{\log p_n} + \O{\frac{(1 + o(1)) \; n \log n}{(\log n + \log \log n + o(1))^2}} &\text{by } \eqref{eq:pn_asymptotic} \text{ and } \eqref{eq:log_pn}\\
+&= \frac{p_n}{\log p_n} + \O{\frac{n}{\log n}}
+\end{align*}
+by absorbing the constant into the $O$-notation. Observe that we have converted the complicated expression $\frac{p_n}{\log^2 p_n}$ in the $O$-notation into the explicit expression $\frac{n}{\log n}$.
+
+Now, multiplying $\log p_n$ on both sides yields
+\begin{align*}
+p_n &= n \log p_n + \O{\frac{n \log p_n}{\log n}} \\
+&= n \left\{ \log p_n + \O{\frac{\log p_n}{\log n}} \right\} \\
+&= n \left\{ \log n + \log \log n + o(1) + \O{\frac{ \log n + \log \log n + o(1)}{\log n}} \right\} &\text{ by }\eqref{eq:log_pn}\\
+&= n(\log n + \log \log n + O(1)).
+\end{align*}
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

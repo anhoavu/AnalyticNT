@@ -1,0 +1,177 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\Mhat}{\widehat{M}}
+\renewcommand{\O}[1]{O\left( #1 \right)}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\begin{document}
+\fi
+
+\textbf{Problem 8.16}: Show that $\int_1^\infty |M(x)| x^{-2} dx < \infty$. Deduce from this that the Dirichlet series for $1/\zeta(s)$ converges on the line $\Re s = 1$.
+
+\begin{proof}
+By Theorem 8.17, we have a constant $K$ such that
+\begin{align*}
+\int_1^\infty |M(x)| x^{-2} dx &\leq K \int_1^\infty x e^{-c\sqrt{\log x}} x^{-2} dx \\
+&= K \int_1^\infty e^{-c\sqrt{\log x}} \, d(\log x)\\
+&= K \int_0^\infty e^{-c u} \, d(u^2) &\text{ subst. } u = \sqrt{\log x}\\
+&= 2 K \int_0^\infty u e^{-c u} \, du\\
+&= - 2 K c^{-1} \int_0^\infty u \, d(e^{-c u})\\
+&= - 2 K c^{-1} \left( \left. u e^{-cu}\frac{}{} \right|_0^\infty - \int_0^\infty e^{-c u} du \right)\\
+&= - 2 K c^{-1} \left(\left. \frac{e^{-c u}}{c} \right|_0^\infty \right)\\
+&= 2 K c^{-2}.
+\end{align*}
+
+By the usual integration by parts,
+$$\Mhat(s) = \int x^{-s} dM = \left. x^{-s} M(x) \frac{}{} \right|_{1-}^\infty + s \int_1^\infty x^{-s - 1} M(x) dx$$
+For $\sigma \geq 1$, we have $x^{-s} M(x) = O(x^{1-\sigma} e^{-c\sqrt{\log x}}) = o(1)$. By the above analysis, $\int_1^\infty x^{-s - 1} M(x) dx$ converges absolutely for $\sigma = 1$. Thus, $\Mhat(s)$ converges on the line $\sigma = 1$.
+\end{proof}
+
+\textbf{Problem 8.17}: Show that there exists a constant $c > 0$ such that
+$$Q(x) := \sum_{n \leq x} |\mu(n)| = \frac{6}{\pi^2} x + O\{\sqrt{x} \exp(-c\sqrt{\log x})\}.$$
+
+\begin{proof}
+Going back to Lemma 3.4, we can write $|\mu| = 1 * f$ where $f(n) = \mu(\sqrt{n})$ if $n$ is a square and 0 otherwise so that we can relate $Q(x)$ and $M(x)$. Note that the summatory function $F(x)$ of $f$ is $M(\sqrt{x})$. We have
+\begin{align*}
+Q(x) &= \int_{1^-}^x dN(t) * dF(t)\\
+&= \int_{1^-}^x N(x/t) dM(\sqrt{t})\\
+&= \int_{1^-}^{\sqrt x} N(x/u^2) dM(u)\\
+&= x \int_{1^-}^{\sqrt x} u^{-2} dM(u) + \int_{1^-}^{\sqrt x} (N(x/u^2) - (x/u^2)) dM(u)\\
+&= x \Mhat(2) - x \int_{\sqrt x}^\infty u^{-2} \; dM(u) + \int_{1^-}^{\sqrt x} O(1) \; dM(u)
+\end{align*}
+with the error terms
+\begin{align*}
+\int_{\sqrt x}^\infty u^{-2} \; dM(u) &= \left. M(u) u^{-2} \frac{}{} \right|_{\sqrt x}^\infty + 2 \int_{\sqrt x}^\infty u^{-3} M(u) \; du\\
+&= -\frac{M(\sqrt x)}{x} + \O{\int_{\sqrt x}^\infty u^{-2} e^{-c\sqrt{\log u}} \; du}\\
+&= \O{\frac{\sqrt{x} e^{-c\sqrt{\log \sqrt{x}}}}{x}} + \O{\frac{1}{\sqrt x} \int_{\sqrt x}^\infty e^{-c\sqrt{\log u}} \; d(\log u)}\\
+&= \O{\frac{e^{-\frac{c}{\sqrt{2}} \sqrt{\log x}}}{\sqrt x}} + \O{\frac{1}{\sqrt x}}\\
+&= O(x^{-1/2})
+\end{align*}
+and
+\begin{align*}
+\int_{1^-}^{\sqrt x} O(1) \; dM(u) &= \O{\int_{1^-}^{\sqrt x} dM(u)} \\
+&= \O{M(\sqrt{x})}\\
+&= \O{\sqrt{x} e^{-\frac{c}{\sqrt{2}} \sqrt{\log x}}}
+\end{align*}
+so the constant $c$ in this problem should be $\frac{1}{\sqrt 2}$ times the constant in Theorem 8.17.
+\end{proof}
+
+\textbf{Problem 8.18}: Show that
+$$\sum_{n=1}^{\infty} \frac{\mu(n) \log n}{n} = -1.$$
+
+\begin{proof}
+The left hand side is clearly $\int x^{-1} \log x \, dM = -\Mhat'(1)$. Since $\Mhat(s) = \frac{1}{\zeta(s)}$, we have $\Mhat'(s) = -\frac{\zeta'(s)}{\zeta(s)^2}$ and so
+$$\Mhat'(1) = - \lim_{s \rightarrow 1} \frac{\zeta'(s)}{\zeta(s)^2} = - \lim_{s \rightarrow 1} \frac{(s - 1)^2 \zeta'(s)}{\{(s-1)\zeta(s)\}^2} = 1$$
+for if we write $\zeta(s) = \frac{1}{s - 1} + g(s)$ then $g(s)$ is entire and so
+\begin{align*}
+(s - 1) \zeta(s) = 1 + (s-1) g(s) &\rightarrow 1\\
+(s - 1)^2 \zeta'(s) = -1 + (s - 1)^2 g'(s) &\rightarrow -1
+\end{align*}
+as $s \rightarrow 1$.
+\end{proof}
+
+\textbf{Problem 8.19}: Assuming Theorem 8.17 deduce that
+$$m(x) := \sum_{n \leq x} \frac{\mu(n)}{n} = O(\sqrt{\log x} \exp\{-c\sqrt{\log x}\}).$$
+(Recall that $\sum_{n=1}^{\infty} \mu(n)/n = 0$.)
+
+\begin{proof}
+We recognize
+$$m(x) = \int_{1^-}^{x} t^{-1} dM(t)$$
+
+If we apply integration by parts so that we could use the estimate for $M(x)$ in Theorem 8.17
+\begin{align*}
+m(x) &= \left.t^{-1} M(t) \frac{}{} \right|_{1^-}^{x} + \int_1^x M(t) t^{-2} dt\\
+&= x^{-1} M(x) + \O{\int_1^x t e^{-c\sqrt{\log t}} t^{-2} dt}\\
+&= \O{e^{-c\sqrt{\log x}}} + \O{\int_1^x e^{-c\sqrt{\log t}} t^{-1} dt}
+\end{align*}
+then we have
+\begin{align*}
+\int_1^x e^{-c\sqrt{\log t}} t^{-1} dt &= \int_0^{\sqrt{\log x}} e^{-cu} d(u^2) &\text{subst. } u = \sqrt{\log t}\\
+&= 2 \int_0^{\sqrt{\log x}} u e^{-cu} du\\
+&= -2c^{-1} \int_0^{\sqrt{\log x}} u \, d(e^{-cu})\\
+&= -2c^{-1} \left( \left. u e^{-cu} \frac{}{} \right|_0^{\sqrt{\log x}} - \int_0^{\sqrt{\log x}} e^{-cu} \, du \right)\\
+&= -2c^{-1} \left( \left. u e^{-cu} \frac{}{} \right|_0^{\sqrt{\log x}} + \left. c^{-1} e^{-cu} \frac{}{} \right|_0^{\sqrt{\log x}} \right)\\
+&= -2c^{-1}\sqrt{\log x} e^{-c\sqrt{\log x}} - 2c^{-2}(e^{-c\sqrt{\log x}} - 1).
+\end{align*}
+Unfortunately, we have $2c^{-2}$ as main term here, which is expected since the integral is $2c^{-2}$ when $x = \infty$ as in Problem 8.16.
+
+This suggests that we have not taken into account the nature of $M(x)$ which oscillates between positive and negative values. In the above computation, the key issue is that we are integrating from $1$ to $x$ which leads to the extra constant $2c^{-2}$. If we can change it from $x$ to $\infty$ instead, then we clear the constant. Luckily $m(\infty) = \sum_{n=1}^{\infty} \mu(n)/n = 0$ so
+$$m(x) = m(x) - m(\infty) = - \int_x^\infty t^{-1} dM.$$
+The above analysis went through and we do not end with a constant.
+\end{proof}
+
+\textbf{Problem 8.20} (L. A. Rubel): Show that there exists a finite absolute bound $B$ such that for all $x \geq 1$,
+$$\sum_{n \leq x}\frac{1}{n} \Abs{m(\frac{x}{n})} \leq B.$$
+Hint. Express the sum as
+$$\sum_{n \leq \sqrt{x}} \frac{1}{n} \Abs{m(\frac{x}{n})} + \sum_{1 \leq k < \sqrt{x}} |m(k)| \sum_{x/(k+1) < n \leq x/k} \frac{1}{n}.$$
+
+\begin{proof}
+We split the sum according to $n \leq \sqrt{x}$ and $n > \sqrt{x}$
+\begin{align*}
+\sum_{n \leq x} \frac{1}{n} \Abs{m(\frac{x}{n})} &= \sum_{n \leq \sqrt{x}} \frac{1}{n} \Abs{m(\frac{x}{n})} + \sum_{\sqrt{x} < n \leq x} \frac{1}{n} \Abs{m(\frac{x}{n})} \\
+&= \sum_{n \leq \sqrt{x}} \frac{1}{n} \Abs{m(\frac{x}{n})} + \sum_{1 \leq k < \sqrt{x}} |m(k)| \sum_{x/(k+1) < n \leq x/k} \frac{1}{n}
+\end{align*}
+by a change of variable $k = [x/n]$ in the second sum.
+
+Now we use Problem 8.19 to address the two resulting sums. Let $K$ be the constant in the $O$-notation there. First note that
+$$\sum_{x/(k+1) < n \leq x/k} \frac{1}{n} = \int_{x/(k+1)}^{x/k} t^{-1} dN \leq \int_{x/(k+1)}^{x/k} t^{-1} (\delta_1 + dt) = \log\left(\frac{k+1}{k}\right) \leq \frac{1}{k}$$
+for sufficiently large $x$ by Lemma 3.11. (The integral is off by 1 in case $\frac{x}{k + 1} < 1 \leq \frac{x}{k}$ but that can only occur when $x \leq \sqrt{x} + 1$ which is eventually false.) So the second sum
+\begin{align*}
+\sum_{1 \leq k < \sqrt{x}} |m(k)| \sum_{x/(k+1) < n \leq x/k} \frac{1}{n} &\leq \sum_{1 \leq k < \sqrt{x}} \frac{|m(k)|}{k}\\
+&\leq \sum_{1 \leq k < \sqrt{x}} K \frac{\sqrt{\log k}}{k e^{c\sqrt{\log k}}}\\
+&\leq K (\text{const} + \int_a^{\sqrt x} \sqrt{\log t} \; e^{-c\sqrt{\log t}} t^{-1} dt)
+\end{align*}
+by Lemma 3.11 again. To check that $\sqrt{\log t} \; e^{-c\sqrt{\log t}} t^{-1}$ is eventually decreasing on $(1, \infty)$, we could check that $u e^{-cu-u^2}$ is decreasing on $(0, \infty)$ under the substitution $u = \sqrt{\log t}$ which covariates with $t$. Taking derivative $(u e^{-cu-u^2})' = e^{-cu-u^2} + u e^{-cu-u^2} (-c-2u) = e^{-cu-u^2}(1 - cu - 2u^2)$ is clearly negative when $u$ is large enough. We have
+$$\int_a^{\sqrt x} \leq \int_1^{\infty} \sqrt{\log t} \; e^{-c\sqrt{\log t}} t^{-1} dt = 2 \int_0^\infty u^2 e^{-cu} du < \infty.$$
+So the second sum is $O(1)$.
+
+In the remaining sum, $x/n \geq \sqrt{x}$ so $m(x/n)$ is small. We have
+\begin{align*}
+\sum_{n \leq \sqrt{x}} \frac{1}{n} \Abs{m(\frac{x}{n})} &\leq K \sum_{n \leq \sqrt{x}} \frac{1}{n} \sqrt{\log(x/n)} \; e^{-c\sqrt{\log(x/n)}}\\
+&\leq K \sum_{n \leq \sqrt{x}} \frac{1}{n} \sqrt{\log x} \; e^{-c\sqrt{\log \sqrt{x}}}\\
+&= K \sqrt{\log x} \; e^{-c\sqrt{\log \sqrt{x}}} \sum_{n \leq \sqrt{x}} \frac{1}{n}\\
+&\leq K \sqrt{\log x} \; e^{-c\sqrt{\log \sqrt{x}}} 2 \log \sqrt{x}\\
+&= K \log^{3/2} x \; e^{-\frac{c}{\sqrt{2}} \sqrt{\log x}}
+\end{align*}
+which clearly tends to 0 as $x \rightarrow \infty$; so in particular, the sum is also bounded.
+\end{proof}
+
+\textbf{Problem 8.21} (L. A. Rubel): Let $f \in \A$ and assume $f(n) \rightarrow L$ as $n \rightarrow \infty$. Prove that $\sum_{n \leq x} (f * \mu)(n) / n \rightarrow L$. Hint. First consider $f = 1$. Next consider $f(n) \rightarrow 0$ as $n \rightarrow \infty$.
+
+\begin{proof}
+The case $f = 1$ is evident: Then $f * \mu = e$ so $\sum_{n \leq x} (f * \mu)(n)/n = 1$ for all $x \geq 1$. So the limit is 1 as expected.
+
+We can assume without loss of generality that $L = 0$. For any $f$, we could consider $g(n) = f(n) - L$. Then $g(n) \rightarrow 0$ so assuming we settle the case $L = 0$ then $\sum (g * \mu)(n)/n \rightarrow 0$. It follows that $\sum (f * \mu)(n)/n = \sum ((g + L) * \mu)(n)/n = \sum (g * \mu)(n)/n + L \rightarrow L$.
+
+We observe that $(f * \mu)(n)/n = T^{-1}(f * \mu) = T^{-1}f * T^{-1}\mu$. Therefore
+\begin{align*}
+\sum_{n \leq x} (f * \mu)(n) / n &= \sum_{k \leq x} T^{-1}f(k) \cdot m\left(\frac{x}{k}\right) &\text{by Lemma 3.1}\\
+&= \sum_{k \leq x} \frac{f(k)}{k} m\left(\frac{x}{k}\right)
+\end{align*}
+
+Our goal is to show that the absolute value of the above is less than arbitrary $\epsilon > 0$ for sufficiently large $x$.
+
+Let $\epsilon > 0$ be arbitrary.
+
+Let $N$ be such that $|f(n)| < \epsilon_1$ ($\epsilon_1$ will be chosen later depending on $\epsilon$) for all $n \geq N$. The sum
+$$\Abs{ \sum_{N \leq k \leq x} \frac{f(k)}{k} m\left(\frac{x}{k}\right) } \leq \delta \sum_{N \leq k \leq x} \frac{1}{k} \Abs{m\left(\frac{x}{k}\right)} \leq \epsilon_1 B$$
+where $B$ is the constant in Problem 8.20. We shall chose $\epsilon_1 = \frac{\epsilon}{2B}$ so that the above sum is bounded by $\frac{\epsilon}{2}$.
+
+It remains to bound the initial part $\Abs{ \sum_{k < N} \frac{f(k)}{k} m\left(\frac{x}{k}\right) }$ by $\frac{\epsilon}{2}$. To do that, recall that $m(x) = o(1)$ in Problem 8.19. Also, observe that $f(n)$ is bounded since $f(n) = o(1)$ so let say $|f(n)| \leq A$ for all $n$. Let $X_1$ such that $|m(x)| < \epsilon_2$ for appropriate $\epsilon_2$ to be chosen then $|m(x/k)| < \epsilon_2$ for all $x \geq N X_1$ and $k < N$ and it follows that
+$$\Abs{ \sum_{k < N} \frac{f(k)}{k} m\left(\frac{x}{k}\right) } \leq \sum_{k < N} A \epsilon_2 < N A \epsilon_2$$
+for all $x \geq N X_1$ so take $\epsilon_2 = \frac{\epsilon}{2NA}$ will do.
+
+So to sum up, we choose
+\begin{itemize}
+\item $N > 0$ such that $|f(n)| < \frac{\epsilon}{2B}$ for all $n \geq N$ using the assumption $f(n) = o(1)$;
+\item $X_1$ such that $|m(x)| < \frac{\epsilon}{2NA}$ for all $x \geq X_1$;
+\item and set $X := N X_1$.
+\end{itemize}
+Then for all $x \geq X$, we have
+$$\Abs{ \sum_{n \leq x} (f * \mu)(n) / n } \leq \epsilon.$$
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

@@ -1,0 +1,70 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\renewcommand{\O}[1]{O\left( #1 \right)}
+\begin{document}
+\fi
+
+\textbf{Problem 8.23}: Let $\gamma$ denote the ordinate of a nontrivial zero of zeta. Show that
+$$\sum_{0 < \gamma \leq T} \gamma^{-1} = O(\log^2 T).$$
+
+\begin{proof}
+Let
+$$S(T) := \sum_{0 < \gamma \leq T} \gamma^{-1}.$$
+For any integer $N$, we have
+\begin{align*}
+S(N) - S(1) &= \sum_{i = 1}^{N - 1} \sum_{i < \gamma \leq i + 1} \gamma^{-1}\\
+&\leq \sum_{i = 1}^{N - 1} \sum_{i < \gamma \leq i + 1} i^{-1}\\
+&= \sum_{i = 1}^{N - 1} (N(i+1) - N(i)) \; i^{-1}\\
+&= \sum_{i = 1}^{N - 1} O(\log(i+1)) \; i^{-1} &\text{by Lemma 8.19}\\
+&= \sum_{i = 1}^{N - 1} O(\log N) \; i^{-1}\\
+&= O(\log N) \sum_{i = 1}^{N - 1} i^{-1} \\
+&= O(\log^2 N)
+\end{align*}
+and likewise,
+\begin{align*}
+S(N) &\geq \sum_{i = 0}^{N - 1} (N(i+1) - N(i)) \; (i+1)^{-1}\\
+&= \sum_{i = 0}^{N - 1} O(\log(i+1)) \; (i+1)^{-1} &\text{by Lemma 8.19}\\
+&= O(\log^2 N).
+\end{align*}
+So $S(N) = O(\log^2 N)$ for all positive integer $N$. It follows that $S(T) = O(\log^2 T)$ for arbitrary positive real $T$ since $S$ is a monotone nondecreasing function so $S(n) \leq S(T) \leq S(n + 1)$ where $n = [T]$.
+\end{proof}
+
+\textbf{Problem 8.24}: Let $\gamma_n$ denote the ordinate of the $n$th zero of zeta in the upper half plane, listed in increasing order. Show that
+$$\gamma_n \sim 2 \pi n / \log n \qquad (n \rightarrow \infty).$$
+
+\begin{proof}
+Note that there is a possibility that $\zeta(s)$ has multiple zeros of the same ordinate if R.H. is false. So we do not know for sure that $N(\gamma_n) = n$ but we know at least that $N(\gamma_n) \geq n$. Since $N(\gamma_n) - N(\gamma_n - 1) = O(\log \gamma_n)$ by Lemma 8.19, we also know that $N(\gamma_n) \leq n + O(\log \gamma_n)$.
+
+By Theorem 8.18 and the two inequalities, we have
+$$n \leq \frac{\gamma_n}{2\pi} \log\left( \frac{\gamma_n}{2\pi} \right) - \frac{\gamma_n}{2\pi} + O(\log \gamma_n) \leq n + O(\log \gamma_n)$$
+so multiplying $\frac{2\pi}{\gamma_n}$ throughout
+$$\frac{2 \pi n}{\gamma_n} \leq \log\left( \frac{\gamma_n}{2\pi} \right) - 1 + \O{\frac{2\pi \log \gamma_n}{\gamma_n}} \leq \frac{2\pi n}{\gamma_n} + \O{\frac{2\pi \log \gamma_n}{\gamma_n}}$$
+and the $O$-notation goes to 0 as $n \rightarrow \infty, \gamma_n \rightarrow \infty$ so
+$$\lim_{n \rightarrow \infty} \log\left( \frac{\gamma_n}{2\pi} \right) - \frac{2 \pi n}{\gamma_n} = 1.$$
+
+Dividing by $\log \gamma_n$ and taking limit, we obtain
+$$\lim_{n \rightarrow \infty} \frac{\log \gamma_n - \log(2\pi) - \frac{2 \pi n}{\gamma_n}}{\log \gamma_n} = \lim_{n \rightarrow \infty} \frac{1}{\log\gamma_n} = 0$$
+so
+$$\lim_{n \rightarrow \infty} \frac{2 \pi n}{\gamma_n \log \gamma_n} = 1,$$
+that is
+$$\gamma_n \log \gamma_n \sim 2 \pi n.$$
+
+This asymptotic suggests us to replicate the proof of Theorem 5.9 (5.15). Rewriting the above as
+$$\gamma_n \log \gamma_n = 2 \pi n + o(n) \qquad \Longrightarrow \gamma_n = O(n),$$
+take logarithm
+$$\log \gamma_n + \log \log \gamma_n = \log(2\pi n) + o(\log n)$$
+and then taking limit after dividing both sides by $\log n$
+$$\lim_{n \rightarrow \infty} \frac{\log \gamma_n}{\log n} + \frac{\log \log \gamma_n}{\log n} = 1,$$
+we finally get
+$$\lim_{n \rightarrow \infty} \frac{\log \gamma_n}{\log n} = 1, \qquad\text{ equivalently } \log \gamma_n \sim \log n$$
+because $\gamma_n = O(n)$ implies $\log \log \gamma_n = O(\log \log n) = o(\log n)$. This yields the desired
+$$\gamma_n \sim \frac{2\pi n}{\log \gamma_n} \sim \frac{2 \pi n}{\log n}.$$
+
+%Now we think of $\gamma_n$ as the solution to the equation
+%$$\log\left( \frac{x}{2\pi} \right) - \frac{2 \pi n}{x} = 1$$
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

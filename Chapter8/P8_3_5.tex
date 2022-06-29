@@ -1,0 +1,102 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\renewcommand{\O}[1]{O\left( #1 \right)}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\begin{document}
+\fi
+
+\textbf{Problem 8.3}: Show that
+$$\zeta(s) = O(\log t) \qquad (t \geq 2, \sigma \geq 1 - \log^{-1} t).$$
+Use this estimate and Cauchy's inequality for the coefficients of a power series to provide an alternative estimate for $|\zeta'(s)|$ on $\{s : \sigma \geq 1, t \geq 2\}$.
+
+\begin{proof}
+We want to use the inequality
+$$|\zeta(s)| \leq \sum_1^X n^{-\sigma} + \frac{\sigma + t}{\sigma} X^{-\sigma} + t^{-1} X^{1-\sigma} \qquad (\sigma > 0)$$
+in the proof of Lemma 8.4 with $X = [t]$ but are blocked by the term $$\frac{t X^{-\sigma}}{\sigma}$$
+for there is a chance that $\sigma = 0$ as $-1 < 1 - \log^{-1} 2 < 0$.
+
+Of course, we do not expect the inequality in the proof of Lemma 8.4 to solve the problem since it only applies to $\sigma > 0$ and we have to deal with the potential of $\sigma < 0$ here. To get an inequality that works for $-1 < \sigma < 1$, we go back to the analytic continuation formula, let $F(x) = N(x) - x + \frac12$ and $G(x) = \int_0^x F(t) dt$ so we have
+\begin{align*}
+\zeta(s) &= \sum_1^X n^{-s} + \int_X^\infty x^{-s} dF(x) + \int_X^\infty x^{-s} d\left(x - \frac12\right) &(\sigma > 1) \\
+&= \sum_1^X n^{-s} - F(X) X^{-s} + s \int_X^\infty F(x) x^{-s-1} dx + \frac{X^{1-s}}{s-1} &(\sigma > 0)\\
+&= \sum_1^X n^{-s} - \frac{1}{2} X^{-s} + s \int_X^\infty x^{-s-1} dG(x) + \frac{X^{1-s}}{s-1}\\
+&= \sum_1^X n^{-s} - \frac{1}{2} X^{-s} + s \left(-G(X) X^{-s-1} + (s + 1) \int_X^\infty G(x) x^{-s-2} dx \right) + \frac{X^{1-s}}{s-1} &(\sigma > -1)
+\end{align*}
+Note that the reason we modified $dN - dx$ into $dF$ is to ensure that $G(x)$ is bounded i.e. $|G(x)| \leq K$ for some constant $K$ thank to $\int_n^{n+1} F(x) dx = 0$; just like $|N(x) - x| \leq 1$ in the proof. If we want to continue to $\sigma > -2$, we will have to subtract $G$ by its average value to ensure that $\int_0^x G(t) dt$ is bounded. Using $G(x) = O(1)$, the remaining integral converges $|\int_X^\infty G(x) x^{-s-2} dx| \leq K \int_X^\infty x^{-\sigma-2} dx = K \frac{X^{-\sigma - 2}}{\sigma + 1}$ for $\sigma > -1$. (The remaining terms clearly define an analytic function.) So we achieve analytic continuation to $\sigma > -1$.
+
+From this formula, we get an analogous inequality
+$$|\zeta(s)| \leq \sum_1^X n^{-\sigma} + \frac{X^{-\sigma}}{2} + (\sigma + t) \left(K X^{-\sigma-1} + (\sigma + t + 1) K \frac{X^{-\sigma-1}}{\sigma+1} \right) + \frac{X^{1-\sigma}}{t}$$
+that works for $\sigma > -1$. Again, we let $X = [t]$. The result for $\sigma \geq 1$ was the content of Lemma 8.4 so let us assume $\sigma < 1$ in the present problem.
+\begin{itemize}
+\item The initial sum
+$$\sum_1^X n^{-\sigma} = \sum_1^X n^{-1} n^{1-\sigma} \leq \sum_1^X e n^{-1} = O(\log X) = O(\log t)$$
+because $1 - \sigma > 0$, the function $u \mapsto u^{1-\sigma}$ is increasing and so $n^{1-\sigma} \leq X^{1-\sigma} \leq t^{1-\sigma}$. Now since $t \geq 2$, the function $u \mapsto t^u$ is increasing so $t^{1-\sigma} \leq t^{1-(1 - \log^{-1} t)} = t^{\log^{-1} t} = e^{(\log t)(\log^{-1} t)} = e^1 = e$. Therefore we have $n^{1-\sigma} \leq e$ for all $n \leq X$.
+
+\item The second term $X^{-\sigma} = X^{-1} X^{1-\sigma} \leq e X^{-1} = O(t^{-1})$.
+
+\item The final term has a similar treatment: $t^{-1} X^{1-\sigma} = X t^{-1} t^{-\sigma} \leq t^{-\sigma} = t^{-1} t^{1-\sigma} \leq e t^{-1}$ is clearly $O(\log t)$.
+
+\item For the middle term, note that $\sigma \geq 1 - \log^{-1} t \geq 1 - \log^{-1} 2$ so $\sigma + 1 \geq 2 - \log^{-1} 2 > 0$ is bounded below by a positive constant. So expanding out, one can see that it suffices to show that $t^2 X^{-\sigma-1}$ is $O(\log t)$. This is similar the above: Write $t^2 X^{-\sigma-1} = t^2 X^{-2} X^{1-\sigma}$ and recognize that $t^2 X^{-2} < \left(\frac{X+1}{X}\right)^2 \leq \left(\frac{3}{2}\right)^2 = \frac{9}{4}$ whereas $X^{1-\sigma} \leq e$ proven above.
+\end{itemize}
+
+To get the estimate for $\zeta'(s)$, we recall Cauchy's integral formula
+$$\zeta'(s) = \frac{1}{2 \pi i} \int_{|z - s| = R} \frac{\zeta(z)}{(z - s)^2} dz$$
+which gives rise to the Cauchy's inequality for coefficients of a power series mentioned in the problem
+$$|\zeta'(s)| \leq \frac{\max\{\zeta(z) : |z - s| = R\}}{R}.$$
+For $s$ in $\{\sigma \geq 1, t \geq 2\}$, if $t \geq t_0$ is sufficiently large so that $t - \log^{-1} t \geq 2$ ($t_0 = 100$ will do as the function $t - \log^{-1} t$ is increasing), we can take $R = \log^{-1} t$ then for all $z$ on the circle $|z - s| = R$, we have $\Re s \geq \sigma - R \geq 1 - \log^{-1} t$ and $\Im s \geq t - R \geq 2$ so $|\zeta(z)| \leq C \log t$ and the inequality above gives $|\zeta'(s)| \leq \frac{C \log t}{R} = C \log^2 t$. We can simply adjust the constant $C$ to account for the maximum of $|\zeta(s)|$ in the bounded region $2 \leq t \leq t_0$. Thus, $\zeta'(s) = O(\log^2 t)$ in $\{s : \sigma \geq 1, t \geq 2\}$.
+\end{proof}
+
+\textbf{Problem 8.4}: For $1/2 \leq \sigma \leq 1$ and $t \geq 2$, show that
+$$\zeta(s) = O(t^{1-\sigma} \log t).$$
+
+\begin{proof}
+We modify the inequality in the proof of Lemma 8.4
+$$|\zeta(s)| \leq \Abs{ \sum_1^X n^{-s} } + \frac{\sigma + t}{\sigma} X^{-\sigma} + t^{-1} X^{1-\sigma} \qquad (\sigma > 0)$$
+before applying it with $X = [t]$. Here, using $\Abs{ \sum_1^X n^{-s} }$ instead of $\sum_1^X n^{-\sigma}$ in the original inequality helps us avoid the issue when $\sigma = 1$ i.e. the pole of $\zeta(s)$. It is evident that
+$$0 \leq \frac{\sigma + t}{\sigma} X^{-\sigma} = X^{-\sigma} + \frac{t}{\sigma} X^{-\sigma} \leq X^{-\sigma} + 2 t X^{-\sigma}$$
+and
+$$0 \leq t^{-1} X^{1-\sigma} \leq X^{-\sigma}$$
+are $O(t^{1-\sigma} \log t)$. To bound $\sum_1^X n^{-s}$, we recognize it as
+$$\sum_1^X n^{-s} = \sum_1^X n^{-1} n^{1-s} = \int_{1^-}^{X} x^{1-s} d F(x)$$
+where $F(x) = \sum_{n \leq x} n^{-1} = \log x + \gamma + \theta_x x^{-1} = O(\log x)$ by Lemma 3.13 where $|\theta_x| \leq 1$. Integration by parts yield
+\begin{align*}
+\sum_1^X n^{-s} &= x^{1-s} F(x)|_{1^-}^X - \int_{1^-}^{X} F(x) d(x^{1-s}) \\
+&= X^{1-s} F(X) - \int_{1^-}^{X} (\log x + \gamma) d(x^{1-s}) + \int_{1^-}^{X} (\log x + \gamma - F(x)) d(x^{1-s})
+\end{align*}
+Evidently, $|X^{1-s} F(X)| \leq X^{1-\sigma} |F(x)|$ is $O(t^{1-\sigma} \log t)$. The second integral can be evaluated
+\begin{align*}
+\int_{1^-}^{X} (\log x + \gamma) d(x^{1-s}) &= \left. \frac{}{} x^{1-s} (\log x + \gamma) \right|_{1^-}^{X} -  \int_{1^-}^{X} x^{-s} dx\\
+&= X^{1-s} (\log X + \gamma) - \gamma + \frac{X^{1-s} - 1}{1-s}
+\end{align*}
+and its absolute value is clearly $O(t^{1-\sigma} \log t)$ thank to $|1 - s| \geq |\Im(1 - s)| = |t| \geq 2$. The last integral
+\begin{align*}
+\Abs{ \int_{1^-}^{X} (\log x + \gamma - F(x)) d(x^{1-s}) } &= \Abs{ \int_{1^-}^{X} (1 - s) (\log x + \gamma - F(x)) x^{-s} dx }\\
+&\leq |1 - s| \int_{1^-}^{X} |\log x + \gamma - F(x)| \cdot |x^{-s}| dx\\
+&\leq |1 - s| \int_{1^-}^{X} x^{-1-\sigma} dx\\
+&= |1 - \sigma - i t| \frac{1 - X^{-\sigma}}{\sigma}\\
+&\leq 2(|1 - \sigma| + t)
+\end{align*}
+is unfortunately $O(t)$. Going back to the proof of Lemma 8.4, the explanation for ``estimate trivially the initial terms of the D.s. for zeta'' a.k.a. $|\sum n^{-s}| \leq \sum n^{-\sigma}$ was because ``many of the initial terms $n^{-s}$ might have nearly the same argument ($\mod 2\pi$)''. So keeping the $s$ in the approach above defeats this purpose.
+
+The fix is super-simple: Use the same inequality as in the proof of Lemma 8.4 but using the same method\footnote{The method employed in problem 8.3 is actually due to solving this problem.} in the previous problem 8.3 to estimate the sum, namely
+$$\sum_1^X n^{-\sigma} = \sum_1^X n^{-1} n^{1-\sigma} \leq \sum_1^X n^{-1} t^{1-\sigma} = O(t^{1-\sigma} \log t)$$
+since $1 - \sigma \geq 0$ here.
+\end{proof}
+
+\textbf{Problem 8.5}: Let $0 \leq \sigma \leq 1/2$, $t \geq 2$. By using the functional equation for zeta, show that
+$$\zeta(s) = O(t^{1/2} \log t).$$
+
+\begin{proof}
+Recall the functional equation
+$$\zeta(s) = 2^s \pi^{s - 1} \zeta(1 - s) \Gamma(1-s) \sin\left( \frac{\pi s}{2}\right).$$
+By the result of problem 8.4, we have $\zeta(1 - s) = O(t^\sigma \log t)$. Evidently $2^s \pi^{s - 1} = O(1)$, $\sin\left( \frac{\pi s}{2}\right) = O(e^{\pi t / 2})$ and
+$$|\Gamma(1-s)| = |\Gamma(1 - \sigma - it)| \leq K e^{K|1 - \sigma|} t^{1 - \sigma - \frac12} e^{-\pi t/ 2}$$
+is $O(t^{\frac12 - \sigma} e^{-\pi t/ 2})$ by Lemma 8.3. Combining all these, we clearly have the result.
+
+The catch here is that Lemma 8.3 requires $t \geq |1 - \sigma| + 2$ which is only ensured when $t \geq 3$. But this is good enough because $|\zeta(s)|$ must be bounded in the closed rectangle $0 \leq \sigma \leq \frac12, 2 \leq t \leq 3$ and $t^{1/2} \log t \geq \sqrt{2} \log 2 > 0$ so we can simply adjust the constant in the $O$-notation to make it work for all $t \geq 2$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

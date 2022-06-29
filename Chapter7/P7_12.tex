@@ -40,51 +40,22 @@ $$F_c(x) = \sum_{n \leq x} \tau_c(n) \sim \frac{x (\log x)^{c - 1}}{\Gamma(c)}.$
 
 \textbf{Note}: If we do not want to use Problem 3.26, we can bootstrap the proof by solving this problem for $c = k$ being positive integers first: Theorem 6.2 gives us $\Fhat_k(s) = \zeta(s)^k$ for $\sigma > 1$ immediately thank to the representation $\tau_k = 1^{*k}$ even though we do not know $\sum_{n \leq x} \tau_k(n) = O(x^{1 + \epsilon})$. This implies $\sigma_c(\Fhat_k) = 1$ and we apply the generalized Wiener-Ikehara theorem just like the case for general $c > 0$.
 
-\noindent \textbf{The case $c < 0$:} When $c < 0$, this argument does not work because the function $F_c$ is not nondecreasing as $\tau_c(n)$ can takes negative values, for instance, when $n$ is a prime number and there are infinitely many such $n$. On the other hand, we cannot even determine the right abscissa of convergence of $\zeta(s)^c$.
-For example, when $c = -1$, $\zeta(s)^{-1} = \sum \mu(n) n^{-s}$ is expected to have $\sigma_c = 1/2$ and that is equivalent to the Riemann Hypothesis.
-We are excluding $c$ being a negative integers here but the issue remains: It is clear that
+\noindent \textbf{The case $c < 0$:} When $c < 0$, this argument does not work because the function $F_c$ is not monotone as $\tau_c(n)$ can oscillate between negative (when $n$ is a prime number and there are infinitely many such $n$) and positive values (when $n = p^2$, $\tau_c(p^2) = c^2 > 0$).
+
+However, we can determine the right abscissa of convergence of $\Fhat_c(s)$ because of the assumption that $c$ is not 0 or a negative integer.
+
+First, let us show that $\sigma_c(\Fhat_c) \leq 1$. It is clear that
 $$|c + k| \leq |c| + k = -c + k$$
 so
 $$|\tau_c(p^j)| \leq \tau_{-c}(p^j)$$
-which implies
-$$\tau_c(n)| \leq \tau_{-c}(n)$$
-for all $n$ and since we already know $F_{-c}(x) = O(x^{1 + \epsilon})$, it follows that $\Fhat_c(s)$ converes absolutely for $\sigma > 1$. With absolute convergence, the Euler product formula above still holds and we do have $\Fhat_c(s) = \zeta(s)^c$ for $\sigma > 1$ just like the case $\Fhat_{-1}(s) = \zeta(s)^{-1} = \sum \mu(n) n^{-s}$. If we write
-$$\Fhat_c(s) = \left(\sum \mu(n) n^{-s}\right)^{-c}$$
-then it seems to suggest that $\sigma_c(\Fhat_c) = 1/2$ (assuming the Riemann Hypothesis).
+for all prime $p$ and all integer $j \geq 0$. This implies
+$$|\tau_c(n)| \leq \tau_{-c}(n)$$
+for all integer $n$ so $|F_c(x)| \leq F_{-c}(x)$ and since we already know $F_{-c}(x) = O(x^{1 + \epsilon})$, it follows that $\Fhat_c(s)$ converes absolutely for $\sigma > 1$. So $\sigma_c \leq 1$. With absolute convergence, the Euler product formula above still holds and we also have
+$$\Fhat_c(s) = \zeta(s)^c \qquad (\sigma > 1).$$
 
-Taking the cue from Problem 7.6, let us consider the summatory function of $\tau_c + \tau_{-c}$ instead. This function is definitely $\geq 0$ thank to our proven bound $|\tau_c| \leq \tau_{-c}$ above. Then $\Fhat_c + \Fhat_{-c}$ has abscissa of convergence 1 thank to the known equation
-$$(\Fhat_c + \Fhat_{-c})(s) = \zeta(s)^c + \zeta(s)^{-c}$$
-valid for $\sigma > 1$ and the fact that $\zeta(s)$ has no zero on the line $\sigma = 1$ (so $\zeta(s)^c$ is continuous on $\sigma \geq 1$ and in fact is analytic on a larger half plane) and a simple pole at $s = 1$. Then we use the generalized Wiener-Ikehara theorem, this time with $\psi(s) = \zeta(s)^c$ and $\varphi(s) = ((s-1)\zeta(s))^{-c}$ (as in the $c > 0$ case) to conclude that
-$$(F_c + F_{-c})(x) \sim \frac{x (\log x)^{-c - 1}}{\Gamma(-c)} \sim F_{-c}(x)$$
-whence we know that
-$$F_c = o\left( \frac{x (\log x)^{-c - 1}}{\Gamma(-c)} \right).$$
-
-% THIS FOLLOWING HEURISTIC IS WRONG!
-%Note that we do not expect the formula for the case $c > 0$ to hold verbatim here because the main contribution to $F_c(x)$ should come from the numbers with small total number of prime factors $\Omega(n)$, which is approximately
-%$$\underbrace{c \frac{x}{\log x}}_{\Omega = 1} + \underbrace{\frac{c(c+1)}{2} \frac{\sqrt{x}}{\log \sqrt{x}} + \sum_{q < x} c^2 \pi(\min\{q, x/q\})}_{\Omega = 2} + \cdots$$
-%and this has ``denominator at most $\log x$''.
-
-This gives credence to the asymtotic formula
-$$F_c(x) \sim x (\log x)^{c-1} / \Gamma(c)$$
-even for negative $c$.
-
-Observe that $\tau_c * \tau_{-c} = e$. We can see this from either $x^c x^{-c} = 1$ of Taylor series or from the fact that $\Fhat_c(s) \Fhat_{-c}(s) = 1$ and invoke Theorem 6.25. (It is not straightforward to see why this is true without the Dirichlet series.)
-
-We shall take higher derivatives as in the proof of Wiener-Ikehara theorem: Let $N$ be the positive integer such that $0 < c + N$. Then
-$$\Fhat_c^{(N)}(s) = \int x^{-s} (-\log x)^N dF_c, \qquad \sigma > 1.$$
-For any function $h(s)$, one has
-\begin{align*}
-(h^c)^{(N)} &= (c h^{c-1} h')^{(N-1)} \\
-&= (c(c-1) h^{c-2} (h')^2 + ch^{c-1} h'')^{(N-2)} \\
-&= (c(c-1)(c-2) h^{c-3} (h')^3 + 2 c(c-1) h^{c-2} h' + c(c-1) h^{c-2} h' h'' + ch^{c-1} h''')^{(N-3)} \\
-&= ... \\
-&= \sum_{k + k_1 + \cdots + k_m = N} g^{(k)}(h) h^{(k_1)} h^{(k_2)} \cdots \qquad \text{ where } g(x) = x^c
-\end{align*}
-Let us consider the case $N = 1$ i.e. $-1 < c < 0$. Then
-$$\Fhat_{c+1}'(s) = (\zeta(s)^{c+1})' = (c + 1) \zeta(s)^c \zeta'(s)$$
-gives
-$$\Fhat_c(s) = \frac{\Fhat_{c+1}'(s)}{(c + 1) \zeta'(s)}.$$
-Unfortunately, this does not help us understand $\tau_c$ since the arithmetic function associated to $\zeta'(s)$ i.e. $\log n$ vanishes at $1$ so it does not have convolution inverse.
+From the above equation, we can see that $\Fhat_c(s)$ has a zero of non--integral order $-c$ at 1. So let $N$ be any (positive) integer exceeding $-c$ then $\Fhat_c^{(N)}(s)$ has a pole at $s = 1$ (of order $N + c$) by apply repeatedly the observation that if $f(s)$ is analytic with a zero of order $\alpha > 0$ at $s_0$ where $\alpha \not= 1$ then $f'(s)$ has either a zero of order $\alpha - 1$ (if $\alpha > 1$) or a pole of order $1 - \alpha$ (if $\alpha < 1$)
+\footnote{To see this observation, we can write $f(s) = (s - s_0)^\alpha g(s)$ with $g$ analytic and $g(s_0) \not= 0$. Then $f'(s) = \alpha (s - s_0)^{\alpha - 1} g(s) + (s - s_0)^\alpha g'(s) = (s - s_0)^{\alpha - 1} \{ \alpha g(s) + (s - s_0) g'(\alpha) \}$. The analytic function in the curly braces clearly does not vanish at $s_0$. We are also using the fact that if $f(s)$ has a pole of order $\alpha$ at $s_0$ then $f'(s)$ has a pole of order $\alpha + 1$ at $s_0$.}.
+If $\sigma_c < 1$ then $\Fhat_c^{(N)}(s)$ is analytic at $s = 1$ by Theorem 6.20, a contradiction. So $\sigma_c = 1$.
 
 \textbf{Reference}: The asymptotic formula even for complex value of $c$ was in the paper of A. Selberg, \textit{Note on a paper by L. G. Sathe}.
 \end{proof}

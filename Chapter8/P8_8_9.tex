@@ -1,0 +1,106 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\newcommand{\cconj}[1]{\overline{#1}}
+\begin{document}
+\fi
+
+\textbf{Problem 8.8}: Show that
+$$\zeta^3(\sigma)|\zeta^4(\sigma + it) \zeta(\sigma + 2it)| \geq 1 \qquad (\sigma > 1, t \in \R).$$
+Give another proof of the nonvanishing of zeta on the line $\Re s = 1$.
+
+\begin{proof}
+In Example 6.29, we found that
+$$\zeta(s) = \exp\left(\sum \kappa(n) n^{-s}\right)$$
+on $\sigma > 1$. So the inequality to be proven is the same as
+$$\exp\left(3 \sum \kappa(n) n^{-\sigma} + 4 \sum \kappa(n) n^{-\sigma-it} + \sum \kappa(n) n^{-\sigma-2it} \right) \geq 1$$
+and that is equivalent to
+$$\Re \left(\sum \kappa(n) (3 n^{-\sigma} + 4 n^{-\sigma-it} +  n^{-\sigma-2it}) \right) \geq 0.$$
+We have
+\begin{align*}
+&\Re \left(\sum \kappa(n) (3 n^{-\sigma} + 4 n^{-\sigma-it} +  n^{-\sigma-2it}) \right) \\
+= & \sum \kappa(n) n^{-\sigma} (3 + 4 \Re n^{-it} + \Re n^{-2it}) &\text{ as } \kappa(n), n^{-\sigma} \in \R \\
+= & \sum \kappa(n) n^{-\sigma} (3 + 4 \cos(t \log n) + \cos(t \log n))\\
+= & 2 \sum \kappa(n) n^{-\sigma} (1 + \cos(t \log n))^2
+\end{align*}
+thank to the identity $3 + 4\cos\theta + \cos(2\theta) = 2(1 + \cos \theta)^2$ in the proof of Theorem 8.8. The final expression is clearly $\geq 0$ as $\kappa(n) \geq 0$. So we proved the inequality.
+
+Now, let us assume that $\zeta(1 + it) = 0$ for some $t \not= 0$. Then using Taylor series, we have
+$$\zeta(s) = (s - 1 - it)^k f(s)$$
+where $k \geq 1$ and $f(s)$ is analytic in disc centered at $1 + it$ of radius $|t|$ and $f(s) \not= 0$ for $s$ sufficiently close to $1 + it$. The inequality becomes
+$$\zeta^3(\sigma)|(\sigma - 1)^{4k} f^4(\sigma + it) \zeta(\sigma + 2 it)| \geq 1$$
+for all $\sigma > 1$ and $\sigma - 1 < |t|$.
+
+Note that $\zeta$ has no pole other than the one at $s = 1$ so it is analytic at $1 + 2 it$. In particular, the limit
+$$\lim_{\sigma \rightarrow 1^+} \zeta(\sigma + 2it) = \zeta(1 + 2it)$$
+exists. Now taking limit of both sides of the inequality as $\sigma \rightarrow 1^+$, we get a contradiction $0 \geq 1$ because $(\sigma - 1)^{4k} \zeta^3(\sigma) \rightarrow 0$ on account of $\lim_{\sigma \rightarrow 1^+} (\sigma-1)\zeta(\sigma) = 1$ and $4k > 3$ while $f^4(\sigma + it) \rightarrow f^4(1 + it) \not= 0$. Thus, $\zeta$ cannot have any zero on $\sigma = 1$.
+\end{proof}
+
+\textbf{Problem 8.9}: Use the inequality of the preceding problem to show that
+$$\Abs{ \zeta\left( 1 + \frac{K}{\log^9 t} + it \right) } > \frac{c K^{3/4}}{\log^7 t} \qquad (t \geq 2)$$
+for any positive constant $K$. Also, show that the estimate $\zeta'(s) = O(\log^2 t)$ holds on $\{s : \sigma > 1 - \log^{-1} t, t \geq 2\}$ (cf. Lemma 8.4). Combine these relations to prove that there exists a $K > 0$ for which
+$$1/\zeta(s) = O\{\log^7(|t| + 2)\} \qquad (\sigma > 1 - K \log^{-9}\{|t| + 2\}).$$
+
+\begin{proof}
+Let $\sigma := \sigma_{K,t} = 1 + \frac{K}{\log^9 t}$. The inequality in the previous problem yields
+$$\Abs{ \zeta\left( \sigma + it \right) } \geq \frac{1}{\zeta^{3/4}(\sigma) \; |\zeta(\sigma + 2it)|^{1/4} }$$
+so we need upper bound for $\zeta(\sigma)$ and $|\zeta(\sigma + 2it)|$. The latter is $\leq A \log t$ for some constant $A$ (independent of $K$, actually $A = 1 + \frac{4}{\log 2}$ from the proof) by Lemma 8.4 as $\sigma > 1$ and $2t \geq 4$ here. The former can be bounded by
+$$\zeta(\sigma) = \int x^{-\sigma} dN(x) \leq \int x^{-\sigma} d(x + 1) = \frac{1}{1-\sigma} = \frac{\log^9 t}{K}$$
+by Lemma 3.11 and $N(x) \leq x + 1$. Thus, we get
+$$\Abs{ \zeta\left( \sigma + it \right) } \geq \frac{1}{(K^{-1} \log^9 t)^{3/4} (A \log t)^{1/4}} = \frac{A^{-1/4} K^{3/4}}{\log^7 t}$$
+so we can take the constant $c = A^{-1/4} - \epsilon$ to ensure strict inequality.
+
+Note that this inequality should work as long as $t \geq 1$ since we only need $2t \geq 2$ to apply Lemma 8.4.
+
+For the estimate $\zeta'(s) = O(\log^2 t)$ on the slightly larger domain, use the same method in Problem 8.3.
+
+Finally, note that to show $1/\zeta(s) = O(\log^7(|t| + 2))$ is the same as establishing a lower bound
+$$|\zeta(s)| \geq A \log^{-7} (|t| + 2)$$
+for some positive $A$. This suggests how the inequality derived above can be used in this problem. Let us start by finding $K$ such that the stronger\footnote{Not much.} $1/\zeta(s) = O(\log^7 t)$ holds in
+$$U_K := \{ t \geq 2, \sigma \geq 1 - K \log^{-9} t \}.$$
+%Note that for $t \geq 2$, one has  $\log^7 t < \log^7(t + 2)$ and $1 - K \log^{-9}(t + 2) > 1 - K \log^{-9} t \iff K \log^{-9}(t + 2) < K \log^{-9} t \iff \log^9(t + 2) > \log^9 t$.
+Again, this is the same as establishing lower bound $|\zeta(s)| \geq A \log^{-7} t$ for some positive $A$.
+
+Using the inequality, this can be easily ensured in the subregion
+$$V_{K_0} := \{t \geq 2, \sigma \geq 1 + K_0 \log^{-9} t\}$$
+for any fixed $K_0 > 0$ because then for any $s \in V_{K_0}$, we can write $\sigma = 1 + K_1(s) \log^{-9} t + i t$ where $K_1(s) \geq K_0$ and we have uniform bound $c K_1(s)^{3/4} \geq c K_0^{3/4} =: A_0 > 0$. The trouble is when $s$ comes closer and closer to the line $\sigma = 1$ i.e. when $K_1(s) \rightarrow 0$ for then $c K_1(s)^{3/4} \rightarrow 0$ and we need a positive constant.
+
+To account for the remaining $s \in U_K \backslash V_{K_0}$, we view $\zeta(s)$ as anti-derivative\footnote{In general, for any analytic function $f$, every $z_0$ in the domain of $f$ has a simply connected neighborhood on which we have the (anti-derivative) property
+$$f(z) - f(z_0) = \int_\gamma f'(w) dw$$
+for any path $\gamma$ from $z$ to $z_0$. This is basically a consequence of Cauchy's integral formula and identity theorem: The right hand side defines a function $F(z)$ which is a well-defined (i.e. independent of the chosen path) analytic function thank to Cauchy's integral formula. We have $F'(z) = f'(z)$ so $F(z) = f(z) + C$ and since $F(z_0) = 0$, we must have $C = -f(z_0)$.} of $\zeta'(s)$ i.e. roughly that
+$$\zeta(s) - \zeta(s_0) = \int_{s_0}^{s} \zeta'(z) dz.$$
+Then we can use the bound $\zeta'(s) = O(\log^2 t)$. Of course, we have yet to specify the path of integration nor choose $s_0$.
+
+Let $s_0 := s_0(s) := 1 + K_0 \log^{-9} t + i t$, the point on the boundary of $V_{K_0}$ having the same imaginary part as $s$. The integration path $\gamma := \gamma(s)$ will be the line horizontal segment from $s_0$ to $s$. Note that this path lies completely inside the simply connected domain $U_K$ on which $\zeta(s)$ is analytic. We have
+$$\zeta(s) - \zeta(s_0) = \int_{\gamma} \zeta'(z) dz.$$
+
+The integral on the right hand side can be bounded above
+$$\Abs{ \int_{\gamma} \zeta'(z) dz } \leq |\gamma| B \log^2 t = B (\Re s - \Re s_0) \log^2 t \leq B (K_0 + K) \log^{-7} t$$
+where $B$ is the bounding constant in $\zeta'(s) = O(\log^2 t)$. Here, it is easy to see that $|\gamma| \leq (K_0 + K) \log^{-9} t$. Also, any $z \in \gamma$ should be in the region in which the bound $|\zeta'(z)| \leq B \log^2 z$ applies as long as $K$ is small enough so that $\Re z \geq 1 - K \log^{-9} t \geq 1 - \log^{-2} t$. (Taking $K < \log^{-7} 2$ will do.)
+
+With this, we obtain
+\begin{align*}
+\Abs{ \zeta(s) } &\geq \Abs{\zeta(s_0)} - \Abs{ \zeta(s) - \zeta(s_0) }\\
+&\geq cK_0^{3/4} \log^{-7} t - B (K_0 + K) \log^{-7} t\\
+&\geq (cK_0^{3/4} - B K_0 - B K) \log^{-7} t
+\end{align*}
+(Note that the first line is triangle inequality if we see it as $\Abs{ \zeta(s) } + \Abs{ \zeta(s) - \zeta(s_0) } \geq \Abs{\zeta(s_0)}$.)
+
+So our goal is accomplished if we can pick $K > 0$ such that $A_1 := c K_0^{3/4} - B K_0 - B K > 0$. This is possible only when $c K_0^{3/4} - B K_0 > 0$, equivalently $K_0 < (c/B)^4$. The upshot is that:
+\begin{itemize}
+\item Pick $K_0 > 0$ such that $K_0 < (c/B)^4$ where $B$ is the constant such that $|\zeta'(s)| < B \log^2 t$ for $\sigma > 1 - \log^{-1} t$.
+\item Pick $K$ such that $K < \min\{\log^{-7} 2, c B^{-1} K_0^{3/4} - K_0\}$.
+\end{itemize}
+Then we have $|\zeta(s)| \geq A \log^{-7} t$ or equivalently $$|1/\zeta(s)| \leq A^{-1} \log^7 t < A^{-1} \log^7 (t + 2)$$ 
+in $U_K$ where $A_0 := cK_0^{3/4}$, $A_1 := c K_0^{3/4} - B K_0 - B K$ and $A := \min\{A_0, A_1\} > 0$.
+
+To push the $O$-estimate to the remaining $t$, first recall that $\zeta(s)$ is real for real values of $s$ so we have $\zeta(\cconj{s}) = \cconj{\zeta(s)}$ by the reflection principle\footnote{Alternatively, recall that the Laurent series expansion $\zeta(s) = (s - 1)^{-1} + \sum a_n (s - 1)^n$ obtained in Problem 3.14 has real coefficients and we can see this identity directly.}. So the bound works for $s \in \cconj{U_K} = \{t \leq -2, \sigma > 1 - K \log^{-9} |t| \}$ as well. We have coverred $t \geq 2$ and $t \leq -2$. The remaining $t$ can be handled by the trick previously employed in Problem 8.3 and 8.5: Adjust the constant. But to do that we reduce $K$ so that it is less than the constant in Theorem 8.8 so that $1/\zeta(s)$ is analytic in our region of interest.
+
+Note that $1/\zeta(s) = \sum \mu(n) n^{-s} = O(1)$ in $\{\sigma \geq 2\}$ and is also $O(1)$ in the compact region $\{|t| \leq 2, 1 - K\log^{-9}(|t| + 2) \leq \sigma \leq 2 \}$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

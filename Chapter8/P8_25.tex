@@ -1,0 +1,75 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Fhat}{\widehat{F}}
+\newcommand{\psihat}{\widehat{\psi}}
+\begin{document}
+\fi
+
+\textbf{Problem 8.25}: Find the place in the proof where we used the condition that $x \geq 1$. What does the formula give for $x = 1$?
+
+\begin{proof}
+From
+$$\int x^{-s} d\psi(x) = s \int x^{-s-1} \psi(x) dx$$
+or
+$$-\zeta'(s)/(s\zeta(s)) = \psihat_1(s + 1).$$
+
+Note that $\sigma_a(\psihat_1) = \sigma_c(\psihat_1) = 2$. Perron's formula (Theorem 7.10) gives for $b > 2$, $x > 0$ that
+\begin{align*}
+1/2(\psi_1(x+) + \psi_1(x-)) &= \lim_{T \rightarrow \infty} \frac{1}{2 \pi i} \int_{b - iT}^{b + iT} \psihat_1(s) x^s \frac{ds}{s}\\
+&= \lim_{T \rightarrow \infty} \frac{1}{2 \pi i} \int_{b - 1 - iT}^{b - 1 + iT} \psihat_1(w + 1) x^{w + 1} \frac{dw}{w + 1} &\text{subst. } w = s - 1\\
+&= -\lim_{T \rightarrow \infty} \frac{1}{2 \pi i} \int_{b - 1 - iT}^{b - 1 + iT} \frac{\zeta'(s)}{s\zeta(s)} x^{s + 1} \frac{ds}{s + 1}
+\end{align*}
+Applying the formula with $b = 3$, we get the claim that $I_1(m) \rightarrow \psi_1(x)$.
+
+We need $x \geq 1$ for the next claim in the proof that
+$$I_2(m) = O\{x^3 (\log m)^2 m^{-1}\} = o(1).$$
+That is because the integrand $x^{s+1}$ could blow up when $x < 1$ as its modulus is $x^{-2m}$ on the leftmost edge of the rectangle and $x^{-2m}$ is clearly not $O(x^3)$ for $x < 1$.
+
+When $x = 1$, the formula gives
+$$0 = \frac{1}{2} - \sum_\rho \frac{1}{\rho(\rho - 1)} - \frac{\zeta'}{\zeta}(0) + \frac{\zeta'}{\zeta}(-1) - \sum_{r = 1}^{\infty} \frac{1}{2r(2r - 1)}.$$
+The last series can be simplified
+\begin{align*}
+\sum_{r = 1}^{\infty} \frac{1}{2r(2r - 1)} &= \sum_{r = 1}^{\infty} \left( \frac{1}{2r - 1} - \frac{1}{2r} \right)\\
+&= \sum_{n = 1}^{\infty} \frac{(-1)^{n-1}}{n}\\
+&= \log(1 + 1)\\
+&= \log 2.
+\end{align*}
+Note that the series for
+$$\log(1 + x) = \sum_{n=1}^{\infty} \frac{(-1)^{n-1}}{n} x^n$$
+is valid for $|x| < 1$. But it should work for $x = 1$ as well.
+Therefore, we obtain
+$$\sum_\rho \frac{1}{\rho(\rho - 1)} = \frac{1}{2} - \frac{\zeta'}{\zeta}(0) + \frac{\zeta'}{\zeta}(-1) - \log 2.$$
+
+\textbf{Question}: How can we evaluate the values of $\zeta'/\zeta$?
+
+We evaluate $\zeta'(0)$ via (note that we already know $\zeta(0) = -1/2$): Taking logarithm
+$$\zeta(s) = 2^s \pi^{s - 1} \sin(\pi s / 2) \Gamma(1 - s) \zeta(1 - s)$$
+yields
+$$\log \zeta(s) = s \log 2 + (s - 1) \log \pi + \log \sin(\pi s / 2) + \log \Gamma(1 - s) + \log \zeta(1 - s)$$
+so differentiating we get
+$$\frac{\zeta'}{\zeta}(s) = \log 2\pi + \frac\pi2 \cot(\pi s/2) - \frac{\Gamma'(1 - s)}{\Gamma(1 - s)} - \frac{\zeta'(1 - s)}{\zeta(1 - s)}.$$
+
+The easier value is
+$$\frac{\zeta'}{\zeta}(-1) = \log 2\pi + \frac\pi2 \underbrace{\cot(-\pi/2)}_0 - \underbrace{\frac{\Gamma'}{\Gamma}(2)}_{1-\gamma} - \frac{\zeta'}{\zeta}(2)$$
+and we already know $\zeta'(2) = -\sum n^{-2} \log n$ while $\zeta(2) = \pi^2/6$. The harder one
+$$\frac{\zeta'}{\zeta}(0) = \log 2\pi - \underbrace{\frac{\Gamma'}{\Gamma}(1)}_{-\gamma} + \lim_{s \rightarrow 0} \left( \frac\pi2 \cot(\pi s/2) - \frac{\zeta'}{\zeta}(1 - s) \right)$$
+where $\gamma$ is Euler's constant. To evaluate the remaining limit, recall that $h(s) = (s - 1)\zeta(s)$ is entire and we have
+$$\frac{h'}{h}(s) = \frac{\zeta'}{\zeta}(s) + \frac{1}{s - 1}$$
+The fact that
+$$\frac{h'}{h}(1) = 1$$
+suggests us to insert
+\begin{align*}
+\lim_{s \rightarrow 0} \left( \frac\pi2 \cot(\pi s/2) - \frac{\zeta'}{\zeta}(1 - s) \right) &= \lim_{s \rightarrow 0} \left( \frac\pi2 \cot(\pi s/2) + \frac{1}{1 - s - 1} - \frac{\zeta'}{\zeta}(1 - s) - \frac{1}{1 - s - 1}\right)\\
+&= \lim_{s \rightarrow 0} \left( \frac\pi2 \cot(\pi s/2) - \frac{1}{s}\right) - 1\\
+&= \lim_{s \rightarrow 0} \left( \frac\pi2 \cot(\pi s/2) - \frac{1}{s}\right) - 1\\
+&= -1
+\end{align*}
+since $\sin z$ has simple pole at $z = 0$ of residue 1. So we conclude that
+$$\frac{\zeta'}{\zeta}(0) = \log 2\pi + \gamma - 1.$$
+Apparently, the right answer is $\frac{\zeta'}{\zeta}(0) = \log 2\pi$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

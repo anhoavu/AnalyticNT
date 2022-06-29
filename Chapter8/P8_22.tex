@@ -1,0 +1,111 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\newcommand{\cconj}[1]{\overline{#1}}
+\newcommand{\Log}{\operatorname{Log}}
+\newcommand{\Arg}{\operatorname{Arg}}
+\begin{document}
+\fi
+
+\textbf{Problem 8.22}: Show that Lemma 8.19 also follows from Jensen's formula [TiFF, 3.61] applied to the entire function $\xi$.
+
+\begin{proof}
+Jensen's formula [TiFF, 3.61] is the following: Let $f$ be analytic in $|z| < R$, $f(0) \not= 0$ and let $r_1, ..., r_n, ...$ be the non-decreasing sequence of moduli of zeros of $f(z)$ in the circle $|z| < R$. Then for $r_n \leq r \leq r_{n+1}$,
+$$\log \frac{r^n|f(0)|}{r_1 r_2 ... r_n} = \frac{1}{2\pi} \int_0^{2\pi} \log|f(r e^{i\theta})| d\theta$$
+or equivalently,
+$$\sum_{j = 1}^{n} \log \frac{r}{r_j} = \frac{1}{2\pi} \int_0^{2\pi} \log \Abs{ \frac{f(r e^{i\theta})}{f(0)} } d\theta.$$
+It is obvious to recenter the theorem to $z_0$ instead of $0$ i.e. applying the formula to $f \circ (z \mapsto z + z_0)$ in place of $f$.
+
+We could use Jensen's formula on $\zeta(s)$ directly to deduce Lemma 8.19. Let $s_0 := 6/5 + iT$ and $r := 9/5$. Consider Jensen's formula for $\zeta(s)$ centered at $s_0$.
+\begin{itemize}
+\item In the proof of Lemma 8.19, we have the integrand $\log \Abs{ \frac{\zeta(s_0 + r e^{i\theta})}{\zeta(s_0)} }$ is bounded by $A \log T$ for some constant $A$. So the RHS is $\leq A \log T$.
+
+\item Half of the square of interest, the rectangle $\{1/2 \leq \sigma \leq 1, |t - T| \leq 1/2\}$, is contained in the disc $|s - s_0| \leq r/2$ so $\log \frac{r}{r_j} \geq \log 2$ if the modulus $r_j$ corresponds to a zero of $\zeta(s)$ in the given rectangle. 
+
+So the LHS is $\geq m(T) \log 2$ where $m(T)$ is the number of zeros of $\zeta(s)$ in the aforementioned rectangle.
+
+\item Therefore, $m(T) \log 2 \leq A \log T$. So $m(T)$ is $O(\log T)$.
+
+\item Just like in the proof of Lemma 8.19, we have $m(T) \leq N(T+\frac12) - N(T - \frac12) \leq 2 m(T)$ (with first equality occurs should Riemann Hypothesis be true) by the functional equation. So we are done.
+\end{itemize}
+
+Using $\xi(s)$, the idea is essentially the same\footnote{No matter how we use the formula, we have to bound the ratio of zeta values. That is only possible if the zeta value in the denominator is for $\sigma > 1$ or a thin region to the left of the line $\sigma = 1$.} but we can be more flexible on $s_0$ and $r$. Let $T$ be large enough (say $T > 10$) and apply Jensen's formula to $\xi(s)$ center at $s_0 := 2 + iT$ and radius $r = 3$.
+
+\begin{itemize}
+\item On the LHS, any point $s$ in the rectangle $\{0 \leq \sigma \leq 1, |t - T| \leq \frac{1}{2} \}$ is at most $r^* := \sqrt{(1/2)^2 + 2^2} = \sqrt{17}/2 < r$ away from $s_0$. So the LHS is $\geq \log(r/r^*) \left\{ N(T + 1/2) - N(T - 1/2) \right\}$.
+
+\item On the RHS,
+
+\begin{itemize}
+\item We claim that there is an $A$ such that $\log \Abs{\frac{\xi(s)}{\xi(s_0)}} \leq A \log T$ for all for any $s$ in the disc $|s - s_0| \leq r$ with $\Re s \geq 1/2$ and $\Im s \geq 2$.
+
+We have
+\begin{align*}
+\log \Abs{ \frac{\xi(s)}{\xi(s_0)} } &= \log \Abs{ \frac{s (s - 1) \pi^{-s/2} \Gamma(s/2) \zeta(s)}{s_0 (s_0 - 1) \pi^{-s_0/2} \Gamma(s_0/2) \zeta(s_0)} } \\
+&= \log \Abs{ \frac{s}{s_0} } + \log \Abs{ \frac{s - 1}{s_0 - 1} } + \Re\left\{\frac{s_0 - s}{2}\right\} \log \pi \\
+&\qquad + \log \Abs{ \frac{\Gamma(s/2)}{\Gamma(s_0/2)} } + \log |\zeta(s)| + \log |\zeta(s_0)^{-1}|
+\end{align*}
+The first three terms are clearly bounded by assumption $|s - s_0| < r$. So is the final term as $|\zeta(s_0)^{-1}| = |\sum \mu(n) n^{-s_0}| \leq \zeta(2)$.
+
+With the assumption $\Re s \geq 1/2$, we have $|\zeta(s)| = O(T^{1/2})$ by Lemma 8.4 as $\Im s \sim T$ so $\log |\zeta(s)| \leq A_1 \log T$ for some $A_1$.
+
+So all that remains is the $\log \Abs{ \frac{\Gamma(s/2)}{\Gamma(s_0/2)} }$. The points $s/2$ and $s_0/2$ are in the region which we can apply Stirling's estimate
+$$\Log \Gamma(z) = \log\sqrt{2\pi} + (z - 1/2) \Log z - z + O(|z|^{-1}).$$
+Put $z = s/2$ and $z_0 = s_0/2$. Note that $\Re \Log z = \log |z|$ so
+\begin{align*}
+\log \Abs{ \frac{\Gamma(z)}{\Gamma(z_0)} } &= \log |\Gamma(z)| - \log |\Gamma(z_0)|\\
+&= \Re \Log \Gamma(z) - \Re \Log \Gamma(z_0)\\
+%&= \Re\{\log\sqrt{2\pi} + (z - 1/2) \Log z - z + O(|z|^{-1})\} \\
+%& \qquad - \Re\{\log\sqrt{2\pi} + (z_0 - 1/2) \Log z_0 - z_0 + O(|z_0|^{-1})\}\\
+&= \Re\{z \Log z - z_0 \Log z_0 \} - \frac12 \Re\{\Log z - \Log z_0 \} \\
+& \qquad - \Re\{ z - z_0\} + O(|z|^{-1}) + O(|z_0|^{-1})
+\end{align*}
+
+Note that $|z| \sim |z_0| \sim \frac{T}{2}$ and $\Re\{ z - z_0\} \leq |z - z_0| \leq \frac{r}{2}$ so it remains to ensure $\Re\{ z \Log z - z_0 \Log z_0 \}$ is $O(\log T)$. Let us consider the function $h(z) := z \Log z$ which should be analytic in a small neighborhood around $z_0$. The Taylor series expansion around $z_0$ gives
+$$z \Log z = z_0 \Log z_0 + (1 + \Log z_0) (z - z_0) + \sum_{j = 1}^{\infty} (-1)^{j - 1} \frac{(z - z_0)^{j+1}}{j (j + 1) z_0^j}.$$
+
+When $T$ is large enough, $|\frac{z - z_0}{z_0}| < 1$ so the series
+$$\Abs{ \sum_{j = 1}^{\infty} (-1)^{j - 1} \frac{(z - z_0)^j}{j (j + 1) z_0^j} } < \sum_{j = 1}^{\infty} \frac{1}{j (j + 1)}$$
+is bounded. This means
+$$\Re\{ z \Log z - z_0 \Log z_0 \} \leq |z - z_0| \cdot \log |z_0| + O(|z - z_0|) \leq A_2 \log T$$
+for some $A_2$. So the claim follows.
+
+\item Now $s_\theta := s_0 + r e^{i\theta}$. We can bound the integrand $\log \Abs{ \frac{\xi(s_\theta)}{\xi(s_0)} }$ by $A \log T$ for all $\theta$ so the RHS is $\leq A \log T$.
+
+If $\theta$ is such that $\Re s_\theta \geq \frac12$, the bound follows from the claim applied to $s = s_\theta$.
+
+Otherwise, if $\theta$ is such that $\Re s_\theta < \frac12$ then by the functional equation and the reflection principle we have
+\begin{align*}
+|\xi(s_\theta)| &= |\xi(1 - s_\theta)|\\
+&= |\xi(1 - \cconj{s_\theta})|
+\end{align*}
+so put $s_\theta^* := 1 - \cconj{s_\theta} = 1 - \cconj{s_0} - r e^{-i\theta} = 1 - (2 - iT) - r e^{-i\theta} = iT - 1 - r e^{-i\theta}$. Then applying the claim to $s = s_\theta^*$ and we find $\log \Abs{\frac{\xi(s_\theta)}{\xi(s_0)}} = \log \Abs{\frac{\xi(s_\theta^*)}{\xi(s_0)}}$ is also bounded above by $A \log T$.
+\end{itemize}
+
+\item So $N(T + 1/2) - N(T - 1/2)$ is $O(\log T)$.
+\end{itemize}
+
+\textbf{Remark}: Here is how I find Taylor series for $z \Log z$: Start from the standard series
+$$\Log(1 + z) = \sum_{j = 1}^{\infty} \frac{(-1)^{j - 1} z^j}{j} \qquad (|z| < 1)$$
+and note that\footnote{The first equation might put restriction on $z$ and $z_0$ as $\frac{z}{z_0}$ could have large argument but the formula works at least when the argument is small and Taylor series is unique.}
+\begin{align*}
+\Log z &= \Log z_0 + \Log\left(\frac{z}{z_0}\right)\\
+&= \Log z_0 + \Log\left(1 + \frac{z - z_0}{z_0}\right)\\
+&= \Log z_0 + \sum_{j = 1}^{\infty} \frac{(-1)^{j - 1} (z - z_0)^j}{j \, z_0^j}
+\end{align*}
+whence
+\begin{align*}
+z \Log z &= z \left( \Log z_0 + \sum_{j = 1}^{\infty} \frac{(-1)^{j - 1} (z - z_0)^j}{j \, z_0^j} \right)\\
+&= z_0 \left( \Log z_0 + \sum_{j = 1}^{\infty} \frac{(-1)^{j - 1} (z - z_0)^j}{j \, z_0^j} \right) + (z - z_0) \left( \Log z_0 + \sum_{j = 1}^{\infty} \frac{(-1)^{j - 1} (z - z_0)^j}{j \, z_0^j} \right)\\
+&= z_0 \Log z_0 + \sum_{j = 1}^{\infty} \frac{(-1)^{j - 1} (z - z_0)^j}{j \, z_0^{j - 1}} + (z - z_0) \Log z_0 + \sum_{j = 1}^{\infty} \frac{(-1)^{j - 1} (z - z_0)^{j + 1}}{j \, z_0^j}\\
+&= z \Log z_0 + \sum_{j = 0}^{\infty} \frac{(-1)^{j} (z - z_0)^{j + 1}}{(j + 1) \, z_0^j} + \sum_{j = 1}^{\infty} \frac{(-1)^{j - 1} (z - z_0)^{j + 1}}{j \, z_0^j}\\
+&= z \Log z_0 + (z - z_0) + \sum_{j = 1}^{\infty} (-1)^{j - 1} \left( -\frac{1}{j + 1} + \frac{1}{j} \right) \frac{(z - z_0)^{j + 1}}{z_0^j}\\
+&= z \Log z_0 + (z - z_0) + (z - z_0) \sum_{j = 1}^{\infty} (-1)^{j - 1} \frac{(z - z_0)^j}{j (j + 1) z_0^j}
+\end{align*}
+and clearly $z \Log z_0 + (z - z_0) = z_0 \Log z_0 + (1 + \Log z_0) (z - z_0)$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

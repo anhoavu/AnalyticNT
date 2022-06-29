@@ -1,0 +1,65 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\newcommand{\Fhat}{\widehat{F}}
+\begin{document}
+\fi
+
+\textbf{Problem 8.15}: Assuming that the R.H. is true, show that
+$$1/\zeta(s) = O\{(|t| + 2)^A\}$$
+holds uniformly on $\{s : \sigma > \frac12 + \epsilon\}$ for some positive $A$ depending on an arbitrary positive $\epsilon$. Also, deduce that there exists a constant $c < 1$ such that $M(x) = O(x^c)$. Hint. Introduce a suitable smoothing factor to allow application of the inversion formula. Then apply a differencing argument to recover $M(x)$ (cf. Problem 7.18 at the end of $\S$7.8).
+
+\begin{proof}
+Let $H_\epsilon := \{s : \sigma > \frac12 + \epsilon\}$.
+
+Under the R.H., the function $\zeta^{-1}(s)$ has an upper bound i.e. is $O(1)$ in the strip $\{s \in H_\epsilon, |t| \leq 2 \}$ so let us assume that $t \geq 2$.
+
+If $\sigma \geq 1 + \log^{-1} t =: \sigma_0$, we have $\zeta^{-1}(s) = O(\log t) = O(t^A)$ for any positive $A$ in the proof of Lemma 8.16. This means we only need to consider the case $\sigma < \sigma_0$ and $t \geq 2$.
+
+Note that our goal is to establish lower bound
+$$|\zeta(s)| \geq K (|t| + 2)^{-A}$$
+for positive some $K$. As in the proof of Lemma 8.16, we find
+$$\log|\zeta(s)| = \log |\zeta(\sigma_0 + it)| + \int_{\sigma_0}^\sigma \Re \frac{\zeta'}{\zeta}(u + it) du.$$
+
+The first term $\log |\zeta(\sigma_0 + it)| \geq -\log(K_1 \log t)$ thank to $|\zeta^{-1}(s)| = O(\log t)$ ($K_1$ is the constant here) on $\sigma \geq \sigma_0$.
+
+The second integral differs to the one in the Lemma 8.16 in two ways:
+\begin{itemize}
+\item The integration path is of length $\sigma_0 - \sigma \leq 1 + \log^{-1} t - \frac12 - \epsilon = \frac12 - \epsilon + \log^{-1} t$.
+\item Also, the bound for $\Re \zeta'/\zeta(s)$ will be a bit different: Under R.H., we can apply Theorem 8.11 with $\eta(t) = \frac{1}{2} - \epsilon_1$ being constant function.
+
+Then we get $-\zeta'/\zeta(s) - 1/(s - 1) = O(\log(|t| + 2))$ uniformly in the region $\{\sigma \geq 1 - \alpha (1 - \epsilon_1) = 1 - \alpha + \alpha \epsilon_1 \}$ for any $0 < \alpha < 1$ so taking $\alpha = 1/2, \delta = \epsilon_1$ ensures that this estimate applies to all points on our path of integration. We have then
+$$\Abs{ \Re \frac{\zeta'}{\zeta}(s) } \leq \Abs{ \frac{\zeta'}{\zeta}(s) } \leq \Abs{ \frac{1}{s - 1} } + K_2 \log(t + 2) \leq t^{-1} + K_2 \log(t + 2)$$
+so at worst
+\begin{align*}
+\int_{\sigma_0}^\sigma \Re \frac{\zeta'}{\zeta}(u + it) du &\geq -\left(\frac12 + \log^{-1} t\right)(t^{-1} + K_2 \log(t + 2))\\
+&\geq -(2t)^{-1} - \frac{K_2}{2} \log(t + 2) - (t \log t)^{-1} - K_2 \log(t + 2) \log^{-1} t\\
+&\geq -\left(\frac{K_2}{2} + K_3\right) \log(t + 2)
+\end{align*}
+for suitably chosen $K_3$ since the dominating term is clearly $-\frac{K_2}{2} \log(t + 2)$ and the rest are all $o(\log(t + 2))$.
+\end{itemize}
+Combining all these, we find that
+$$\log |\zeta(s)| \geq -\log(K_1 \log t) - \left(\frac{K_2}{2} + K_3\right) \log(t + 2)$$
+which yields
+$$|\zeta(s)| \geq \frac{1}{K_1 \log t} (t + 2)^{-\frac{K_2}{2} - K_3} \geq \frac{K_4}{K_1} (t + 2)^{-\frac{K_2}{2} - K_3 - \delta}$$
+for any small $\delta > 0$ as $\log t = o((t+2)^\delta)$. Take $A = -\frac{K_2}{2} - K_3 - \delta$ will do.
+
+To deduce that $M(x) = O(x^c)$, we consider
+$$F(x) = \int_{1^-}^x dM * (t^{-1} dt)^{*n}$$
+for appropriate positive integer $n$. We have
+$$\Fhat(s) = \frac{1}{s^n \zeta(s)}$$
+and Lemma 7.12 yields for any $b > 1$ and $T > b$,
+\begin{align*}
+\frac{1}{2 \pi i} \int_{b - iT}^{b + iT} \frac{x^s}{s^{n+1} \zeta(s)} ds &= \frac{1}{2}\{F(xe^{-1/T}) + F(xe^{1/T})\} \\
+& + O(x^b/T) \left\{ \int_{1^-}^{xe^{-1/T}} + \int_{xe^{1/T}}^\infty \right\} \frac{y^{-b}}{|\log x/y|} dF_v(y) \\
+& + O(\int_{xe^{-1/T}}^{xe^{1/T}} (T \log|x/y| + b/T) dF_v(y))
+\end{align*}
+which grants us access to $F(x)$.
+
+We deform the integration path by the rectangle $\sigma_0 \pm iT$ for $\sigma_0 > \frac{1}{2}$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

@@ -1,0 +1,50 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\begin{document}
+\fi
+
+\textbf{Problem 8.1}: Use Theorem 8.1 to evaluate $\zeta(0)$.
+
+\begin{proof}
+By analyticity, we have
+\begin{align*}
+\zeta(0) &= \lim_{s \rightarrow 0^-} \zeta(s)\\
+&= \lim_{s \rightarrow 0^-} 2^s \pi^{s-1} \sin(\pi s/ 2) \Gamma(1 - s) \zeta(1 - s)\\
+&= \lim_{s \rightarrow 0^-} \pi^{-1} \frac{\sin(\pi s/ 2)}{\pi s / 2} \frac{\pi s}{2} \Gamma(1) \zeta(1 - s)\\
+&= \frac{1}{2} \lim_{s \rightarrow 0^-} s \zeta(1 - s) &\text{ as } \lim_{x \rightarrow 0} \frac{\sin x}{x} = 1 \text{ and } \Gamma(1) = 0! = 1\\
+&= \frac{1}{2} \lim_{s \rightarrow 1^+} (1 - s) \zeta(s) &\text{change of variable } s = 1 - s\\
+&= -\frac{1}{2} &\text{by Lemma 1.7}.
+\end{align*}
+\end{proof}
+
+\textbf{Problem 8.2}: The gamma and zeta functions are intimately connected. By substituting the zeta functional equation into itself, establish the gamma function reflection formula, $\Gamma(z) \Gamma(1-z) = \pi / \sin \pi z$, $z \in \C \backslash \Z$.
+
+\begin{proof}
+Applying Theorem 8.1 twice
+\begin{align*}
+\zeta(s) &= 2^s \pi^{s-1} \sin(\pi s/ 2) \Gamma(1 - s) \zeta(1 - s)\\
+\zeta(1 - s) &= 2^{1 - s} \pi^{-s} \sin(\pi (1 - s)/ 2) \Gamma(s) \zeta(s)
+\end{align*}
+so we get
+\begin{align*}
+\zeta(s) &= 2^s \pi^{s-1} \sin(\pi s/ 2) \Gamma(1 - s) 2^{1 - s} \pi^{-s} \sin(\pi (1 - s)/ 2) \Gamma(s) \zeta(s)\\
+&= 2 \pi^{-1} \sin(\pi s/ 2) \sin(\pi (1 - s)/ 2) \Gamma(1 - s) \Gamma(s) \zeta(s)\\
+&= 2 \pi^{-1} \sin(\pi s/ 2) \cos(\pi s/ 2) \Gamma(1 - s) \Gamma(s) \zeta(s)\\
+&= \pi^{-1} \sin(\pi s) \Gamma(1 - s) \Gamma(s) \zeta(s).
+\end{align*}
+
+If $\zeta(s) \not= 0$ such as when $\sigma > 1$ then we can divide $\zeta(s)$ on both sides to get
+$$\pi^{-1} \sin(\pi s) \Gamma(1 - s) \Gamma(s) = 1$$
+or equivalently,
+$$\Gamma(1 - s) \Gamma(s) = \pi / \sin(\pi s).$$
+
+This functional equation can then be extended to the domain of $\Gamma$ i.e. $\C \backslash \Z$ by means of the identity theorem in complex analysis.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

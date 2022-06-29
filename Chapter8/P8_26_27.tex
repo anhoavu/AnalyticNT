@@ -1,0 +1,81 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\DeclareMathOperator{\li}{li}
+\begin{document}
+\fi
+
+\textbf{Problem 8.26}: Assuming that $\zeta(1 + it) \not= 0$ for all real $t$, use the explicit formula to prove that $\psi_1(x) \sim x^2/2$ and then dedduce the P.N.T.
+
+\begin{proof}
+For any $x \geq 1$, we have
+\begin{align*}
+\sum_{r = 1}^{\infty} \frac{x^{1-2r}}{2r(2r - 1)} &\leq \sum_{r = 1}^{\infty} \frac{x^{-1}}{2r(2r - 1)}\\
+&= x^{-1} \sum_{r = 1}^{\infty} \frac{1}{2r(2r - 1)}\\
+&= O(x^{-1})
+\end{align*}
+so to prove $\psi_1(x) \sim x^2/2$, it remains to show that
+$$\sum_{\rho} \frac{x^{\rho + 1}}{\rho(\rho + 1)} = o(x^2)$$
+or equivalently, that
+$$\sum_{\rho} \frac{x^{\rho - 1}}{\rho(\rho + 1)} = o(1).$$
+
+We do it straight from the definition. Let $\epsilon > 0$ be arbitrary. As
+$$\sum_\rho \frac{1}{\rho(\rho + 1)}$$
+converges absolutely, we can first pick $T$ such that
+$$\sum_{|\rho| > T} \frac{1}{|\rho(\rho + 1)|} < \frac{\epsilon}{2}.$$
+Note that $T$ depends on $\epsilon$ alone and not $x$. This ensures that
+$$\sum_{|\rho| > T} \Abs{ \frac{x^{\rho - 1}}{\rho(\rho + 1)} } \leq \sum_{|\rho| > T} \frac{1}{|\rho(\rho + 1)|} < \frac{\epsilon}{2}$$
+for all $x$ since $|x^{\rho - 1}| = x^{\Re \rho - 1} \leq 1$ given $\Re \rho - 1 < 0$ by assumption that $\zeta(1 + it) \not= 0$ for all $t$. Then we pick $X$ large enough so that the finite sum
+$$\sum_{|\rho| \leq T} \Abs{ \frac{x^{\rho - 1}}{\rho(\rho + 1)} } < \frac{\epsilon}{2}$$
+for all $x \geq X$, again using the given assumption that $\Re \rho - 1 < 0$ so that $|x^{\rho - 1}| = o(1)$ for all $\rho$. Note that we need strict inequality $\Re \rho - 1 < 0$ here; otherwise the sum is bounded below by $|\rho(\rho+1)|^{-1}$. Thus for all $x \geq X$, we have
+$$\sum_{\rho} \Abs{\frac{x^{\rho - 1}}{\rho(\rho + 1)}} < \epsilon.$$
+
+To deduce the P.N.T., we note that
+\begin{align*}
+\int_1^x t^{-1} dt * d\psi(t) &= \int_1^x \psi(t) t^{-1} dt\\
+&= \int_1^x t^{-1} d \psi_1(t)\\
+&= \frac{\psi_1(x)}{x} + \int_1^x \psi_1(t) t^{-2} dt\\
+&= \frac{x^2/2 + o(x^2)}{x} + \int_1^x (1/2 + o(1)) \; dt &\text{ by } \psi_1(t) \sim t^2/2 \\
+&= x + o(x)
+\end{align*}
+and the fact that $\int_1^x t^{-1} dt * d\psi \sim x$ is equivalent to the P.N.T. goes back to Theorem 5.9 (or actually, Lemma 5.2).
+\end{proof}
+
+\textbf{Problem 8.27}: Let $\Theta = \sup\{\Re \rho : \zeta(\rho) = 0\}$. Assuming that $\frac12 < \Theta < 1$, give estimates for $\psi_1(x)$, $\psi(x)$, and $\pi(x)$.
+
+\begin{proof}
+From the explicit formula, it is clear that $\psi_1(x) = \frac{x^2}{2} + O(x^{\Theta})$, just like Corollary 8.24. To estimate $\psi$, one can imitate the proof of Corollary 8.25:
+$$\psi(x) + O(\log x) = \psi_1(x + 1) - \psi_1(x) = x + \frac12 - \sum_\rho \frac{(x+1)^{\rho + 1} - x^{\rho + 1}}{\rho (\rho + 1)} - \frac{\zeta'}{\zeta}(0) + O(x^{-1})$$
+The term in the series can be bounded
+$$\omega_\rho = \frac{1}{\rho} \int_x^{x+1} u^\rho du = O(x^\Theta / |\rho|)$$
+for $|\gamma| = |\Im \rho| \leq x$ and
+$$|\omega_\rho| = O(x^{\Theta + 1} / |\rho|^2)$$
+for $|\gamma| > x$ so we find
+\begin{align*}
+|\sum_\rho \omega_\rho| \leq A \left( \sum_{|\gamma| \leq x} x^\Theta / |\rho| + \sum_{|\gamma| > x} x^{\Theta + 1} / |\rho|^2 \right)
+\end{align*}
+is $O(x^\Theta \log^2 x)$ thank to Lemma 8.19: We have $\sum_{|\gamma| \leq x} |\rho|^{-1} \leq 2 \sum_{0 < \gamma \leq x} \gamma^{-1} = O(\log^2 x)$ by Problem 8.23. By the same method employed there,
+\begin{align*}
+\sum_{|\gamma| > x} |\rho|^{-2} &\leq 2 \sum_{N = 0}^{\infty} \sum_{x + N < \gamma < x + N + 1} \gamma^{-2}\\
+&\leq 2 \sum_{N = 0}^{\infty} \sum_{x + N < \gamma < x + N + 1} (x + N)^{-2}\\
+&\leq 2 \sum_{N = 0}^{\infty} (x + N)^{-2} \cdot O(\log(x + N))\\
+&\leq 2 \int_x^\infty u^{-2} (\log u) \; du\\
+&= O(x^{-1} \log x).
+\end{align*}
+(This is the reason for the proof of Corollary 8.24.)
+
+Combining all these analyses, we find $\psi(x) = x + O(x^\Theta \log^2 x)$.
+
+To get an estimate for $\pi(x)$, we continue from the proof of Theorem 8.26. There we have
+\begin{align*}
+\pi(x) - \li x &= \frac{\psi(x) - x}{\log x} + \frac{\psi_1(x) - x^2/2}{x \log^2 x} - \int_2^x \{\psi_1(t) - \frac{t^2}{2}\} d(\frac{1}{t \log^2 t}) + O(x^{1/2} / \log x)\\
+&= O(x^\Theta \log x) + O(x^\Theta / \log^2 x) + \int_2^x O(t^\Theta) \frac{\log t + 2}{t^2 \log^3 t} dt + O(x^{1/2} / \log x)\\
+&= O(x^\Theta \log x).
+\end{align*}
+So $\pi(x) = \li x + O(x^\Theta \log x)$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

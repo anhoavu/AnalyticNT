@@ -1,0 +1,32 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\DeclareMathOperator{\li}{li}
+\begin{document}
+\fi
+
+\textbf{Problem 8.11}: Find the value of $N$ for which the sum in Lemma 8.14 approximates $\li 10^6$ to within $1\%$ of its true value.
+
+\begin{proof}
+Note that in this case $x = 10^6$ and $X = \log 10^6 = 6 \log 10 > 0$. Our goal is to pick $N$ such that $|E_N(X)| \leq 0.01$. Recall
+$$E_N(X) := N! \int_0^X \left(e^u - \sum_{j = 0}^N u^j/j!\right) u^{-N-1} du$$
+and on page 205, we have for $N + 1 > X > 0$ that
+$$0 < E_N(X) < \log \frac{N + 1}{N + 1 - X}.$$
+
+One has
+\begin{align*}
+\log \frac{N + 1}{N + 1 - X} < \epsilon &\iff \frac{N + 1}{N + 1 - X} < e^\epsilon\\
+&\iff N + 1 < e^\epsilon(N + 1 - X)\\
+&\iff e^\epsilon X < (e^\epsilon - 1) (N + 1)\\
+&\iff \frac{e^\epsilon X}{e^\epsilon - 1} + 1 < N\\
+&\iff N > 1 + X + \frac{X}{e^\epsilon - 1}.
+\end{align*}
+
+So to bound $E_N(X)$ by $\epsilon = 0.01$, we just have to pick 
+$$N > 1 + X + \frac{1}{e^\epsilon - 1} X$$
+as it is then automatic that $N + 1 > X$. In our case we have $X < 14$ and $e^{0.01} > 1 + 0.01$ via the common inequality $e^x > 1 + x$ so $1 + X + \frac{X}{e^\epsilon - 1} < 1 + 14 + \frac{14}{0.01} = 1415$. Thus, $N = 1415$ will do.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

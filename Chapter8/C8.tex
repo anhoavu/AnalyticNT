@@ -1,0 +1,63 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Fhat}{\widehat{F}}
+\newcommand{\Abs}[1]{\left| #1 \right|}
+\renewcommand{\O}[1]{O\left( #1 \right)}
+\begin{document}
+\fi
+
+\section{About the proof of Lemma 8.4}
+
+The presentation in the proof makes it appear like $X$ is a fixed constant and cannot depend on $t$; yet, later we say ``If we now choose $X = [t]$''.
+
+One way to understand this is that we are trying to establish the bounds, say $|\zeta(s)| \leq K \log t$ for all $t \geq 2$ (and $\sigma \geq 1$), by proving that it is true for all integer $X \geq 2$ and all $X \leq t < X + 1$. 
+
+That is, we prove that the inequality is true for $2 \leq t < 3$, for $3 \leq t < 4$ and so on.
+
+\section{About the proof of Lemma 8.6}
+
+Towards the end of the proof, we are using the inequality
+$$\Gamma(r/2) > e^{1/2 r \log r - Cr}$$
+for all $r \geq 2$. This follows from Stirling's formula
+\begin{align*}
+\log \Gamma(r/2) &= \log \sqrt{2\pi} + (r/2 - 1/2) \log (r/2) - r/2 + O(2/r) \\
+&= r/2 \log r + O(r)
+\end{align*}
+as $z = r/2$ is positive real so has argument 0 and $|z| = r/2 \geq 1$ so it is clearly in the region where the formula applies.
+
+\section{About the proof of Theorem 8.7}
+
+Here, the claim that $\Fhat(s) = -\zeta'/\zeta(\frac{s}{2}) - \frac{2}{s-2} $ analytic on $\{\sigma \geq 1\}$ leads to $\zeta(s)$ has no zero in $\sigma \geq \frac12$, note that it is not true in general that $\frac{f(s)}{g(s)}$ is only defined where $g(s) \not= 0$. That is because if the zero of $g$ could be the zero of $f$ (of higher order).
+
+So there could be a chance that $\alpha$ is a zero of both $\zeta(s)$ and $\zeta'(s)$. The fact that \textbf{no zero of higher order has been found}\footnote{This does not rule out existence of zeros of higher order of $\zeta(s)$.} was pointed out in the proof of Theorem 8.5.
+
+However, in this special case, zero of $\zeta$ (or any analytic function $f$) must have lower order in $\zeta'$ (respectively, $f'$). To see that, let $f(z) = (z - a)^k g(z)$ with $g(a) \not= 0$. Then $f'(z) = k (z - a)^{k-1} g(z) + (z - a)^k g'(z)$ evidently has $a$ as zero of exactly one lower order $k - 1$, unless $k = 0$. Dividing we see
+$$\frac{f'(z)}{f(z)} = \frac{k}{z - a} + \frac{g'(z)}{g(z)}$$
+evidently has a pole at $a$. Thus $f'/f$ is can only be analytic at non-zeros of $f$.
+
+\section{Finiteness of zeros of meromorphic function}
+
+The zeros of the function $f(z) = \sin(\frac{1}{z})$, $z = \frac{1}{\pi n}$ for all $n$, has an accumulation point $0$. In the (punctured) closed unit disc, $f$ has infinitely many zeros.
+
+\section{About the proof of Lemma 8.19}
+
+The fact that $(\zeta'/\zeta)(s_0)$ is bounded where $s_0 = 6/5 + iT$ can be seen from the fact that $-\zeta'/\zeta(s) = \int x^{-s} d\psi$ converges absolutely on $\sigma > 1$, hence bounded on the infinite plane $\sigma \geq 6/5$ by $\zeta'/\zeta(6/5)$.
+
+Also, ordinate refers to $y$-coordinate and abscissa is the $x$-coordinate.
+
+\section{On the proof of Theorem 8.17}
+
+Contrary to what is claimed in the book, we cannot apply the Lemma 7.14 (at least, as it is stated) to prove Theorem 8.17 because the function $F$ is assumed to be monotone increasing in Lemma 7.14 and $M(x)$ is not.
+
+Such assumption is necessary in Lemma 7.14: It at least allows us to replace $dF_v$ by $dF$ and consequently, allows the first step in the proof of Lemma 7.14, namely replacing
+$$\frac12\{F(xe^{-1/T}) + F(xe^{1/T})\} + \O{\int_{xe^{-1/T}}^{xe^{1/T}} \left( T \Abs{\log \frac{x}{y}} + \frac{b}{T} \right) dF_v(y)}$$
+by
+$$F(x) + \O{F(xe^{-1/T}) - F(xe^{1/T})}$$
+to go through. Here, we are simply using the obvious bound $\frac{-1}{T} \leq \log \frac{x}{y} \leq \frac{1}{T}$ for $xe^{-1/T} \leq y \leq xe^{1/T}$ so the integrand is $O(1)$ and the integral is $\O{F_v(xe^{-1/T}) - F_v(xe^{1/T})}$ as a result. We can then drop the valuation by monotonicity.
+
+To prove the theorem, we have to redo Lemma 7.14.
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi

@@ -1,0 +1,38 @@
+\unless\ifdefined\IsMainDocument
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsthm,amssymb}
+\newcommand{\Fhat}{\widehat{F}}
+\newcommand{\Ghat}{\widehat{G}}
+\begin{document}
+\fi
+
+\textbf{Problem 8.6}: Use Landau's oscillation theorem (Th. 6.31) to prove the weaker result that $\psi(x) - x \not= O(x^\alpha)$ for any (fixed) $\alpha < 1/2$. Hint. Consider expressions $\psi(x) - x + Cx^\alpha$.
+
+\begin{proof}
+First of all, we can rule out the case $\alpha \leq 0$ i.e. $\psi(x) - x \not= O(1)$ immediately. Suppose that there exists a constant $A$ such that $|\psi(x) - x| \leq A$ for all $x \geq 1$ (note that $\psi(x) - x = -x$ for $x < 1$; any big $O$-claim is for $x \in [1, \infty)$). Then for any prime $p$, we have
+\begin{align*}
+2A &\geq |\psi(p) - p| + |\psi(p-1) - (p - 1)|\\
+&= |\psi(p - 1) + \log p - p| + |p - 1 - \psi(p-1)|\\
+&\geq |\psi(p - 1) + \log p - p + p - 1 - \psi(p-1)|\\
+&= |\log p - 1|
+\end{align*}
+which is clearly impossible since $p \rightarrow \infty$. This shows $\psi(x) - x \not= O(x^\alpha)$ for any $\alpha \leq 0$. Unfortunately this method can not be used to treat other $\alpha > 0$. It does show that the order of $\psi(x) - x$ is at least $\log x$.
+
+If we are allowed to use the fact that $\zeta(s)$ has a zero in the critical strip, we don't even need Landau's oscillation theorem. To see that, suppose there is $0 < \alpha < 1/2$ such that $F(x) := \psi(x) - x = O(x^\alpha)$. Then\footnote{There is some subtleties here. The derivation $$\Fhat(s) = \int x^{-s} dF = \int x^{-s} d\psi - \int x^{-s} dx = -\frac{\zeta'}{\zeta}(s) - \frac{1}{s - 1}$$ works a priori only for $\sigma > 1$. But then both sides are analytic functions that agrees on a subset with an accumulation point. So they must agree on the connected domain $\sigma > \alpha$ on which both are defined.}
+$$\Fhat(s) = -\frac{\zeta'}{\zeta}(s) - \frac{1}{s - 1}$$
+converges for $\sigma > \alpha$, hence analytic on the half plane $\Re s > \alpha$. Consider $h(s) := (s - 1) \, \zeta(s)$ then $h$ is entire and $h'(s) = (s - 1) \zeta'(s) + \zeta(s)$ so
+$$\Fhat(s) = -\frac{h'(s)}{h(s)}$$
+is analytic at $s$ as long as $h(s) \not= 0$. Evidently, $h(s) \not= 0 \iff \zeta(s) \not= 0$. Thus $\Fhat(s)$ is analytic on $\Re s > \alpha$ implies $\zeta(s)$ has no zeros in that half plane. As $\alpha < \frac12$, we deduce that $\zeta(s)$ has no zero in the right half plane $\Re s > 0$ by the functional equation. This contradicts the fact that $\zeta(s)$ has a zero in the critical strip.
+
+Note that analyticity of Mellin transform might have no influence on the order of growth. Take $G(x) := N(x) - x$ where $\Ghat(s) = \zeta(s) - \frac{1}{s - 1}$ is entire. Obviously $G(x) = O(x^\alpha)$ if and only if $\alpha \geq 0$. We have $\sigma_c(\Ghat) = 0$.
+\end{proof}
+
+\textbf{Problem 8.7}: Show that $M(x) := \sum_{n \leq x} \mu(n) \not= o(x^{1/2})$.
+
+\begin{proof}
+Just like in the proof of Theorem 8.7, consider $F(x) = M(x^2)$. If $F(x) = o(x)$ then $\Fhat(s) = \zeta(s/2)^{-1}$ is an analytic function on $\{\sigma \geq 1\}$ by Lemma 7.1 and that is false as $\zeta$ has infinitely many zeros in $\{\sigma \geq 1/2\}$.
+\end{proof}
+
+\unless\ifdefined\IsMainDocument
+\end{document}
+\fi
